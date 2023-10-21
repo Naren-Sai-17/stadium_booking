@@ -1,0 +1,32 @@
+Team: 
+cse220001052 - PC Uma Mahesh
+cse220001049 - Naren Kumar Sai
+cse220001064 - S. Ruthvik 
+cse220001050 - Neerupam
+cse220001033 - Jay
+
+The tables included in the ER diagram are 
+1) user_details
+This table contains the personal and login information of all the users who are currently registered. The primary key User_Id is auto generated in the backend. The attributes are some basic details and city details to display relevant events to the user. 
+
+2) Stadium
+This table contains the details of all the stadiums in all locations of the country. The primary key Stadium_Id is assigned to a stadium. The other attributes are some basic details like location, cordinates (for google maps api), capacity. 
+
+3) Stadium_prices
+Each stadium has different types of seats with different prices. To handle this issue, this table is used. This table contains all the sectors of a stadium and the respective price for all the supported stadiums.
+
+4) Food_prices
+Each stadium has different types of food with different prices. This table contains names and prices of food items available in all the stadiums. 
+
+5) Events
+This table contains the details of all the events. There is a foreign key reference stadium_id, which references the 'Stadium' table, which enables us to link various events with their corresponding stadiums. It also contains some basic attributes like date, time and event description. 
+
+6) Bookings
+This is a many-to many relation linking user_id and event_id, from the 'Events' table. It contains all the bookings of a user and a time attribute for the booking. The details of the bookings are stored in tickets and food_tickets tables.
+
+7) Tickets and food_tickets
+This is a many-to-many relation linking booking id to stadium price and food price (present in stadium_prices and food_prices) tables. The food_price table also has a quantity attribute. With the help of this table, we can find the total cost of a booking. 
+
+When there is a booking for any event, a booking_id will be generated, with other details in the booking table such as the correponding event (with event_id, a foreign key referencing 'Events' tables). Further, a relation between the event, stadium, booking_id, stadium prices (and other tickets) is established. We have assumed that, in a particular stadium, the seats are divided into various sectors, each with its own price and location within the stadium. They are linked to the tickets table, with a foreign key 'sector_id'. Also, we can link the booking id with the food tickets table, and calculate the total cost of the booking.
+
+With the given schema, the backend will be able to process all the required queries properly and data consistency is maintained. 
