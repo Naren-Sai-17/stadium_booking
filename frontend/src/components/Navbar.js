@@ -10,7 +10,7 @@ export default function Navbar() {
     }
     return (
         <>
-            <div className="bg-slate-600 flex justify-between px-[8%]">
+            <div className="bg-blue-900 sticky top-0 z-10 flex justify-between px-[8%]"> 
                 <div className="py-2   ml-5">
                     <Link  to='/dashboard'>
                         <img className="h-12 hover:opacity-75" src="images/logo.png" />
