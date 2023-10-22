@@ -67,7 +67,7 @@ export default function Home() {
                 </div>
 
                 <Left imagePath='images/booking.svg' caption='Booking within seconds' />
-                <Right imagePath='images/food.svg' caption='Prebook treats!' />
+                <Right imagePath='images/food.svg' caption='Pre-book treats!' />
                 <Left imagePath='images/city.svg' caption='Support in all major cities' />
                 <Right imagePath='images/cancel.svg' caption='Hassle-free cancellation' />
 
