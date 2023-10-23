@@ -38,11 +38,11 @@ export default function Home() {
                             <img src="images/img6.png" alt="" />
                             <h1 className="text-2xl font-semibold">Book your tickets now</h1>
                         </div>
-                        <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded-full mt-36">
                             <Link to='/login'>
-                                Get Started
+                                <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded-full mt-36">
+                                    Get Started
+                                </button>
                             </Link>
-                        </button>
                     </div>
                     <div className="w-auto">
                         <img src="images/img5.jpg" alt="Your Image" className="w-full h-full " />
