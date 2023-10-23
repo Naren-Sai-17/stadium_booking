@@ -15,6 +15,7 @@ To start the website, open the terminal and run the following commands (Node.js 
 cd frontend (if not within the directory already)
 npm i --force
 npm install react-icons --save
+npm install @glidejs/glide
 npm run start
 
 ============================================================================================================================================================================================
