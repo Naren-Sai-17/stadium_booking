@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@glidejs/glide": "^3.6.0",
     "react-icons": "^4.11.0"
   }
 }
