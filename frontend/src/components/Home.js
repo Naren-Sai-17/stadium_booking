@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function Home() {
@@ -35,7 +35,7 @@ export default function Home() {
                     <div className="flex h-screen">
                     <div className="w-1/3 bg-gradient-to-b from-blue-800 to-blue-400 py-8 text-center">
                         <div className="mt-10">
-                            <img src="images/img6.png" alt="" />
+                            <img src="images/logo.png" alt="logo" />
                             <h1 className="text-2xl font-semibold">Book your tickets now</h1>
                         </div>
                             <Link to='/login'>
@@ -45,7 +45,7 @@ export default function Home() {
                             </Link>
                     </div>
                     <div className="w-auto">
-                        <img src="images/img5.jpg" alt="Your Image" className="w-full h-full " />
+                        <img src="images/img5.jpg" alt='background' className="w-full h-full " />
                     </div>
             </div>
 

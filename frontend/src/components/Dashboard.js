@@ -20,15 +20,15 @@ export default function Dashboard() {
             <div className='bg-gradient-to-r from-slate-950 to-slate-700'>
                 <OffCanvasNavbar />
                 <Navbar />
-                <div className=' mt-16 md:w-[60%] flex justify-center m-auto border-0 border-0-black border-0-5'>
-                    <Carousel className = 'w-full' slides = { slides } />
-                </div>  
-
-                <div className='border-0 text-white text-3xl font-weight mt-32 mx-[10%]'>Discover Cricket Events</div>
-                
                 <div className='ml-20  mr-20 border-0 mt-20'>
                     <CarouselControlsInside />
                 </div>
+
+                <div className='border-0 text-white text-3xl font-weight mt-32 mx-[10%]'>Discover Cricket Events</div>
+                
+                <div className=' mt-16 md:w-[60%] flex justify-center m-auto border-0 border-0-black border-0-5'>
+                    <Carousel className = 'w-full' slides = { slides } />
+                </div> 
                 
                 <div className='border-0 text-white text-3xl font-weight mt-32 mx-[10%]'>Discover Football Events</div>
                 <div className='flex justify-center border-0 mt-20'>
