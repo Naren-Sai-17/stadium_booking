@@ -5,7 +5,7 @@ cse220001064 - S Ruthvik
 cse220001050 - Neerupam
 cse220001033 - Jay
 
-Topic of the project: To develop a full stack web application for a Stadium Ticketing PLatform.
+Topic of the project: To develop a full stack web application for a Stadium Ticketing Platform.
 
 ============================================================================================================================================================================================
 

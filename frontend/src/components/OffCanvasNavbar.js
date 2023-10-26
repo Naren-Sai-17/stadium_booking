@@ -14,7 +14,7 @@ export default function OffCanvasNavbar() {
             <div id='menu' className=' z-20 bg-slate-800 fixed w-1/4 justify-around h-screen -right-full Transition'>
                 <section>
                     <button className='w-12 pt-2 pl-2' id="close-button" onClick={closeMenu}>
-                        <img src="images/close.png" />
+                        <img src="images/close.png" alt='close button'/>
                     </button>
                 </section>
 

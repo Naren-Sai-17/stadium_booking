@@ -90,7 +90,7 @@ export default function Login() {
                         <div className=" md:w-[50%] flex items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-5 rounded-r-lg">
                             <div className="my-auto">
                                 <strong className="text-2xl pb-[10%] flex justify-center">
-                                    <span>{`[Name of the platform]`}</span>
+                                    <span>Join to secure your spot and score your seat!</span>
                                 </strong>
                                 <div className='border-0 svg-container px-[5%] flex justify-center'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 731.67 633.32" xmlnsXlink="http://www.w3.org/1999/xlink">
