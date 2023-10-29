@@ -1,18 +1,41 @@
+from django.contrib.auth.models import AbstractBaseUser,BaseUserManager,PermissionsMixin
 from django.db import models
 
-class User(models.Model):
+class UserManager(BaseUserManager):
+    def create_user(self, username, email, password, **extra_fields):
+        if not username:
+            raise ValueError('The username must be set')
+        if not email:
+            raise ValueError('The email must be set')
+        if not password:
+            return ValueError('The password must be set')
+        email = self.normalize_email(email)
+        user = self.model(username = username, email = email, **extra_fields)
+        user.set_password(password)
+        user.save(using = self._db)
+        return user
+    
+    def create_superuser(self,username,email,password,**extra_fields):
+        extra_fields.setdefault('is_staff',True)
+        extra_fields.setdefault('is_superuser', True)
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+        return self.create_user(username, email, password, **extra_fields)
+    
+class User(AbstractBaseUser,PermissionsMixin):
     user_id = models.AutoField(primary_key=True)
-    first_name = models.CharField(max_length=255, default="User")
-    last_name = models.CharField(max_length=255, blank=True, null=True, default='')
-    username = models.CharField(max_length=255, unique=True)
-    user_password = models.CharField(max_length=255)
-    email = models.EmailField()
-    mobile_number = models.CharField(max_length=15)
-    dob = models.DateField()
-    gender = models.CharField(max_length=1, default='O', choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')])
-    pincode = models.CharField(max_length=6, blank=True, null=True)
-    city = models.CharField(max_length=255, blank=True, null=True)
-    state = models.CharField(max_length=255, blank=True, null=True)
+    username = models.CharField(max_length=30, unique=True)
+    email = models.EmailField(unique=True) 
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    objects = UserManager()
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+
+    def __str__(self):
+        return self.username
 
     def __str__(self):
         return self.username
