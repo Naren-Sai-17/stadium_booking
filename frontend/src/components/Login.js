@@ -122,7 +122,7 @@ export default function Login() {
 
             </div>
 
-            <style jsx>
+            <style jsx="true">
                 {
                     `
                         .btn1 {

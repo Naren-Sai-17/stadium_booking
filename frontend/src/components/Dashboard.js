@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../index.css';
+import axios from 'axios'
 import Navbar from './Navbar';
 import OffCanvasNavbar from './OffCanvasNavbar';
 import Carousel from './Carousel';
@@ -8,52 +9,99 @@ import CarouselControlsInside from './Carousel2';
 import { BsFillArrowRightCircleFill, BsFillArrowLeftCircleFill } from 'react-icons/bs'
 
 export default function Dashboard() {
-    let slides=[
-        "https://www.bdp.com/globalassets/projects/regina-stadium/regina-stadium-01.jpg",
-        "https://www.bdp.com/globalassets/projects/regina-stadium/regina-stadium-02.jpg",
-        "https://static2.bigstockphoto.com/7/3/1/large1500/137382737.jpg",
-        "https://www.bdp.com/globalassets/projects/education-city-stadium/education-city_th.jpg",
-        "https://www.researchgate.net/publication/307527752/figure/fig1/AS:401336827957248@1472697564127/Hazza-Bin-Zayed-Stadium-Al-Ain-UAE.png",
-    ]
+    const [allEvents, setAllEvents] = useState([])
+
+    useEffect(() => {
+        // console.log("On url: ", window.location.href)
+        axios.get('api/events')
+        .then(res => {
+            setAllEvents(res.data)
+        })
+        .catch(err => {
+            console.error("Error connecting to API: ", err)
+        })
+    }, [])
+
     return (
         <>
             <div className='bg-gradient-to-r from-slate-950 to-slate-700'>
                 <OffCanvasNavbar />
                 <Navbar />
-                <div className='ml-20  mr-20 border-0 mt-20'>
+                <div className='border-0 mt-[20%] md:mt-[5%]'>
                     <CarouselControlsInside />
                 </div>
 
-                <div className='border-0 text-white text-3xl font-weight mt-32 mx-[10%]'>Discover Cricket Events</div>
+                <div className='border-0 text-white md:text-3xl text-xl font-weight md:mt-[5%] mt-[20%] mx-[10%]'>
+                    Discover Cricket Events
+                </div>
                 
-                <div className=' mt-16 md:w-[60%] flex justify-center m-auto border-0 border-0-black border-0-5'>
-                    <Carousel className = 'w-full' slides = { slides } />
-                </div> 
-                
-                <div className='border-0 text-white text-3xl font-weight mt-32 mx-[10%]'>Discover Football Events</div>
-                <div className='flex justify-center border-0 mt-20'>
-                    <BsFillArrowLeftCircleFill className='switch m-auto h-10 ml-[5%]'/>
-                    <div className='grid grid-cols-3 gap-10 mx-[10%] border-0'>
-                        <Card />
-                        <Card />
-                        <Card />
+                <div className='border-0 mt-[20%] md:mt-[5%]'>
+                    {/* <CarouselControlsInside /> */}
+                    <div className='border-0 overflow-x-auto whitespace-nowrap mx-[10%] snap-x snap-mandatory'>
+                        { 
+                            allEvents.filter((event) => { 
+                                return event.event_name.split(' ')[0].toLowerCase() === 'cricket' 
+                            })
+                            .slice(0, 8).map((event, index) => (
+                                <div className='inline-block snap-center w-[25%]' key = { index }>
+                                    <Card event_id={ event.event_id } poster='cricket'/>
+                                    <div className='text-white text-center'>
+                                        { event.event_name }
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
-                    <BsFillArrowRightCircleFill className='switch m-auto h-10 mr-[5%]'/>
+                </div>
+                
+                <div className='border-0 text-white md:text-3xl text-xl font-weight md:mt-[5%] mt-[20%] mx-[10%]'>
+                    Discover Football Events
                 </div>
 
-                <div className='border-0 text-white text-3xl font-weight mt-32 mx-[10%]'>Discover Basketball Events</div>
-                <div className='flex justify-center border-0 mt-20'>
-                    <BsFillArrowLeftCircleFill className='switch m-auto h-10 ml-[5%]'/>
-                    <div className='grid grid-cols-3 gap-10 mx-[10%] border-0'>
-                        <Card />
-                        <Card />
-                        <Card />
+                <div className='border-0 mt-[20%] md:mt-[5%]'>
+                    {/* <CarouselControlsInside /> */}
+                    <div className='border-0 overflow-x-auto whitespace-nowrap mx-[10%] snap-x snap-mandatory'>
+                        { 
+                            allEvents.filter((event) => { 
+                                return event.event_name.split(' ')[0].toLowerCase() === 'football' 
+                            })
+                            .slice(0, 8).map((event, index) => (
+                                <div className='inline-block snap-center w-[25%]' key = { index }>
+                                    <Card event_id={ event.event_id } poster='football'/>
+                                    <div className='text-white text-center'>
+                                        { event.event_name }
+                                    </div>
+                                </div>
+                            ))
+                        }
                     </div>
-                    <BsFillArrowRightCircleFill className='switch m-auto h-10 mr-[5%]'/>
+                </div>
+
+                <div className='border-0 text-white md:text-3xl text-xl font-weight md:mt-[5%] mt-[20%] mx-[10%]'>
+                    Discover Basketball Events
+                </div>
+
+                <div className='border-0 mt-[20%] md:mt-[5%]'>
+                    {/* <CarouselControlsInside /> */}
+                    <div className='border-0 overflow-x-auto whitespace-nowrap mx-[10%] snap-x snap-mandatory'>
+                        { 
+                            allEvents.filter((event) => { 
+                                return event.event_name.split(' ')[0].toLowerCase() === 'basketball' 
+                            })
+                            .slice(0, 8).map((event, index) => (
+                                <div className='inline-block snap-center w-[25%]' key = { index }>
+                                    <Card event_id={ event.event_id } poster='basketball'/>
+                                    <div className='text-white text-center'>
+                                        { event.event_name }
+                                    </div>
+                                </div>
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
 
-            <style jsx>
+            <style jsx="true">
                 {
                     `
                         .switch {

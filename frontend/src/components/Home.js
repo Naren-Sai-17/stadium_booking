@@ -35,7 +35,7 @@ export default function Home() {
                     <div className="flex h-screen">
                     <div className="w-1/3 bg-gradient-to-b from-blue-800 to-blue-400 py-8 text-center">
                         <div className="mt-10">
-                            <img src="images/logo.png" alt="logo" />
+                            <img src="/images/logo.png" alt="logo" />
                             <h1 className="text-2xl font-semibold">Book your tickets now</h1>
                         </div>
                             <Link to='/login'>
@@ -45,13 +45,13 @@ export default function Home() {
                             </Link>
                     </div>
                     <div className="w-auto">
-                        <img src="images/img5.jpg" alt='background' className="w-full h-full " />
+                        <img src="/images/img5.jpg" alt='background' className="w-full h-full " />
                     </div>
             </div>
 
             <div className="h-screen flex justify-end">
                 <div className="w-1/2 imcontainer-odd overflow-clip h-full flex flex-col justify-center items-center">
-                    <img src="images/booking.svg" className="img w-3/4" alt="" />
+                    <img src="/images/booking.svg" className="img w-3/4" alt="" />
                 </div>
                 <div className="textbox w-1/2 flex items-center justify-center text-orange-400 font-semibold text-3xl">
                     Booking within seconds
@@ -59,7 +59,7 @@ export default function Home() {
             </div>
             <div className="h-screen flex">
                 <div className="w-1/2 imcontainer-even h-full flex flex-col justify-center items-center">
-                    <img src="images/food.svg" className="img w-3/4" alt="" />
+                    <img src="/images/food.svg" className="img w-3/4" alt="" />
                 </div>
                 <div className="textbox w-1/2 flex items-center justify-center text-orange-400 font-semibold text-3xl">
                     Pre-book treats! 
@@ -67,7 +67,7 @@ export default function Home() {
             </div>
             <div className="h-screen flex justify-end">
                 <div className="w-1/2 imcontainer-odd overflow-clip h-full flex flex-col justify-center items-center">
-                    <img src="images/city.svg" className="img w-3/4" alt="" />
+                    <img src="/images/city.svg" className="img w-3/4" alt="" />
                 </div>
                 <div className="textbox w-1/2 flex items-center justify-center text-orange-400 font-semibold text-3xl">
                     Support in all major cities
@@ -75,7 +75,7 @@ export default function Home() {
             </div>
             <div className="h-screen flex">
                 <div className="w-1/2 imcontainer-even h-full flex flex-col justify-center items-center">
-                    <img src="images/cancel.svg" className="img w-3/4" alt="" />
+                    <img src="/images/cancel.svg" className="img w-3/4" alt="" />
                 </div>
                 <div className="textbox w-1/2 flex items-center justify-center text-orange-400 font-semibold text-3xl">
                     Hassle free cancellation
@@ -84,7 +84,7 @@ export default function Home() {
 
             <div className="flex justify-center pt-10">
                 <a href="#top">
-                    <img className="h-16 bg-white border hover:bg-orange-500 rounded-full hover:scale-110" src="images/arrow.svg" alt="" />
+                    <img className="h-16 bg-white border hover:bg-orange-500 rounded-full hover:scale-110" src="/images/arrow.svg" alt="" />
                 </a>
                 </div>
 
@@ -95,11 +95,11 @@ export default function Home() {
 
             </div>
 
-                <style jsx>
+                <style jsx="true">
                     {
                         `
                         .main {
-                            background-image: url("images/img5.jpg");
+                            background-image: url("/images/img5.jpg");
                             background-size: cover; 
                         }
                         
