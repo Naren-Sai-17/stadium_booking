@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import *
 from .serializers import *
-from datetime import datetime
+from django.utils import timezone
 
 def dashboard(request):
     return HttpResponse("Hi, stadium.")
@@ -24,15 +24,24 @@ class getEventById(ListAPIView):
         id = self.request.GET.get('id', '')
         event = Event.objects.all().get(event_id=id)
 
-        print("The event retrieved is:", event)
+        # print("The event retrieved is:", event)
         serializer = EventSerializer(event)
+        return Response(serializer.data)
+
+class getStadiumbyEventId(ListAPIView):
+    serializer_class = EventSerializer
+    def get(self, request):
+        id = self.request.GET.get('id', '')
+        stadium = Event.objects.all().get(event_id=id).stadium
+        
+        serializer = StadiumSerializer(stadium)
         return Response(serializer.data)
 
 class getEvents(ListAPIView):
     serializer_class = EventSerializer
     def get_queryset(self):
         query = self.request.GET.get('query', '')
-        date = datetime.now()
+        date = timezone.now()
 
         events = Event.objects.all()
         keywords = query.split()

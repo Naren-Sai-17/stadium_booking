@@ -6,12 +6,20 @@ import { Link } from 'react-router-dom'
 
 export default function BookingPage() {
     const [event_id, setEvent_id] = useState(0)
-    const [event, setEvent] = useState({ 
-        event_id: '', 
+    const [stadium, setStadium] = useState({
+        stadium_id: 0,
+        stadium_name: '',
+        location: '',
+        coordinates: '',
+        capacity: 0,
+        city: '',
+    })
+    const [event, setEvent] = useState({
+        event_id: 0, 
         stadium: '',
         event_name: '', 
         date_time: '', 
-        event_description: ''
+        event_description: '',
     }) 
     
     useEffect(() => {
@@ -31,11 +39,28 @@ export default function BookingPage() {
         })
         .catch((err) => {
             // Replace this later with toastify (toast) notifications.
-            console.log("The event name is:", event.event_name, "with id:", event_id)
-            console.error("Error connecting to API:", err)
+            // console.log("The event name is:", event.event_name, "with id:", event_id)
+            console.error("Error fetching event:", err)
         })
-        
+
+        // axios.get(`/api/get_stadium?id=${event_id}`)
+        // .then((res) => {
+        //     setStadium(res.data)
+        // })
+        // .catch((err) => {
+        //     console.error("Error fetching related stadium:", err)
+        // })
     }, [event_id])  
+
+    useEffect(() => {
+        axios.get(`/api/get_stadium?id=${event_id}`)
+        .then((res) => {
+            setStadium(res.data)
+        })
+        .catch((err) => {
+            console.error("Error fetching related stadium:", err)
+        })
+    }, [event_id])
 
 
     return (
@@ -63,9 +88,9 @@ export default function BookingPage() {
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, tempora nam accusamus esse cupiditate nostrum? Commodi sequi tempore iure necessitatibus iste qui? Repellendus voluptatibus asperiores sapiente repudiandae aspernatur? Blanditiis, enim!
                         </div>
                         <div className="text-center border-0 flex justify-around text-white">
-                            <div>Date: </div>
-                            <div>Time: </div>
-                            <div>Venue: </div>
+                            <div>Date: { event.date_time.substring(0, 10) }</div>
+                            <div>Time: { event.date_time.substring(11, 16) } IST</div>
+                            <div>Venue: { stadium.stadium_name }</div> 
                         </div>
                         <div className="text-center text-lg border-0 text-white">
                             Book your tickets now!

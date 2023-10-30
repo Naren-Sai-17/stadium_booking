@@ -20,3 +20,7 @@ body::-webkit-scrollbar-track {
     background-color: rgba(30, 41, 59);
     /* color: rgb(255, 115, 0); */
 }
+
+body {
+    font-family: 'Verdana', 'Poppins', 'Geneva', 'Tahoma', 'sans-serif';
+}

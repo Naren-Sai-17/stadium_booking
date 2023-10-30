@@ -7,7 +7,7 @@ export default function Card(event) {
         <div className='card border-0 p-[10%]'>
             <Link to={ `/event/${event.event_id}` }>
                 <img 
-                className = "flex justify-center rounded-lg md:rounded-3xl" 
+                className = "flex justify-center rounded-lg md:rounded-3xl hover:opacity-75" 
                 src = 
                     { `/images/posters/${event.poster}/${((event.event_id * 337) % 137) % 6}.jpg` }
                 alt='event'
