@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import Dashboard from './components/Dashboard';
-import About from './components/About';
-import Login from './components/Login';
-import Events from './components/Events';
-import BookingPage from './components/BookingPage';
-import ProfilePage from './components/Profile';
-import PaymentPage from './components/PaymentPage';
-import SignupPage from './components/Signup';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import About from './pages/About';
+import Login from './pages/Login';
+import Events from './pages/Events';
+import BookingPage from './pages/BookingPage';
+import ProfilePage from './pages/Profile';
+import PaymentPage from './pages/PaymentPage';
+import SignupPage from './pages/Signup';
 import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext'
 

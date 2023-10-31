@@ -7,63 +7,63 @@ const AuthContext = createContext()
 export default AuthContext;
 
 
-export const AuthProvider = ({children}) => {
-    //a call back func |()=>| is used so that ternary condition is run only once at a reload
-    let [authTokens, setAuthTokens] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
-    let [user, setUser] = useState(()=> localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
+export const AuthProvider = ({ children }) => {
+    // a call back func |()=>| is used so that ternary condition is run only once at a reload
+    let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
+    let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
     let [loading, setLoading] = useState(true)
 
     const Navigate = useNavigate()
 
-    let loginUser = async (e )=> {
+    let loginUser = async (e) => {
         console.log("loginUser")
-        //to prevent default reload
+        // to prevent default reload
         e.preventDefault()
         let response = await fetch('http://127.0.0.1:8000/api/token/', {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({'username':e.target.username.value, 'password':e.target.password.value})
+            body: JSON.stringify({ 'username': e.target.username.value, 'password': e.target.password.value })
         })
         let data = await response.json()
 
-        if(response.status === 200){
+        if (response.status === 200) {
             setAuthTokens(data)
             setUser(jwtDecode(data.access))
             localStorage.setItem('authTokens', JSON.stringify(data))
-            Navigate('/')
-        }else{
+            Navigate('/dashboard')
+        } else {
             alert('Something went wrong!')
         }
     }
 
-    let signupUser = async (e )=> {
+    let signupUser = async (e) => {
         console.log("SignupUser")
         // console.log(e.target.password.value)
         // console.log(e.target.confirmpassword.value)
         e.preventDefault()
-        if(e.target.password.value!=e.target.confirmpassword.value){
+        if (e.target.password.value !== e.target.confirmpassword.value) {
             alert('Passwords don\'t match')
             return;
         }
         let response = await fetch('http://127.0.0.1:8000/api/register/', {
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
             },
-            body:JSON.stringify({'username':e.target.username.value, 'password':e.target.password.value, 'email':e.target.email.value})
+            body: JSON.stringify({ 'username': e.target.username.value, 'password': e.target.password.value, 'email': e.target.email.value })
         })
 
-        if(response.status === 201){
+        if (response.status === 201) {
             // setAuthTokens(data)
             // setUser(jwtDecode(data.access))
             // localStorage.setItem('authTokens', JSON.stringify(data))
             Navigate('/login')
-        }else{
+        } else {
             console.log("Failed to register user. Response code:", response.status);
             //return response.text();
-            alert('Enter all fields or Already Registered')
+            alert('An account with that username/email already exists.')
         }
         //will check this later
         // else if(response.status === 400){
@@ -82,77 +82,77 @@ export const AuthProvider = ({children}) => {
     }
 
 
-    let updateToken = async ()=> {
+    let updateToken = async () => {
 
         console.log("updateToken")
         console.log(authTokens?.refresh)
         //console.log(authTokens.refresh)
 
-        if((authTokens?.refresh)==undefined){
+        if ((authTokens?.refresh) === undefined) {
             console.log(authTokens?.refresh)
             logoutUser()
-            if(loading){
+            if (loading) {
                 setLoading(false)
             }
-            
+
         }
-        else{
+        else {
             // const [a, setA] = useState(authTokens.refresh);
             let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json'
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
                 },
-                body:JSON.stringify({'refresh':authTokens?.refresh})
+                body: JSON.stringify({ 'refresh': authTokens?.refresh })
             })
 
             let data = await response.json()
-            
-            if (response.status === 200){
+
+            if (response.status === 200) {
                 setAuthTokens(data)
                 // authTokens.refresh=a
 
                 setUser(jwtDecode(data.access))
                 localStorage.setItem('authTokens', JSON.stringify(data))
-            }else{
+            } else {
                 logoutUser()
             }
 
-            if(loading){
+            if (loading) {
                 setLoading(false)
             }
         }
     }
 
     let contextData = {
-        user:user,
-        authTokens:authTokens,
-        loginUser:loginUser,
-        logoutUser:logoutUser,
-        signupUser:signupUser,
+        user: user,
+        authTokens: authTokens,
+        loginUser: loginUser,
+        logoutUser: logoutUser,
+        signupUser: signupUser,
 
     }
 
 
-    useEffect(()=> {
+    useEffect(() => {
 
-        if(loading){
-             updateToken()
+        if (loading) {
+            updateToken()
         }
-    
+
 
         let fourMinutes = 1000 * 60 * 4
 
-        let interval =  setInterval(()=> {
-            if(authTokens){
+        let interval = setInterval(() => {
+            if (authTokens) {
                 updateToken()
             }
         }, fourMinutes)
-        return ()=> clearInterval(interval)
+        return () => clearInterval(interval)
 
     }, [authTokens, loading])
 
-    return(
+    return (
         <AuthContext.Provider value={contextData} >
             {loading ? null : children}
         </AuthContext.Provider>

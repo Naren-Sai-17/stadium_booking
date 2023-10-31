@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import OffCanvasNavbar from './OffCanvasNavbar'
-import Navbar from './Navbar'
+import OffCanvasNavbar from '../components/OffCanvasNavbar'
+import Navbar from '../components/Navbar'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
@@ -45,12 +45,16 @@ export default function BookingPage() {
 
         // axios.get(`/api/get_stadium?id=${event_id}`)
         // .then((res) => {
-        //     setStadium(res.data)
+        //     setStadium(res.data) 
         // })
         // .catch((err) => {
         //     console.error("Error fetching related stadium:", err)
         // })
     }, [event_id])  
+
+    useEffect(() => {
+        document.title = event.event_name + " - Sports League" 
+    }, [event.event_name])
 
     useEffect(() => {
         axios.get(`/api/get_stadium?id=${event_id}`)

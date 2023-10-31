@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../index.css';
 import axios from 'axios'
-import Navbar from './Navbar';
-import OffCanvasNavbar from './OffCanvasNavbar';
-import Card from './Card';
-import CarouselControlsInside from './Carousel2';
+import Navbar from '../components/Navbar';
+import OffCanvasNavbar from '../components/OffCanvasNavbar';
+import Card from '../components/Card';
+import CarouselControlsInside from '../components/Carousel2';
 import { MdArrowForwardIos, MdArrowBackIos } from 'react-icons/md'
 
 export default function Dashboard() {
@@ -19,6 +19,9 @@ export default function Dashboard() {
             .catch(err => {
                 console.error("Error connecting to API: ", err)
             })
+
+        document.title = "Dashboard - Sports League"
+        window.scrollTo(0, 0)
     }, [])
 
     return (
