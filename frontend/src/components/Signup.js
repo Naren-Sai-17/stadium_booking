@@ -2,9 +2,10 @@ import React, {useContext} from 'react'
 import AuthContext from '../context/AuthContext'
 import { Link } from 'react-router-dom'
 
-const LoginPage = () => {
-    let {loginUser} = useContext(AuthContext)
+const SignupPage = () => {
+    //let {loginUser} = useContext(AuthContext)
     let {logoutUser}=useContext(AuthContext)
+    let {signupUser}=useContext(AuthContext)
     return (
         <>
             <div className="bg-slate-600 md:h-screen flex flex-cols justify-center">
@@ -13,25 +14,24 @@ const LoginPage = () => {
                     <div className="bg-black m-auto  text-white rounded-lg md:flex  shadow-2xl">
 
                         <div className=" md:w-[50%]  h-full  bg-gradient-to-r from-slate-950 to-slate-800 rounded-l-lg p-10">
-                        <form onSubmit={loginUser}>
+                        <form onSubmit={signupUser}>
                                 <div className="text-center">
                                     <img
                                         className="mx-auto md:h-32 h-[10%]"
                                         src='images/logo.png'
                                         alt="logo" />
-                                    <h4 className="mb-12 mt-1 pb-1 text-xl font-semibold">
-                                        Login to Stadium Ticketing Platform
-                                    </h4>
                                     <h2 className="text-xl">Enter your credentials:</h2>
-                                    <div className="flex flex-col items-center gap-3 pt-5">
+                                    <div className="flex flex-col items-center gap-1 pt-5">
                                         <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password" />
+                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email-id" />
+                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password" />
+                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirmpassword" type="password" placeholder="Confirm Password" />
                                     </div>
                                 </div>
                                 <div className="text-center pt-4 pb-5 ">
                                     
                                     <button className="rounded h-10 w-3/4 btn1" >
-                                        Submit
+                                        Sign-Up
                                     </button>
                                     <Link to="/dashboard">
                                     </Link>
@@ -88,13 +88,6 @@ const LoginPage = () => {
                                 </div>
 
                         </form>
-                        <div className="text-center pt-4 pb-5 ">
-                        <Link to="/signup" className="rounded h-10 w-3/4 btn1" onClick={logoutUser}>
-                            <button className="rounded h-10 w-3/4 btn1">
-                                            logout-temporary-le
-                            </button>
-                        </Link>
-                        </div>
                         </div>
 
                         <div className=" md:w-[50%] flex items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-5 rounded-r-lg">
@@ -155,4 +148,4 @@ const LoginPage = () => {
     )
 }
 
-export default LoginPage
+export default SignupPage

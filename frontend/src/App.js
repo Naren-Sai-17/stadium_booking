@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Events from './components/Events';
 import BookingPage from './components/BookingPage';
 import ProfilePage from './components/Profile';
+import SignupPage from './components/Signup';
 import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext'
 
@@ -22,7 +23,7 @@ export default function App() {
             <Route path="/login" element={<Login/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/about" element={<About />} />
-
+            <Route path="/signup" element={<SignupPage/>} />
             <Route path="/events" element={<Events />} />
             <Route path="/event1" element={<BookingPage />} />
             <Route path="/profile" element={<ProfilePage />} />
