@@ -1,11 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import AuthContext from '../context/AuthContext'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
     let { loginUser } = useContext(AuthContext)
-
+    const contextData  = useContext(AuthContext)
+    const Navigate = useNavigate();
     useEffect(() => {
+        if(contextData.user!=null){
+            Navigate('/dashboard')
+        }
         document.title = "Login - Sports League"
         window.scrollTo(0, 0)
     }, [])
