@@ -3,7 +3,7 @@ import AuthContext from '../context/AuthContext'
 import { Link } from 'react-router-dom'
 
 const SignupPage = () => {
-    //let {loginUser} = useContext(AuthContext)
+    let {loginUser} = useContext(AuthContext)
     let {logoutUser}=useContext(AuthContext)
     let {signupUser}=useContext(AuthContext)
 
