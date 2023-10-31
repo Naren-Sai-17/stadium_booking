@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import AuthContext from '../context/AuthContext'
 import { Link } from 'react-router-dom'
 
@@ -6,6 +6,11 @@ const SignupPage = () => {
     //let {loginUser} = useContext(AuthContext)
     let {logoutUser}=useContext(AuthContext)
     let {signupUser}=useContext(AuthContext)
+
+    useEffect(() => {
+        document.title = "Sign Up - Sports League"
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <>
             <div className="bg-slate-600 md:h-screen flex flex-cols justify-center">
@@ -21,17 +26,17 @@ const SignupPage = () => {
                                         src='images/logo.png'
                                         alt="logo" />
                                     <h2 className="text-xl">Enter your credentials:</h2>
-                                    <div className="flex flex-col items-center gap-1 pt-5">
-                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email-id" />
-                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password" />
-                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirmpassword" type="password" placeholder="Confirm Password" />
+                                    <div className="flex flex-col items-center gap-2 pt-5">
+                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email-id" />
+                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password" />
+                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirmpassword" type="password" placeholder="Confirm Password" />
                                     </div>
                                 </div>
                                 <div className="text-center pt-4 pb-5 ">
                                     
                                     <button className="rounded h-10 w-3/4 btn1" >
-                                        Sign-Up
+                                        Sign Up
                                     </button>
                                     <Link to="/dashboard">
                                     </Link>
@@ -84,13 +89,21 @@ const SignupPage = () => {
                                             </div>
                                         </button>
                                     </div>
+                                    <p className=" text-sm pt-[5%] pb-2"> 
+                                        Already have an account? 
+                                        <span className='px-[2%] text-blue-500 hover:text-blue-300 hover:underline'>
+                                            <Link to='/login'> 
+                                                Login
+                                            </Link>
+                                        </span>
+                                    </p>
 
                                 </div>
 
                         </form>
                         </div>
 
-                        <div className=" md:w-[50%] flex items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-5 rounded-r-lg">
+                        <div className="md:w-[50%] flex items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-5 rounded-r-lg">
                             <div className="my-auto">
                                 <strong className="text-2xl pb-[10%] flex justify-center">
                                     <span>Join to secure your spot and score your seat!</span>
@@ -125,7 +138,7 @@ const SignupPage = () => {
 
             </div>
 
-            <style jsx>
+            <style jsx = 'true'>
                 {
                     `
                         .btn1 {
