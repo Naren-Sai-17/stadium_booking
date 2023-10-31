@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import AuthContext from '../context/AuthContext'
 import { Link } from 'react-router-dom'
 
@@ -7,10 +7,30 @@ const SignupPage = () => {
     let {logoutUser}=useContext(AuthContext)
     let {signupUser}=useContext(AuthContext)
 
+    
     useEffect(() => {
         document.title = "Sign Up - Sports League"
         window.scrollTo(0, 0)
     }, [])
+    
+    const [p, setP] = useState('');
+    const [c, setC] = useState('');
+    useEffect(()=>{
+    
+        if(p===c){
+            document.querySelector("#diff_passwords").classList.add('opacity-0')
+            //document.querySelector("#confirmpassword").classList.add('mb3')
+            //console.log(document.querySelector("#confirmpassword").classList)
+            console.log('matched')
+        }
+        else{
+            document.querySelector("#diff_passwords").classList.remove('opacity-0')
+            //document.querySelector("#confirmpassword").classList.remove('mb3')
+            // document.querySelector("#confirmpassword").classList.remove('mb3')
+            console.log(document.querySelector("#confirmpassword").classList)
+            console.log('different')
+        }
+    },[p,c])
     return (
         <>
             <div className="bg-slate-600 md:h-screen flex flex-cols justify-center">
@@ -29,11 +49,12 @@ const SignupPage = () => {
                                     <div className="flex flex-col items-center gap-2 pt-5">
                                         <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
                                         <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email-id" />
-                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password" />
-                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="confirmpassword" type="password" placeholder="Confirm Password" />
+                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password" onChange={(e)=>setP(e.target.value)} />
+                                        <input required className="w-3/4 shadow appearance-none border  rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="confirmpassword" type="password" placeholder="Confirm Password"  onChange={(e)=>setC(e.target.value)} />
+                                        <p className="text-red-600 opacity-0" id="diff_passwords">passwords dont match</p>
                                     </div>
                                 </div>
-                                <div className="text-center pt-4 pb-5 ">
+                                <div className="text-center pt-1 pb-5 ">
                                     
                                     <button className="rounded h-10 w-3/4 btn1" >
                                         Sign Up

@@ -125,6 +125,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     let contextData = {
+       
         user: user,
         authTokens: authTokens,
         loginUser: loginUser,
@@ -137,6 +138,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
 
         if (loading) {
+            console.log(user)
             updateToken()
         }
 
