@@ -130,7 +130,7 @@ const LoginPage = () => {
 
             </div>
 
-            <style jsx>
+            <style jsx="true">
                 {
                     `
                         .btn1 {

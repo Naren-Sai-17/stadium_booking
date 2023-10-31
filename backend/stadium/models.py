@@ -77,7 +77,7 @@ class FoodItem(models.Model):
     food_price = models.IntegerField()
     
     def __str__(self):
-        return self.food_name
+        return self.food_name + ', ' + self.stadium.stadium_name
 
 class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)

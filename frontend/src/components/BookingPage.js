@@ -1,29 +1,96 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import OffCanvasNavbar from './OffCanvasNavbar'
 import Navbar from './Navbar'
+import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 export default function BookingPage() {
+    const [event_id, setEvent_id] = useState(0)
+    const [stadium, setStadium] = useState({
+        stadium_id: 0,
+        stadium_name: '',
+        location: '',
+        coordinates: '',
+        capacity: 0,
+        city: '',
+    })
+    const [event, setEvent] = useState({
+        event_id: 0, 
+        stadium: '',
+        event_name: '', 
+        date_time: '', 
+        event_description: '',
+    }) 
+    
+    useEffect(() => {
+        console.log("On url:", window.location.href)
+        const url = window.location.href
+        window.scrollTo(0, 0)
+
+        const components = url.split('/')
+
+        setEvent_id(parseInt(components[components.length - 1]))
+    }, [])
+
+    useEffect(() => {
+        axios.get(`/api/get_event?id=${event_id}`)  
+        .then((res) => {
+            setEvent(res.data)
+        })
+        .catch((err) => {
+            // Replace this later with toastify (toast) notifications.
+            // console.log("The event name is:", event.event_name, "with id:", event_id)
+            console.error("Error fetching event:", err)
+        })
+
+        // axios.get(`/api/get_stadium?id=${event_id}`)
+        // .then((res) => {
+        //     setStadium(res.data)
+        // })
+        // .catch((err) => {
+        //     console.error("Error fetching related stadium:", err)
+        // })
+    }, [event_id])  
+
+    useEffect(() => {
+        axios.get(`/api/get_stadium?id=${event_id}`)
+        .then((res) => {
+            setStadium(res.data)
+        })
+        .catch((err) => {
+            console.error("Error fetching related stadium:", err)
+        })
+    }, [event_id])
+
+
     return (
         <>
             <div className='w-full bg-gradient-to-r from-slate-950 to-slate-700'>
                 <OffCanvasNavbar />
                 <Navbar />
                 <div className="flex justify-items-start h-80 mx-[10%] my-[5%]">
-                    <div className="w-1/4 flex items-center justify-center">
-                        <img width="90%" src="images/card.jpg" className="border-white border" />
+                    <div className="w-1/4 flex items-center justify-center"> 
+                        <img 
+                            width="90%"
+                            src={ `/images/posters/${event.event_name.split(' ')[0].toLowerCase()}/${((event_id * 337) % 137) % 6}.jpg` }
+                            // src={ `/images/posters/undefined.jpg` }
+                            className="border-white border"  
+                        />
                     </div>
-                    <div className="w-full flex flex-col justify-around px-5 border rounded-lg border-dashed">
+                    <div className="w-full flex bg-gray-600 flex-col justify-around px-5 border rounded-lg border-dashed">
                         <div className="text-orange-500 text-3xl font-bold text-center">
-                            Regional Cup Finals
+                            <div>
+                                { event.event_name }
+                            </div>
                         </div>
                         <div className="text-base border-0 text-white">
                             Description: <br />
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, tempora nam accusamus esse cupiditate nostrum? Commodi sequi tempore iure necessitatibus iste qui? Repellendus voluptatibus asperiores sapiente repudiandae aspernatur? Blanditiis, enim!
                         </div>
                         <div className="text-center border-0 flex justify-around text-white">
-                            <div>Date: </div>
-                            <div>Time: </div>
-                            <div>Venue: </div>
+                            <div>Date: { event.date_time.substring(0, 10) }</div>
+                            <div>Time: { event.date_time.substring(11, 16) } IST</div>
+                            <div>Venue: { stadium.stadium_name }</div> 
                         </div>
                         <div className="text-center text-lg border-0 text-white">
                             Book your tickets now!
@@ -40,8 +107,12 @@ export default function BookingPage() {
 
                 <div className="m-10 text-center text-lg text-white">
                     Map
-                    <div className="w-full flex justify-center pt-5">
-                        <iframe className="w-1/2" width="60%" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/population/">Population mapping</a></iframe>
+                    <div className="flex justify-center pt-5 border-0">
+                        <iframe className="md:w-1/2" width='100%' height="300px" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+                            <a href="https://www.maps.ie/population/">
+                                Population mapping
+                            </a>
+                        </iframe>
                     </div>
                 </div>
 

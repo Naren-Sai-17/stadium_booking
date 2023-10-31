@@ -9,7 +9,8 @@ import axios from 'axios'
     Available events:
         Cricket
         Football
-        Wrestling
+        Baseball
+        Rugby
         Badminton
         Basketball
 */
@@ -17,26 +18,31 @@ import axios from 'axios'
 export default function Events() {
     let [events, setEvents] = useState([])
     let [query, setQuery] = useState('')
-    
-    function handleSearch() {
-        // const query = document.getElementById('search').value
-        const encoded_query = encodeURIComponent(query)
-        const API_URL = 'http://localhost:8000/api/events/'
-        const search_url = `${API_URL}?search=${encoded_query}`
 
-        axios.get(search_url)
-            .then(response => {
-                setEvents(response.data)
-                console.log(response.data)
+    useEffect(() => {
+        axios.get(`/api/events`)
+            .then(res => {
+                // console.log(res.data)
+                setEvents(res.data)
             })
             .catch(error => {
-                console.log(error)
+                console.error("Error connecting to API: ", error)
             })
-    }
-    
-    useEffect(() => {
-        handleSearch();
-    })
+    }, [])
+
+    const handleSearch = (form) => {
+        console.log("Made a GET request.")
+        form.preventDefault();
+
+        axios.get(`/api/events?query=${query}`)
+            .then(res => {
+                // console.log(res.data)
+                setEvents(res.data)
+            })
+            .catch(error => {
+                console.error("Error connecting to API: ", error)
+            })
+    };
 
     return (
         <>
@@ -44,17 +50,18 @@ export default function Events() {
                 <OffCanvasNavbar />
                 <Navbar />
 
-                <form onSubmit={handleSearch()} className='border-0 ml-[50%] flex mt-12'>
-                    <input 
-                        name='search' 
-                        id='search' 
-                        onChange={(q) => {setQuery(q.target.value)}}
-                        className='rounded-2xl bg-slate-50 h-12 pl-12 w-full mr-[25%]' 
-                        type='text' 
-                        placeholder='Search...' 
+                <form onChange={handleSearch} className='border-0 ml-[50%] flex mt-12'>
+                    <input
+                        name='query'
+                        id='query'
+                        onChange={(q) => { setQuery(q.target.value); console.log("Changed query.") }}
+                        className='rounded-2xl bg-slate-50 h-12 pl-12 w-full mr-[25%]'
+                        type='text'
+                        placeholder='Search...'
                     />
                     <AiOutlineSearch className='absolute mt-1 ml-2 h-8 w-8' />
                 </form>
+                {/* <SearchBar /> */}
 
                 <div className='mx-[10%] flex'>
                     <div className='border-0 text-white w-[25%] mt-12 text-center h-screen bg-orange-900 rounded-md'>
@@ -68,12 +75,21 @@ export default function Events() {
                         <Card />
                         <Card />
                         <Card /> */}
-                        { events }
+                        {/* {events.map((event, index) => (
+                            <h3 key={ index } className=' text-white'>
+                                { event.description }
+                            </h3>
+                        ))} */}
+                        <ul className='text-white'>
+                            {events.map((event) => (
+                                <li key={event.event_id}>{event.event_name}</li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
             </div>
 
-            <style jsx>
+            <style jsx="true">
                 {
                     `
                         input:focus {
