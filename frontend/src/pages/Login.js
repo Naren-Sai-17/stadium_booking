@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
     let { loginUser } = useContext(AuthContext)
-    let { logoutUser } = useContext(AuthContext)
 
     useEffect(() => {
         document.title = "Login - Sports League"
@@ -19,7 +18,7 @@ const LoginPage = () => {
                     <div className="bg-black m-auto  text-white rounded-lg md:flex  shadow-2xl">
 
                         <div className=" md:w-[50%]  h-full  bg-gradient-to-r from-slate-950 to-slate-800 rounded-l-lg p-10">
-                            <form onSubmit={loginUser}>
+                            <form onSubmit={ loginUser }>
                                 <div className="text-center">
                                     <img
                                         className="mx-auto md:h-32 h-[10%]"
