@@ -1,7 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import AuthContext from '../context/AuthContext'
+
 
 export default function Home() {
+    let {user} = useContext(AuthContext)
+
+    const [s, setS] = useState("/login");
+
+    useEffect(() => {
+      // Check the user's authentication status and set 's' accordingly
+      if ( user ) {
+        // console.log(user)
+        setS("/dashboard");
+      } else {
+        // console.log("no")
+        setS("/login");
+      }
+    }, [{ user }]);
     useEffect(() => {
         const handleScroll = () => {
             const containersOdd = document.querySelectorAll('.imcontainer-odd');
@@ -38,7 +55,8 @@ export default function Home() {
                             <img src="/images/logo.png" alt="logo" />
                             <h1 className="text-2xl font-semibold">Book your tickets now</h1>
                         </div>
-                            <Link to='/login'>
+                        
+                            <Link to={s}>
                                 <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded-full mt-36">
                                     Get Started
                                 </button>
