@@ -8,6 +8,7 @@ import Events from './components/Events';
 import BookingPage from './components/BookingPage';
 import ProfilePage from './components/Profile';
 import PaymentPage from './components/PaymentPage';
+import SignupPage from './components/Signup';
 import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext'
 
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path='/event/:event_id' element={<BookingPage />} />
             <Route path='/event/:event_id/book' element={<PaymentPage />} />
+            <Route path="/signup" element={<SignupPage/>} />
             <Route path="/events" element={<Events />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>

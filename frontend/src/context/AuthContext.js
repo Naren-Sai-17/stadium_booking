@@ -38,6 +38,40 @@ export const AuthProvider = ({children}) => {
         }
     }
 
+    let signupUser = async (e )=> {
+        console.log("SignupUser")
+        // console.log(e.target.password.value)
+        // console.log(e.target.confirmpassword.value)
+        e.preventDefault()
+        if(e.target.password.value!=e.target.confirmpassword.value){
+            alert('Passwords don\'t match')
+            return;
+        }
+        let response = await fetch('http://127.0.0.1:8000/api/register/', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({'username':e.target.username.value, 'password':e.target.password.value, 'email':e.target.email.value})
+        })
+
+        if(response.status === 201){
+            // setAuthTokens(data)
+            // setUser(jwtDecode(data.access))
+            // localStorage.setItem('authTokens', JSON.stringify(data))
+            Navigate('/login')
+        }else{
+            console.log("Failed to register user. Response code:", response.status);
+            //return response.text();
+            alert('Enter all fields or Already Registered')
+        }
+        //will check this later
+        // else if(response.status === 400){
+        //     alert('Already registered...redirecting to login')
+        //     Navigate('/login')
+        // }
+    }
+
 
     let logoutUser = () => {
         console.log("logoutUser")
@@ -95,6 +129,8 @@ export const AuthProvider = ({children}) => {
         authTokens:authTokens,
         loginUser:loginUser,
         logoutUser:logoutUser,
+        signupUser:signupUser,
+
     }
 
 
