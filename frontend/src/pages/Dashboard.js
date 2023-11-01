@@ -23,7 +23,6 @@ export default function Dashboard() {
         document.title = "Dashboard - Sports League"
         window.scrollTo(0, 0)
     }, [])
-
     return (
         <>
             <div className='bg-gradient-to-r from-slate-950 to-slate-700'>

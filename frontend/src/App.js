@@ -6,6 +6,7 @@ import About from './pages/About';
 import Login from './pages/Login';
 import Events from './pages/Events';
 import BookingPage from './pages/BookingPage';
+import EventPage from './pages/EventPage';
 import ProfilePage from './pages/Profile';
 import PaymentPage from './pages/PaymentPage';
 import SignupPage from './pages/Signup';
@@ -46,33 +47,24 @@ export default function App() {
                                 secondary: 'black',
                             }
                         },
-
-                        greet: {
-                            duration: 3000,
-                            theme: {
-                                primary: 'orange',
-                                secondary: 'black',
-                            },
-                            icon: '⚽',
-                        }
                     }}
                 />
             </div>
-            <Router scrollBehavior="auto">
-                <AuthProvider>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path='/event/:event_id' element={<BookingPage />} />
-                        <Route path='/event/:event_id/book' element={<PaymentPage />} />
-                        <Route path="/signup" element={<SignupPage />} />
-                        <Route path="/events" element={<Events />} />
-                        <Route path="/profile" element={<ProfilePage />} />
-                    </Routes>
-                </AuthProvider>
-            </Router>
-        </>
+      <Router scrollBehavior="auto">
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/about" element={<About />} />
+            <Route path='/event/:event_id' element={<EventPage />} />
+            <Route path='/event/:event_id/book' element={<PaymentPage />} />
+            <Route path="/signup" element={<SignupPage/>} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Routes>
+        </AuthProvider>
+      </Router>
+    </>
     );
 }
