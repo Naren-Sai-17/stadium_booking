@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react'
-import Navbar from './Navbar'
-import OffCanvasNavbar from './OffCanvasNavbar'
-import Card from './Card'
+import Navbar from '../components/Navbar'
+import OffCanvasNavbar from '../components/OffCanvasNavbar'
+import Card from '../components/Card'
 import { AiOutlineSearch } from 'react-icons/ai'
 import axios from 'axios'
 
@@ -28,6 +28,9 @@ export default function Events() {
             .catch(error => {
                 console.error("Error connecting to API: ", error)
             })
+        
+        document.title = "Upcoming Events - Sports League"
+        window.scrollTo(0, 0)
     }, [])
 
     const handleSearch = (form) => {

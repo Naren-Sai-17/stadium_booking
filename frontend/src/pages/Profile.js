@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
-import Navbar from './Navbar';
-import OffCanvasNavbar from './OffCanvasNavbar';
+import Navbar from '../components/Navbar';
+import OffCanvasNavbar from '../components/OffCanvasNavbar';
 
 export default function ProfilePage() {
     useEffect(() => {
         window.scrollTo(0, 0)
-    })
+        document.title = "Your Profile - Sports League"
+    }, [])
     return (
         <>  
         <OffCanvasNavbar />
