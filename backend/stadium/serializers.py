@@ -9,12 +9,19 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self,validated_data):
         user = User.objects.create_user(**validated_data)
         return user 
+    
+class SectorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sector
+        fields = ['sector_id','sector_name','sector_price']
+
+class StadiumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stadium
+        fields = '__all__'
+
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = '__all__'
     
-class StadiumSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Stadium
-        fields = '__all__'
