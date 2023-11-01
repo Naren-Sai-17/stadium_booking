@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
     //     }
     // }, [username])
 
+
     const Navigate = useNavigate()
 
     let loginUser = async (e) => {
@@ -114,6 +115,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('authTokens')
         // Navigate('/login')
     }
+
 
 
     let updateToken = async () => {
