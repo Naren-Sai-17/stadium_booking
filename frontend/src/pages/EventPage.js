@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import OffCanvasNavbar from '../components/OffCanvasNavbar'
 import Navbar from '../components/Navbar'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 export default function BookingPage() {
+    const Navigate = useNavigate();
     const {event_id} = useParams(); 
     // const [stadium, setStadium] = useState({
     //     stadium_id: 0,
@@ -15,7 +17,7 @@ export default function BookingPage() {
     //     city: '',
     // })
     const [event, setEvent] = useState({
-        event_id: 0, 
+        event_id: -1, 
         event_name: '', 
         date_time: '', 
         event_description: '',
@@ -35,11 +37,17 @@ export default function BookingPage() {
         axios.get(`/api/get_event/${event_id}`)  
         .then((res) => {
             setEvent(res.data)
+            if(res.data.event_id === -1) {
+                Navigate('/dashboard')
+                toast.error('That event does not exist.')
+            }
         })
         .catch((err) => {
             // Replace this later with toastify (toast) notifications.
             // console.log("The event name is:", event.event_name, "with id:", event_id)
             console.error("Error fetching event:", err)
+            Navigate('/dashboard')
+            toast.error(`Error fetching event details.`)
         })
         // axios.get(`/api/get_stadium?id=${event_id}`)
         // .then((res) => {
