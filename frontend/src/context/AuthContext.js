@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react'
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast'
 
 const AuthContext = createContext()
 
@@ -11,7 +12,14 @@ export const AuthProvider = ({ children }) => {
     // a call back func |()=>| is used so that ternary condition is run only once at a reload
     let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
+    // let [username, setUsername] = useState(null)
     let [loading, setLoading] = useState(true)
+
+    // useEffect(() => {
+    //     if(username !== null) { 
+    //         toast.success(`Hi, ${user.username}!`)
+    //     }
+    // }, [username])
 
     const Navigate = useNavigate()
 
@@ -29,12 +37,15 @@ export const AuthProvider = ({ children }) => {
         let data = await response.json()
 
         if (response.status === 200) {
+            let user_data = jwtDecode(data.access)
             setAuthTokens(data)
-            setUser(jwtDecode(data.access))
+            setUser(user_data)
             localStorage.setItem('authTokens', JSON.stringify(data))
             Navigate('/dashboard')
+
+            toast.success(`Hi, ${user_data.username}!`)
         } else {
-            alert('Something went wrong!')
+            toast.error('Something went wrong!')
         }
     }
 
@@ -70,17 +81,20 @@ export const AuthProvider = ({ children }) => {
             let data = await response.json()
     
             if (response.status === 200) {
+                let user_data = jwtDecode(data.access)
                 setAuthTokens(data)
-                setUser(jwtDecode(data.access))
+                setUser(user_data)
                 localStorage.setItem('authTokens', JSON.stringify(data))
                 Navigate('/dashboard')
+
+                toast.success(`Hi, ${user_data.username}!`)
             } else {
-                alert('Something went wrong!')
+                toast.error('Something went wrong!')
             }
         } else {
             console.log("Failed to register user. Response code:", response.status);
             //return response.text();
-            alert('An account with that username/email already exists.')
+            toast.error('An account with that username/email already exists.')
         }
         //will check this later
         // else if(response.status === 400){
@@ -92,6 +106,9 @@ export const AuthProvider = ({ children }) => {
 
     let logoutUser = () => {
         console.log("logoutUser")
+        if(user !== null) {
+            toast.success('Logged out successfully!')
+        }
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('authTokens')
@@ -142,7 +159,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     let contextData = {
-       
         user: user,
         authTokens: authTokens,
         loginUser: loginUser,
@@ -157,7 +173,6 @@ export const AuthProvider = ({ children }) => {
             console.log(user)
             updateToken()
         }
-
 
         let fourMinutes = 1000 * 60 * 4
 

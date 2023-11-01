@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { FiUser } from 'react-icons/fi'
 import AuthContext from '../context/AuthContext';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { TbLogout2, TbLogin2, TbLogin } from 'react-icons/tb'
+import { TbLogout2, TbLogin2 } from 'react-icons/tb'
 import { MdOutlineSportsCricket } from 'react-icons/md'
 
 export default function OffCanvasNavbar() {
@@ -15,7 +15,7 @@ export default function OffCanvasNavbar() {
         menu.classList.remove("right-0");
         menu.classList.add("-right-full");
     }
-    
+
     return (
         <>
             <div id='menu' className=' z-20 bg-slate-800 fixed sm:w-[40%] md:w-[35%] lg:w-1/4 w-screen justify-around sm:h-screen -right-full Transition'>
@@ -64,7 +64,10 @@ export default function OffCanvasNavbar() {
 
                     <hr className={ (contextData.user != null) ? `block` : `hidden`} />
 
-                    <div title='Sorry to see you go!' onClick={ logoutUser } className={ (contextData.user != null) ? `block cursor-pointer` : `hidden`} >
+                    <div title='Sorry to see you go!' onClick={ () => {
+                        logoutUser();
+                        closeMenu();
+                    } } className={ (contextData.user != null) ? `block cursor-pointer` : `hidden`} >
                         <div className='grid grid-cols-3 py-2 my-6 text-center px-2 mx-[10%] sm:mx-0 btn
                         bg-red-300 rounded-md hover:bg-orange-100'>
                             <TbLogout2 className='h-6 w-6 lg:h-10 lg:w-10 icon' />

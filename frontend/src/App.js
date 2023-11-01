@@ -9,25 +9,70 @@ import BookingPage from './pages/BookingPage';
 import ProfilePage from './pages/Profile';
 import PaymentPage from './pages/PaymentPage';
 import SignupPage from './pages/Signup';
-import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext'
+import { Toaster } from 'react-hot-toast'
 
 export default function App() {
     return (
-      <Router scrollBehavior="auto">
-        <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/about" element={<About />} />
-            <Route path='/event/:event_id' element={<BookingPage />} />
-            <Route path='/event/:event_id/book' element={<PaymentPage />} />
-            <Route path="/signup" element={<SignupPage/>} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/profile" element={<ProfilePage />} />
-          </Routes>
-        </AuthProvider>
-      </Router>
+        <>
+            <div>
+                <Toaster
+                    position="top-center"
+                    reverseOrder={false}
+                    toastOptions={{
+                        // Default options
+                        className: '',
+                        duration: 3000,
+                        style: {
+                            background: '#363636',
+                            color: '#fff',
+                            fontFamily: 'Verdana, Poppins, Geneva, Tahoma, sans-serif',
+                            whiteSpace: 'nowrap',
+                        },
+
+                        // Default options for specific types
+                        success: {
+                            duration: 3000,
+                            theme: {
+                                primary: 'green',
+                                secondary: 'black',
+                            },
+                        },
+
+                        error: {
+                            duration: 3000,
+                            theme: {
+                                primary: 'red',
+                                secondary: 'black',
+                            }
+                        },
+
+                        greet: {
+                            duration: 3000,
+                            theme: {
+                                primary: 'orange',
+                                secondary: 'black',
+                            },
+                            icon: '⚽',
+                        }
+                    }}
+                />
+            </div>
+            <Router scrollBehavior="auto">
+                <AuthProvider>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path='/event/:event_id' element={<BookingPage />} />
+                        <Route path='/event/:event_id/book' element={<PaymentPage />} />
+                        <Route path="/signup" element={<SignupPage />} />
+                        <Route path="/events" element={<Events />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                    </Routes>
+                </AuthProvider>
+            </Router>
+        </>
     );
 }
