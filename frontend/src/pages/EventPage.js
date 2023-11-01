@@ -29,7 +29,7 @@ export default function BookingPage() {
             capacity: 0,
             city: ''
         },
-        prices : []
+        prices: []
     }) 
 
     useEffect(() => {
@@ -100,7 +100,7 @@ export default function BookingPage() {
                         <div className="text-center border-0 flex justify-around text-white">
                             <div>Date: { event.date_time.substring(0, 10) }</div>
                             <div>Time: { event.date_time.substring(11, 16) } IST</div>
-                            <div>Venue: { event.stadium.stadium_name }</div> 
+                            <div>Venue: { event.stadium.stadium_name }</div>  
                         </div>
                         <div className="text-center text-lg border-0 text-white">
                             Book your tickets now!
