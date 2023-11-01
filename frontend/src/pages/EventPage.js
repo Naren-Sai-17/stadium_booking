@@ -3,8 +3,8 @@ import OffCanvasNavbar from '../components/OffCanvasNavbar'
 import Navbar from '../components/Navbar'
 import EventContext from '../context/EventContext'
 import axios from 'axios'
-import { Navigate, useParams,Link } from 'react-router-dom'
-
+import toast from 'react-hot-toast'
+import { Navigate, useParams, Link } from 'react-router-dom'
 
 export default function BookingPage() {
 
@@ -21,7 +21,7 @@ export default function BookingPage() {
     //     city: '',
     // })
     const [event, setEvent] = useState({
-        event_id: 0, 
+        event_id: -1, 
         event_name: '', 
         date_time: '', 
         event_description: '',
@@ -33,7 +33,7 @@ export default function BookingPage() {
             capacity: 0,
             city: ''
         },
-        prices : []
+        prices: []
     }) 
 
     useEffect(() => {
@@ -42,11 +42,17 @@ export default function BookingPage() {
         .then((res) => {
             setEventdata(res.data)
             setEvent(res.data)
+            if(res.data.event_id === -1) {
+                Navigate('/dashboard')
+                toast.error('That event does not exist.')
+            }
         })
         .catch((err) => {
             // Replace this later with toastify (toast) notifications.
             // console.log("The event name is:", event.event_name, "with id:", event_id)
             console.error("Error fetching event:", err)
+            Navigate('/dashboard')
+            toast.error(`Error fetching event details.`)
         })
         // axios.get(`/api/get_stadium?id=${event_id}`)
         // .then((res) => {
@@ -99,7 +105,7 @@ export default function BookingPage() {
                         <div className="text-center border-0 flex justify-around text-white">
                             <div>Date: { event.date_time.substring(0, 10) }</div>
                             <div>Time: { event.date_time.substring(11, 16) } IST</div>
-                            <div>Venue: { event.stadium.stadium_name }</div> 
+                            <div>Venue: { event.stadium.stadium_name }</div>  
                         </div>
                         <div className="text-center text-lg border-0 text-white">
                             Book your tickets now!

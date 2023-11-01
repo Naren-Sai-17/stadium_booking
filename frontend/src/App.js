@@ -64,7 +64,6 @@ export default function App() {
             <Route path="/signup" element={<SignupPage/>} />
             <Route path="/events" element={<Events />} />
             <Route path="/profile" element={<ProfilePage />} />
-
           </Routes>
         </AuthProvider>
         </EventProvider>
