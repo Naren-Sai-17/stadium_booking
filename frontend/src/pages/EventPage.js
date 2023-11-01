@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import OffCanvasNavbar from '../components/OffCanvasNavbar'
 import Navbar from '../components/Navbar'
+import EventContext from '../context/EventContext'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { Navigate, useParams,Link } from 'react-router-dom'
+
 
 export default function BookingPage() {
+
+    let { setEventdata } = useContext(EventContext)
+    const contextData  = useContext(EventContext) 
+
     const {event_id} = useParams(); 
     // const [stadium, setStadium] = useState({
     //     stadium_id: 0,
@@ -34,6 +40,7 @@ export default function BookingPage() {
         window.scrollTo(0, 0)
         axios.get(`/api/get_event/${event_id}`)  
         .then((res) => {
+            setEventdata(res.data)
             setEvent(res.data)
         })
         .catch((err) => {
@@ -101,9 +108,15 @@ export default function BookingPage() {
                 </div>
 
                 <div className="m-10 text-center">
-                    <button type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                        Book tickets
-                    </button>
+                    <Link to={`/event/${event_id}/book`}>
+                        <button onClick={()=>{
+                            //checking EventContext function
+                            console.log(contextData.event_data.event_id)
+                            
+                        }} type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                            Book tickets
+                        </button>
+                    </Link>
                 </div>
 
 

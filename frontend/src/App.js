@@ -11,6 +11,7 @@ import ProfilePage from './pages/Profile';
 import PaymentPage from './pages/PaymentPage';
 import SignupPage from './pages/Signup';
 import { AuthProvider } from './context/AuthContext'
+import { EventProvider } from './context/EventContext'
 import { Toaster } from 'react-hot-toast'
 
 export default function App() {
@@ -51,6 +52,7 @@ export default function App() {
                 />
             </div>
       <Router scrollBehavior="auto">
+        <EventProvider>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -58,12 +60,14 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/about" element={<About />} />
             <Route path='/event/:event_id' element={<EventPage />} />
-            <Route path='/event/:event_id/book' element={<PaymentPage />} />
+            <Route path='/event/:event_id/book' element={<BookingPage />} />
             <Route path="/signup" element={<SignupPage/>} />
             <Route path="/events" element={<Events />} />
             <Route path="/profile" element={<ProfilePage />} />
+
           </Routes>
         </AuthProvider>
+        </EventProvider>
       </Router>
     </>
     );
