@@ -16,10 +16,15 @@ class SectorSerializer(serializers.ModelSerializer):
         fields = ['sector_id','sector_name']
     
 class SectorPriceSerializer(serializers.ModelSerializer):
-    sector = SectorSerializer()
+    sector_id = SectorSerializer()
     class Meta:
         model = SectorPrice
-        fields = ['sector', 'remaining_seats', 'event_price']
+        fields = ['event_price','remaining_seats','sector_id']
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret.update(ret.pop('sector_id', {}))
+        return ret
 
 class StadiumSerializer(serializers.ModelSerializer):
     class Meta:

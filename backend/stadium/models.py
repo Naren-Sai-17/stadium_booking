@@ -67,13 +67,13 @@ class Sector(models.Model):
         return self.sector_name + ', ' + self.stadium.stadium_name
 
 class SectorPrice(models.Model): 
-    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    sector_id = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
     event_price = models.PositiveBigIntegerField()
     remaining_seats = models.PositiveIntegerField(blank=True, null=True, default=25000)
     
     def save(self, *args, **kwargs):
-        sector_instance = self.sector
+        sector_instance = self.sector_id
         
         if sector_instance is not None:
             self.remaining_seats = sector_instance.sector_capacity
@@ -81,7 +81,7 @@ class SectorPrice(models.Model):
         super(SectorPrice, self).save(*args, **kwargs)
     
     def __str__(self):
-        return 'Sector #' + str(self.sector) + ' for event #' + str(self.event)
+        return 'Sector #' + str(self.sector_id) + ' for event #' + str(self.event_id)
 
 class FoodItem(models.Model):
     food_id = models.AutoField(primary_key=True)
@@ -105,9 +105,6 @@ class Booking(models.Model):
 
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
-    # booking = models.ManyToManyField(Booking)
-    # I was wrong, we need to use ManyToMany fields only when they are required. 
-    # Example: a stadium being assigned an array of its upcoming events.
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='tickets')
     sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
 
