@@ -11,6 +11,7 @@ import ProfilePage from './pages/Profile';
 import PaymentPage from './pages/PaymentPage';
 import SignupPage from './pages/Signup';
 import { AuthProvider } from './context/AuthContext'
+import { EventProvider } from './context/EventContext'
 import { Toaster } from 'react-hot-toast'
 import ErrorPage from './pages/ErrorPage';
 
@@ -52,6 +53,7 @@ export default function App() {
                 />
             </div>
       <Router scrollBehavior="auto">
+        <EventProvider>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -66,6 +68,7 @@ export default function App() {
             <Route path="/404" element={<ErrorPage />} />
           </Routes>
         </AuthProvider>
+        </EventProvider>
       </Router>
     </>
     );

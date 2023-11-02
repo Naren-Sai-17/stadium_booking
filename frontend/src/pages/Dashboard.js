@@ -36,7 +36,7 @@ export default function Dashboard() {
                     Discover Cricket Events
                 </div>
 
-                <div className='border-0 mt-[15%] md:mt-[5%] flex'>
+                <div className='border-0 mt-[10%] md:mt-[5%] flex'>
                     <div className='leftbtn flex flex-row justify-center border-0 ml-[2%]'>
                         <button id='cricket-left' title='Previous' onClick={ () => {
                             const menu = document.getElementById('cricket')
@@ -51,19 +51,25 @@ export default function Dashboard() {
                             <MdArrowBackIos className='h-[10vh] w-[4vw]' />
                         </button>
                     </div>
-                    <div id='cricket' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth mx-[5%] snap-x snap-mandatory Snap'>
+                    <div id='cricket' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth md:mx-[5%] snap-x snap-mandatory Snap'>
                         {
                             allEvents.filter((event) => {
                                 return event.event_name.split(' ')[0].toLowerCase() === 'cricket'
                             })
-                                .slice(0, 8).map((event, index) => (
-                                    <div className='inline-block snap-center w-[25%]' key={index}>
-                                        <Card event_id={event.event_id} poster='cricket' />
-                                        <div className='text-white text-center'>
-                                            {event.event_name}
-                                        </div>
-                                    </div>
-                                ))
+                            .slice(0, 8)
+                            .map((event, index) => (
+                                <div className='inline-block snap-center w-[25%]' key={index}>
+                                    <Card 
+                                        event_id={event.event_id} 
+                                        poster='cricket' 
+                                    />
+                                    <span className='text-white text-xs md:text-sm lg:text-md whitespace-break-spaces flex justify-center'>
+                                        { 
+                                            event.event_name.split(' ').slice(1).join(' ')
+                                        }
+                                    </span>
+                                </div>
+                            ))
                         }
                     </div>
                     <div className='rightbtn flex flex-row justify-center mr-[2%]'>
@@ -82,11 +88,11 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className='border-0 text-white md:text-3xl text-xl font-weight md:mt-[5%] mt-[15%] mx-[10%]'>
+                <div className='border-0 text-white md:text-3xl text-xl font-weight mt-[5%] md:mt-[8%] mx-[10%]'>
                     Discover Football Events
                 </div>
 
-                <div className='border-0 mt-[15%] md:mt-[5%] flex'>
+                <div className='border-0 mt-[10%] md:mt-[5%] flex'>
                     <div className='leftbtn flex flex-row justify-center border-0 ml-[2%]'>
                         <button id='football-left' title='Previous' onClick={ () => {
                             const menu = document.getElementById('football')
@@ -101,19 +107,22 @@ export default function Dashboard() {
                             <MdArrowBackIos className='h-[10vh] w-[4vw]' />
                         </button>
                     </div>
-                    <div id='football' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth mx-[10%] snap-x snap-mandatory Snap'>
+                    <div id='football' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth md:mx-[10%] snap-x snap-mandatory Snap'>
                         {
                             allEvents.filter((event) => {
                                 return event.event_name.split(' ')[0].toLowerCase() === 'football'
                             })
-                                .slice(0, 8).map((event, index) => (
-                                    <div className='inline-block snap-center w-[25%]' key={index}>
-                                        <Card event_id={event.event_id} poster='football' />
-                                        <div className='text-white text-center'>
-                                            {event.event_name}
-                                        </div>
+                            .slice(0, 8)
+                            .map((event, index) => (
+                                <div className='inline-block snap-center w-[25%]' key={index}>
+                                    <Card event_id={event.event_id} poster='football' />
+                                    <div className='text-white text-xs md:text-sm lg:text-md whitespace-break-spaces text-center'>
+                                        { 
+                                            event.event_name.split(' ').slice(1).join(' ')
+                                        }
                                     </div>
-                                ))
+                                </div>
+                            ))
                         }
                     </div>
                     <div className='rightbtn flex flex-row justify-center mr-[2%]'>
@@ -132,11 +141,11 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className='border-0 text-white md:text-3xl text-xl font-weight md:mt-[5%] mt-[15%] mx-[10%]'>
+                <div className='border-0 text-white md:text-3xl text-xl font-weight mt-[5%] md:mt-[8%] mx-[10%]'>
                     Discover Basketball Events
                 </div>
 
-                <div className='border-0 mt-[15%] md:mt-[5%] flex'>
+                <div className='border-0 pb-[15%] mt-[10%] md:mt-[5%] flex'>
                     <div className='leftbtn flex flex-row justify-center border-0 ml-[2%]'>
                         <button id='basketball-left' title='Previous' onClick={ () => {
                             const menu = document.getElementById('basketball')
@@ -151,19 +160,22 @@ export default function Dashboard() {
                             <MdArrowBackIos className='h-[10vh] w-[4vw]' />
                         </button>
                     </div>
-                    <div id='basketball' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth mx-[10%] snap-x snap-mandatory Snap'>
+                    <div id='basketball' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth md:mx-[10%] snap-x snap-mandatory Snap'>
                         {
                             allEvents.filter((event) => {
                                 return event.event_name.split(' ')[0].toLowerCase() === 'basketball'
                             })
-                                .slice(0, 8).map((event, index) => (
-                                    <div className='inline-block snap-center w-[25%]' key={index}>
-                                        <Card event_id={event.event_id} poster='basketball' />
-                                        <div className='text-white text-center'>
-                                            {event.event_name}
-                                        </div>
+                            .slice(0, 8)
+                            .map((event, index) => (
+                                <div className='inline-block snap-center w-[25%]' key={index}>
+                                    <Card event_id={event.event_id} poster='basketball' />
+                                    <div className='text-white text-xs md:text-sm lg:text-md whitespace-break-spaces text-center'>
+                                        { 
+                                            event.event_name.split(' ').slice(1).join(' ')
+                                        }
                                     </div>
-                                ))
+                                </div>
+                            ))
                         }
                     </div>
                     <div className='rightbtn flex flex-row justify-center mr-[2%]'>

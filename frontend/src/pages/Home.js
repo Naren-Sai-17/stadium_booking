@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import AuthContext from '../context/AuthContext'
+import toast from 'react-hot-toast'
 
 
 export default function Home() {
@@ -59,7 +60,14 @@ export default function Home() {
                         </div>
 
                         <Link to={s}>
-                            <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded-full mt-36">
+                            <button onClick={
+                                () => {
+                                    if(s === '/dashboard') {
+                                        toast.success(`Hi, ${user.username}!`)
+                                    }
+                                }
+                            }
+                            className="bg-white text-blue-500 font-bold py-2 px-4 rounded-full mt-36">
                                 Get Started
                             </button>
                         </Link>

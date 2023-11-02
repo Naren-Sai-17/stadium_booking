@@ -1,4 +1,4 @@
-from django.http import Http404
+from django.http import HttpResponse, Http404
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
@@ -30,10 +30,6 @@ class showEvents(ListAPIView):
 
 class getEventById(APIView):
     def get(self,request,id):
-        try:
-            event = Event.objects.get(event_id=id)
-        except Event.DoesNotExist:
-            raise Http404("Event does not exist")
         stadium_id = Event.objects.get(event_id = id).stadium_id
         event_data = EventSerializer(Event.objects.get(event_id = id)).data
         event_data['stadium'] = StadiumSerializer(Stadium.objects.get(stadium_id=stadium_id)).data
@@ -49,15 +45,15 @@ class getEventById(APIView):
 #     sid = Stadium.objects.get(stadium_id=id)
 #     serializer = StadiumSerializer(sid)
 #     return Response(serializer.data)  
-# class getStadiumById(APIView):
-#     def get(self,request,id):
-#         stadium = Stadium.objects.get(stadium_id=id)
-#         serializer = StadiumSerializer(stadium) 
-#         sectors = Sector.objects.filter(stadium = id)
-#         sectorserializer = SectorSerializer(sectors, many = True)
-#         data = serializer.data 
-#         data['sectors'] = sectorserializer.data
-#         return Response(data)
+class getStadiumById(APIView):
+    def get(self,request,id):
+        stadium = Stadium.objects.get(stadium_id=id)
+        serializer = StadiumSerializer(stadium) 
+        sectors = Sector.objects.filter(stadium = id)
+        sectorserializer = SectorSerializer(sectors, many = True)
+        data = serializer.data 
+        data['sectors'] = sectorserializer.data
+        return Response(data)
     
 
 class getEvents(ListAPIView):
@@ -65,22 +61,11 @@ class getEvents(ListAPIView):
     def get_queryset(self):
         query = self.request.GET.get('query', '')
         date = timezone.now()
-
-        events = Event.objects.all()
-        keywords = query.split()
-
-        search_query = Q()
-
-        for keyword in keywords:
-            search_query |= Q(event_name__icontains=keyword) | Q(stadium__stadium_name__icontains=keyword)
-
-        if search_query:
-            events = events.filter(search_query)
-        
+        all_events = Event.objects.all()
         if date:
-            events = events.filter(date_time__gte=date)
-        print('Events requested on:', date) 
-        
-        return events
+            all_events = all_events.filter(date_time__gte=date)
+
+        events_data = EventSerializer(all_events, many=True).data
+        return Response(events_data)
 
 

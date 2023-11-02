@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import OffCanvasNavbar from '../components/OffCanvasNavbar'
 import Navbar from '../components/Navbar'
+import EventContext from '../context/EventContext'
 import axios from 'axios'
-import { Link, useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 
 export default function BookingPage() {
+
+    const Navigate = useNavigate()
+
+    let { setEventdata } = useContext(EventContext)
+    const contextData  = useContext(EventContext) 
+
     const {event_id} = useParams(); 
     const [event, setEvent] = useState({
-        event_id: 0, 
+        event_id: -1, 
         event_name: '', 
         date_time: '', 
         event_description: '',
@@ -19,20 +27,32 @@ export default function BookingPage() {
             capacity: 0,
             city: ''
         },
-        prices : []
+        prices: []
     }) 
 
     useEffect(() => {
         window.scrollTo(0, 0)
         axios.get(`/api/get_event/${event_id}`)  
         .then((res) => {
+            setEventdata(res.data)
             setEvent(res.data)
+            if(res.data.event_id === -1) {
+                Navigate('/dashboard')
+                toast.error('That event does not exist.')
+            }
         })
         .catch((err) => {
             // Replace this later with toastify (toast) notifications.
             // console.log("The event name is:", event.event_name, "with id:", event_id)
             console.error("Error fetching event:", err)
         })
+        // axios.get(`/api/get_stadium?id=${event_id}`)
+        // .then((res) => {
+        //     setStadium(res.data) 
+        // })
+        // .catch((err) => {
+        //     console.error("Error fetching related stadium:", err)
+        // })
     }, [])  
 
     useEffect(() => {
@@ -67,7 +87,7 @@ export default function BookingPage() {
                         <div className="text-center border-0 flex justify-around text-white">
                             <div>Date: { event.date_time.substring(0, 10) }</div>
                             <div>Time: { event.date_time.substring(11, 16) } IST</div>
-                            <div>Venue: { event.stadium.stadium_name }</div> 
+                            <div>Venue: { event.stadium.stadium_name }</div>  
                         </div>
                         <div className="text-center text-lg border-0 text-white">
                             Book your tickets now!
@@ -76,8 +96,12 @@ export default function BookingPage() {
                 </div>
                 
                 <div className="m-10 text-center">
-                    <Link to={ `/event/${event_id}/book` } >
-                        <button type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    <Link to={`/event/${event_id}/book`}>
+                        <button onClick={()=>{
+                            //checking EventContext function
+                            console.log(contextData.event_data.event_id)
+                            
+                        }} type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Book tickets
                         </button>
                     </Link>

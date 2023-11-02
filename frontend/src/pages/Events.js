@@ -17,35 +17,22 @@ import axios from 'axios'
 
 export default function Events() {
     let [events, setEvents] = useState([])
-    let [query, setQuery] = useState('')
+    let [allEvents, setAllEvents] = useState([])
 
     useEffect(() => {
         axios.get(`/api/events`)
             .then(res => {
                 // console.log(res.data)
+                setAllEvents(res.data)
                 setEvents(res.data)
             })
-            .catch(error => {
-                console.error("Error connecting to API: ", error)
+            .catch(err => {
+                console.error("Error connecting to API: ", err)
             })
         
         document.title = "Upcoming Events - Sports League"
         window.scrollTo(0, 0)
     }, [])
-
-    const handleSearch = (form) => {
-        console.log("Made a GET request.")
-        form.preventDefault();
-
-        axios.get(`/api/events?query=${query}`)
-            .then(res => {
-                // console.log(res.data)
-                setEvents(res.data)
-            })
-            .catch(error => {
-                console.error("Error connecting to API: ", error)
-            })
-    };
 
     return (
         <>
@@ -53,40 +40,58 @@ export default function Events() {
                 <OffCanvasNavbar />
                 <Navbar />
 
-                <form onChange={handleSearch} className='border-0 ml-[50%] flex mt-12'>
+                { /* Search bar */}
+                <div 
+                className='border-0 md:ml-[50%] mx-[10%] flex mt-12'>
                     <input
                         name='query'
                         id='query'
-                        onChange={(q) => { setQuery(q.target.value); console.log("Changed query.") }}
-                        className='rounded-2xl bg-slate-50 h-12 pl-12 w-full mr-[25%]'
+                        onChange={(q) => { 
+                            let temp_events = [];
+                            allEvents.forEach((event) => {
+                                const subquery = new RegExp(q.target.value, 'i')
+                                if(subquery.test(event.event_name)) {
+                                    temp_events.push(event);
+                                } else if(subquery.test(event.stadium.stadium_name)) {
+                                    temp_events.push(event);
+                                } else if(subquery.test(event.event_description)) {
+                                    temp_events.push(event);
+                                }
+                                setEvents(temp_events)
+
+                            })
+                            // console.log(temp_events)
+
+                        }}
+                        className='rounded-2xl bg-slate-50 h-12 pl-12 w-full md:mr-[25%]'
                         type='text'
                         placeholder='Search...'
                     />
                     <AiOutlineSearch className='absolute mt-1 ml-2 h-8 w-8' />
-                </form>
-                {/* <SearchBar /> */}
+                </div>
 
-                <div className='mx-[10%] flex'>
-                    <div className='border-0 text-white w-[25%] mt-12 text-center h-screen bg-orange-900 rounded-md'>
+                <div className='mx-[5%] md:mx-[10%] md:flex '>
+                    {/* Filter section */}
+                    <div className='border-0 text-white md:w-[25%] mt-12 text-center md:h-screen bg-orange-700 rounded-md'>
                         Search and Filter...
                     </div>
 
-                    <div className='ml-6 mt-12 grid grid-cols-3 w-[70%]'>
-                        {/* <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card />
-                        <Card /> */}
-                        {/* {events.map((event, index) => (
-                            <h3 key={ index } className=' text-white'>
-                                { event.description }
-                            </h3>
-                        ))} */}
-                        <ul className='text-white'>
-                            {events.map((event) => (
-                                <li key={event.event_id}>{event.event_name}</li>
-                            ))}
+                    {/* Grid */}
+                    <div className='md:ml-6 md:text-base text-xs mt-12 md:w-[70%]'>
+                        <ul className='text-white grid gap-1 grid-cols-3'>
+                            {
+                                events.map((event) => (
+                                    <li className='border-0 text-center flex flex-col justify-between' key={event.event_id}>
+                                        <Card 
+                                            poster={event.event_name.split(' ')[0].toLowerCase()}
+                                            event_id={event.event_id}
+                                        />
+                                        <span>
+                                            { event.event_name }
+                                        </span>
+                                    </li>
+                                ))
+                            }
                         </ul>
                     </div>
                 </div>

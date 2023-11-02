@@ -1,67 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import OffCanvasNavbar from '../components/OffCanvasNavbar'
-import Navbar from '../components/Navbar'
+import React, { useContext, useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import Counter from '../utils/Counter';
 import axios from 'axios'
-import { Link , useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import EventContext from '../context/EventContext'
+
 
 const BookingPage = () => {
-    const {event_id} = useParams(); 
-    const [event, setEvent] = useState({
-        event_id: 0, 
-        event_name: '', 
-        date_time: '', 
-        event_description: '',
-        stadium: {
-            stadium_id : 0,
-            stadium_name: '',
-            location: '',
-            coordinates: '',
-            capacity: 0,
-            city: ''
-        },
-        prices : []
-    }) 
+    const {event_id} = useParams();  // getting event id from url
 
-    useEffect(() => {
-        window.scrollTo(0, 0)
-        axios.get(`/api/get_event/${event_id}`)  
-        .then((res) => {
-            setEvent(res.data)
-        })
-        .catch((err) => {
-            // Replace this later with toastify (toast) notifications.
-            // console.log("The event name is:", event.event_name, "with id:", event_id)
-            console.error("Error fetching event:", err)
-        })
-    }, [])  
-
-    useEffect(() => {
-        document.title = event.event_name + " - Sports League" 
-    }, [event.event_name])
-
-    const [quantities,setQuantities] = useState({}) 
-    const [totalPrice, setTotalPrice] = useState(0) 
-    const handleQuantityChange = (sector_id, quantity) => {
-        setQuantities(prevQuantities => ({
-            ...prevQuantities,
-            [sector_id]: quantity,
-        }));   
-    }
-    useEffect(() => {
-        console.log(quantities)
-        let totalCost = 0
-        for (const sector_id in quantities) {
-            const quantity = quantities[sector_id] 
-            const sector = event["prices"].find(sector => sector.sector_id == sector_id)
-            console.log("sector ",sector)
-            if (sector) { 
-                console.log("rrr")
-                totalCost += sector.sector_price * quantity 
-            }
-        }
-        setTotalPrice(totalCost) 
-        console.log("total ",totalCost)
-    },[quantities])
     return (
         <>
             
