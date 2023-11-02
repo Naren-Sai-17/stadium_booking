@@ -42,7 +42,6 @@ class Stadium(models.Model):
     stadium_name = models.CharField(max_length=255, default="User")
     location = models.CharField(max_length=255)
     coordinates = models.CharField(max_length=255, blank=True, null=True)
-    capacity = models.IntegerField()
     city = models.CharField(max_length=255)
 
     def __str__(self):
@@ -61,11 +60,28 @@ class Event(models.Model):
 class Sector(models.Model):
     sector_id = models.AutoField(primary_key=True)
     stadium = models.ForeignKey(Stadium, on_delete=models.CASCADE)
+    sector_capacity = models.PositiveIntegerField(default=25000)
     sector_name = models.CharField(max_length=255)
-    sector_price = models.IntegerField(default=1000)
 
     def __str__(self):
         return self.sector_name + ', ' + self.stadium.stadium_name
+
+class SectorPrice(models.Model): 
+    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event_price = models.PositiveBigIntegerField()
+    remaining_seats = models.PositiveIntegerField(blank=True, null=True, default=25000)
+    
+    def save(self, *args, **kwargs):
+        sector_instance = self.sector
+        
+        if sector_instance is not None:
+            self.remaining_seats = sector_instance.sector_capacity
+        
+        super(SectorPrice, self).save(*args, **kwargs)
+    
+    def __str__(self):
+        return 'Sector #' + str(self.sector) + ' for event #' + str(self.event)
 
 class FoodItem(models.Model):
     food_id = models.AutoField(primary_key=True)

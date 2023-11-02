@@ -16,7 +16,6 @@ class Command(BaseCommand):
                 stadium_name=f"{city} Stadium",
                 location=fake.street_name(),
                 coordinates=str(fake.latitude()) + ", " + str(fake.longitude()),
-                capacity=random.randint(20000, 80000),
                 city=city
             )
             stadium.save()
