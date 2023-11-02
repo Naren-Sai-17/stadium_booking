@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
@@ -32,24 +32,11 @@ class getEventById(APIView):
     def get(self,request,id):
         stadium_id = Event.objects.get(event_id=id).stadium_id
         event_data = EventSerializer(Event.objects.get(event_id=id)).data
-        event_data['prices'] = SectorSerializer(Sector.objects.filter(stadium__stadium_id=stadium_id), many=True).data  
+        event_data['prices'] = SectorPriceSerializer(SectorPrice.objects.filter(sector__stadium=stadium_id, event=id), many=True).data  
         return Response(event_data)
         
 
 class getEvents(APIView):
-    # serializer_class = EventSerializer
-    # queryset = Event.objects.all()
-    # def get_queryset(self):
-    #     date = timezone.now()
-
-    #     events = Event.objects.all()
-        
-    #     if date:
-    #         events = events.filter(date_time__gte=date)
-    #     print('Events requested on:', date) 
-        
-    #     return events
-    
     def get(request, self):
         date = timezone.now()
         all_events = Event.objects.all()

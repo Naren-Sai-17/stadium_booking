@@ -40,8 +40,9 @@ export default function Events() {
                 <OffCanvasNavbar />
                 <Navbar />
 
+                { /* Search bar */}
                 <div 
-                className='border-0 ml-[50%] flex mt-12'>
+                className='border-0 md:ml-[50%] mx-[10%] flex mt-12'>
                     <input
                         name='query'
                         id='query'
@@ -62,28 +63,32 @@ export default function Events() {
                             // console.log(temp_events)
 
                         }}
-                        className='rounded-2xl bg-slate-50 h-12 pl-12 w-full mr-[25%]'
+                        className='rounded-2xl bg-slate-50 h-12 pl-12 w-full md:mr-[25%]'
                         type='text'
                         placeholder='Search...'
                     />
                     <AiOutlineSearch className='absolute mt-1 ml-2 h-8 w-8' />
                 </div>
-                {/* <SearchBar /> */}
 
-                <div className='mx-[10%] flex'>
-                    <div className='border-0 text-white w-[25%] mt-12 text-center h-screen bg-orange-900 rounded-md'>
+                <div className='mx-[5%] md:mx-[10%] md:flex '>
+                    {/* Filter section */}
+                    <div className='border-0 text-white md:w-[25%] mt-12 text-center md:h-screen bg-orange-700 rounded-md'>
                         Search and Filter...
                     </div>
 
-                    <div className='ml-6 mt-12 w-[70%]'>
-                        <ul className='text-white grid grid-cols-3'>
+                    {/* Grid */}
+                    <div className='md:ml-6 md:text-base text-xs mt-12 md:w-[70%]'>
+                        <ul className='text-white grid gap-1 grid-cols-3'>
                             {
                                 events.map((event) => (
-                                    <li key={event.event_id}>
+                                    <li className='border-0 text-center flex flex-col justify-between' key={event.event_id}>
                                         <Card 
                                             poster={event.event_name.split(' ')[0].toLowerCase()}
                                             event_id={event.event_id}
                                         />
+                                        <span>
+                                            { event.event_name }
+                                        </span>
                                     </li>
                                 ))
                             }

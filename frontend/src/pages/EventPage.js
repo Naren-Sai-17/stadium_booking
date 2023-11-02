@@ -4,9 +4,11 @@ import Navbar from '../components/Navbar'
 import EventContext from '../context/EventContext'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { Navigate, useParams, Link } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 
 export default function BookingPage() {
+
+    const Navigate = useNavigate()
 
     let { setEventdata } = useContext(EventContext)
     const contextData  = useContext(EventContext) 
@@ -51,8 +53,8 @@ export default function BookingPage() {
             // Replace this later with toastify (toast) notifications.
             // console.log("The event name is:", event.event_name, "with id:", event_id)
             console.error("Error fetching event:", err)
-            Navigate('/dashboard')
             toast.error(`Error fetching event details.`)
+            Navigate('/dashboard')
         })
         // axios.get(`/api/get_stadium?id=${event_id}`)
         // .then((res) => {

@@ -12,7 +12,7 @@ export default function Navbar() {
             <div className="bg-blue-900 sticky top-0 z-10 flex justify-between px-[8%]">
                 <div className="border-0 my-auto md:ml-5 items-center">
                     <Link  to='/dashboard'>
-                        <img className="border-0 logo hover:p-[1%] Transition-logo" src="/images/logo.png" />
+                        <img className="border-0 logo hover:p-[4%] p-[2%] Transition-logo" src="/images/logo.png" />
                     </Link>
                 </div>
 
