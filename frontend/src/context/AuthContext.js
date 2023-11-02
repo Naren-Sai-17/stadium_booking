@@ -121,11 +121,11 @@ export const AuthProvider = ({ children }) => {
     let updateToken = async () => {
 
         console.log("updateToken")
-        console.log(authTokens?.refresh)
+        //console.log(authTokens?.refresh)
         //console.log(authTokens.refresh)
 
         if ((authTokens?.refresh) === undefined) {
-            console.log(authTokens?.refresh)
+           // console.log(authTokens?.refresh)
             logoutUser()
             if (loading) {
                 setLoading(false)
@@ -172,7 +172,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
 
         if (loading) {
-            console.log(user)
+          //  console.log(user)
             updateToken()
         }
 
