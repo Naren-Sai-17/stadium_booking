@@ -2,18 +2,10 @@ import React, { useEffect, useState } from 'react'
 import OffCanvasNavbar from '../components/OffCanvasNavbar'
 import Navbar from '../components/Navbar'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 export default function BookingPage() {
     const {event_id} = useParams(); 
-    // const [stadium, setStadium] = useState({
-    //     stadium_id: 0,
-    //     stadium_name: '',
-    //     location: '',
-    //     coordinates: '',
-    //     capacity: 0,
-    //     city: '',
-    // })
     const [event, setEvent] = useState({
         event_id: 0, 
         event_name: '', 
@@ -41,29 +33,13 @@ export default function BookingPage() {
             // console.log("The event name is:", event.event_name, "with id:", event_id)
             console.error("Error fetching event:", err)
         })
-        // axios.get(`/api/get_stadium?id=${event_id}`)
-        // .then((res) => {
-        //     setStadium(res.data) 
-        // })
-        // .catch((err) => {
-        //     console.error("Error fetching related stadium:", err)
-        // })
     }, [])  
 
     useEffect(() => {
         document.title = event.event_name + " - Sports League" 
     }, [event.event_name])
 
-    // useEffect(() => {
-    //     axios.get(`/api/get_stadium?id=${event_id}`)
-    //     .then((res) => {
-    //         setStadium(res.data)
-    //     })
-    //     .catch((err) => {
-    //         console.error("Error fetching related stadium:", err)
-    //     })
-    // }, [])
-
+    console.log(event)
 
     return (
         <>
@@ -75,7 +51,6 @@ export default function BookingPage() {
                         <img 
                             width="90%"
                             src={ `/images/posters/${event.event_name.split(' ')[0].toLowerCase()}/${((event_id * 337) % 137) % 6}.jpg` }
-                            // src={ `/images/posters/undefined.jpg` }
                             className="border-white border"  
                         />
                     </div>
@@ -99,11 +74,13 @@ export default function BookingPage() {
                         </div>
                     </div>
                 </div>
-
+                
                 <div className="m-10 text-center">
-                    <button type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                        Book tickets
-                    </button>
+                    <Link to={ `/event/${event_id}/book` } >
+                        <button type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                            Book tickets
+                        </button>
+                    </Link>
                 </div>
 
 

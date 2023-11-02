@@ -1,13 +1,11 @@
-from django.http import HttpResponse
+from django.http import Http404
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from .models import *
 from .serializers import *
 from django.utils import timezone
-from django.shortcuts import get_object_or_404
 
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -32,6 +30,10 @@ class showEvents(ListAPIView):
 
 class getEventById(APIView):
     def get(self,request,id):
+        try:
+            event = Event.objects.get(event_id=id)
+        except Event.DoesNotExist:
+            raise Http404("Event does not exist")
         stadium_id = Event.objects.get(event_id = id).stadium_id
         event_data = EventSerializer(Event.objects.get(event_id = id)).data
         event_data['stadium'] = StadiumSerializer(Stadium.objects.get(stadium_id=stadium_id)).data
@@ -47,15 +49,15 @@ class getEventById(APIView):
 #     sid = Stadium.objects.get(stadium_id=id)
 #     serializer = StadiumSerializer(sid)
 #     return Response(serializer.data)  
-class getStadiumById(APIView):
-    def get(self,request,id):
-        stadium = Stadium.objects.get(stadium_id=id)
-        serializer = StadiumSerializer(stadium) 
-        sectors = Sector.objects.filter(stadium = id)
-        sectorserializer = SectorSerializer(sectors, many = True)
-        data = serializer.data 
-        data['sectors'] = sectorserializer.data
-        return Response(data)
+# class getStadiumById(APIView):
+#     def get(self,request,id):
+#         stadium = Stadium.objects.get(stadium_id=id)
+#         serializer = StadiumSerializer(stadium) 
+#         sectors = Sector.objects.filter(stadium = id)
+#         sectorserializer = SectorSerializer(sectors, many = True)
+#         data = serializer.data 
+#         data['sectors'] = sectorserializer.data
+#         return Response(data)
     
 
 class getEvents(ListAPIView):

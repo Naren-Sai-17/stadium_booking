@@ -12,6 +12,7 @@ import PaymentPage from './pages/PaymentPage';
 import SignupPage from './pages/Signup';
 import { AuthProvider } from './context/AuthContext'
 import { Toaster } from 'react-hot-toast'
+import ErrorPage from './pages/ErrorPage';
 
 export default function App() {
     return (
@@ -58,10 +59,11 @@ export default function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/about" element={<About />} />
             <Route path='/event/:event_id' element={<EventPage />} />
-            <Route path='/event/:event_id/book' element={<PaymentPage />} />
+            <Route path='/event/:event_id/book' element={<BookingPage />} />
             <Route path="/signup" element={<SignupPage/>} />
             <Route path="/events" element={<Events />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/404" element={<ErrorPage />} />
           </Routes>
         </AuthProvider>
       </Router>
