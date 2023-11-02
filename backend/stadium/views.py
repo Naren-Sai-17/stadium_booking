@@ -33,6 +33,7 @@ class getEventById(APIView):
         stadium_id = Event.objects.get(event_id=id).stadium_id
         event_data = EventSerializer(Event.objects.get(event_id=id)).data
         event_data['prices'] = SectorSerializer(Sector.objects.filter(stadium__stadium_id=stadium_id), many=True).data  
+        event_data['minumum_price'] = SectorPriceSerializer(SectorPrice.objects.get(event__event_id=id, sector__sector_name="General")).data
         return Response(event_data)
         
 

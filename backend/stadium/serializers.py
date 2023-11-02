@@ -14,6 +14,11 @@ class SectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sector
         fields = ['sector_id','sector_name','sector_price']
+    
+class SectorPriceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SectorPrice
+        fields = '__all__'
 
 class StadiumSerializer(serializers.ModelSerializer):
     class Meta:
