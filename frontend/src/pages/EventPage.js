@@ -14,14 +14,6 @@ export default function BookingPage() {
     const contextData  = useContext(EventContext) 
 
     const {event_id} = useParams(); 
-    // const [stadium, setStadium] = useState({
-    //     stadium_id: 0,
-    //     stadium_name: '',
-    //     location: '',
-    //     coordinates: '',
-    //     capacity: 0,
-    //     city: '',
-    // })
     const [event, setEvent] = useState({
         event_id: -1, 
         event_name: '', 
@@ -54,8 +46,6 @@ export default function BookingPage() {
             // Replace this later with toastify (toast) notifications.
             // console.log("The event name is:", event.event_name, "with id:", event_id)
             console.error("Error fetching event:", err)
-            toast.error(`Error fetching event details.`)
-            Navigate('/dashboard')
         })
         // axios.get(`/api/get_stadium?id=${event_id}`)
         // .then((res) => {
@@ -70,16 +60,7 @@ export default function BookingPage() {
         document.title = event.event_name + " - Sports League" 
     }, [event.event_name])
 
-    // useEffect(() => {
-    //     axios.get(`/api/get_stadium?id=${event_id}`)
-    //     .then((res) => {
-    //         setStadium(res.data)
-    //     })
-    //     .catch((err) => {
-    //         console.error("Error fetching related stadium:", err)
-    //     })
-    // }, [])
-
+    console.log(event)
 
     return (
         <>
@@ -91,7 +72,6 @@ export default function BookingPage() {
                         <img 
                             width="90%"
                             src={ `/images/posters/${event.event_name.split(' ')[0].toLowerCase()}/${((event_id * 337) % 137) % 6}.jpg` }
-                            // src={ `/images/posters/undefined.jpg` }
                             className="border-white border"  
                         />
                     </div>
@@ -115,7 +95,7 @@ export default function BookingPage() {
                         </div>
                     </div>
                 </div>
-
+                
                 <div className="m-10 text-center">
                     <Link to={`/event/${event_id}/book`}>
                         <button onClick={()=>{

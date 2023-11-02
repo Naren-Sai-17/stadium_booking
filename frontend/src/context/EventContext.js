@@ -20,7 +20,6 @@ export const EventProvider = ({ children }) => {
             stadium_name: '',
             location: '',
             coordinates: '',
-            capacity: 0,
             city: ''
         },
         prices : []

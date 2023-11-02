@@ -1,4 +1,5 @@
-from django.http import HttpResponse, Http404
+# from django.http import HttpResponse, Http404
+from rest_framework.exceptions import NotFound
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
@@ -30,11 +31,13 @@ class showEvents(ListAPIView):
 
 class getEventById(APIView):
     def get(self,request,id):
-        stadium_id = Event.objects.get(event_id=id).stadium_id
-        event_data = EventSerializer(Event.objects.get(event_id=id)).data
-        event_data['prices'] = SectorPriceSerializer(SectorPrice.objects.filter(sector__stadium=stadium_id, event=id), many=True).data  
+        try:
+            stadium_id = Event.objects.get(event_id = id).stadium_id
+        except:
+            raise NotFound("Event not found")
+        event_data = EventSerializer(Event.objects.get(event_id = id)).data
+        event_data['prices'] = SectorPriceSerializer(SectorPrice.objects.filter(event_id = id), many = True).data  
         return Response(event_data)
-        
 
 class getEvents(APIView):
     def get(request, self):
@@ -42,8 +45,6 @@ class getEvents(APIView):
         all_events = Event.objects.all()
         if date:
             all_events = all_events.filter(date_time__gte=date)
-
         events_data = EventSerializer(all_events, many=True).data
         return Response(events_data)
-
 

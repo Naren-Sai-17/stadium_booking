@@ -22,7 +22,6 @@ export default function ProfilePage() {
                             className="border-white border rounded-xl"
                         />
                     </div>
-
                     <div className="text-white bg-gradient-to-r from-slate-950 to-slate-700 w-full flex flex-col justify-around px-4 pt-4 pb-4  gap-2 rounded-lg  m-auto ">
                         <div className=" text-xl">Account Details</div>
                         <div className="grid grid-cols-2 grid-rows-2 md:w-[40%] gap-3">
