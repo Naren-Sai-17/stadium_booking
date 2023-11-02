@@ -42,7 +42,6 @@ class Stadium(models.Model):
     stadium_name = models.CharField(max_length=255, default="User")
     location = models.CharField(max_length=255)
     coordinates = models.CharField(max_length=255, blank=True, null=True)
-    capacity = models.IntegerField()
     city = models.CharField(max_length=255)
 
     def __str__(self):
@@ -61,8 +60,8 @@ class Event(models.Model):
 class Sector(models.Model):
     sector_id = models.AutoField(primary_key=True)
     stadium = models.ForeignKey(Stadium, on_delete=models.CASCADE)
+    sector_capacity = models.PositiveIntegerField(default=25000)
     sector_name = models.CharField(max_length=255)
-    sector_price = models.IntegerField(default=1000)
 
     def __str__(self):
         return self.sector_name + ', ' + self.stadium.stadium_name
