@@ -36,6 +36,7 @@ export default function BookingPage() {
         .then((res) => {
             setEventdata(res.data)
             setEvent(res.data)
+            console.log(res.data)
             if(res.data.event_id === -1) {
                 Navigate('/dashboard')
                 toast.error('That event does not exist.')
