@@ -11,7 +11,7 @@ urlpatterns = [
     path('token/',views.MyTokenObtainPairView.as_view(), name = 'token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name = 'token_refresh'),
     path('register/', views.RegisterAPI.as_view(), name = 'register'),
-    # path('dashboard/', views.dashboard, name='dashboard'),
+    path('search/', views.searchEvents.as_view(), name='search_events'),
     # path('events/', views.EventList.as_view, name='events-list')
     # path('events/', views.getEvents, name='get_events')
 ]

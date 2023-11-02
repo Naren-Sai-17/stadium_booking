@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fake = Faker()  
-        c = ["Australia", "England", "Indonesia", "United States", "Pakistan","Brazil","Spain"]
+        c = ["Australia", "England", "Indonesia", "United States", "Pakistan", "Brazil", "Spain"]
         s = len(c)
         n=s-1
         for obj in Stadium.objects.all():
