@@ -34,7 +34,16 @@ class getEventById(APIView):
         event_data = EventSerializer(Event.objects.get(event_id=id)).data
         event_data['prices'] = SectorPriceSerializer(SectorPrice.objects.filter(sector__stadium=stadium_id, event=id), many=True).data  
         return Response(event_data)
-        
+    
+class searchEvents(APIView):
+    def get(request, self):
+        date = timezone.now()
+        all_events = Event.objects.all()
+        if date:
+            all_events = all_events.filter(date_time__gte=date)
+
+        events_data = SearchEventSerializer(all_events, many=True).data
+        return Response(events_data)
 
 class getEvents(APIView):
     def get(request, self):

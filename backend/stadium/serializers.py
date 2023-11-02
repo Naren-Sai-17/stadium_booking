@@ -26,6 +26,29 @@ class StadiumSerializer(serializers.ModelSerializer):
         model = Stadium
         fields = '__all__'
 
+class SearchStadiumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Stadium
+        fields = ['stadium_name', 'location']
+
+class SearchEventSerializer(serializers.ModelSerializer):
+    stadium = SearchStadiumSerializer()
+    class Meta:
+        model = Event
+        fields = ['event_id', 'event_name', 'date_time', 'stadium']
+    
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        try:
+            sector_instance = SectorPrice.objects.get(event=instance, sector__sector_name="General")
+            data['minimum_cost'] = sector_instance.event_price
+
+        except:
+            pass
+
+        return data
+
 class EventSerializer(serializers.ModelSerializer):
     stadium = StadiumSerializer()
     class Meta:
