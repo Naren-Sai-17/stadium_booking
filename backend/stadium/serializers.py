@@ -46,7 +46,7 @@ class SearchEventSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
 
         try:
-            sector_instance = SectorPrice.objects.get(event=instance, sector__sector_name="General")
+            sector_instance = SectorPrice.objects.get(event_id=instance, sector_id__sector_name="General")
             data['minimum_cost'] = sector_instance.event_price
 
         except:
