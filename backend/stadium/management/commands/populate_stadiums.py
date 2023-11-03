@@ -9,7 +9,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fake = Faker()  
-        indian_cities = ['Mumbai', 'Delhi', 'Bangalore', 'Kolkata', 'Chennai', 'Hyderabad', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow', 'Patna', 'Bhopal', 'Chandigarh', 'Kanpur', 'Indore', 'Agra', 'Nagpur', 'Varanasi', 'Amritsar', 'Rajkot', 'Surat', 'Vadodara']
+        indian_cities = [
+            'Mumbai', 'Delhi', 'Bangalore', 'Kolkata', 'Chennai', 
+            'Hyderabad', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow', 
+            'Patna', 'Bhopal', 'Chandigarh', 'Kanpur', 'Indore', 
+            'Agra', 'Nagpur', 'Varanasi', 'Amritsar', 'Rajkot', 
+            'Surat', 'Vadodara'
+        ]
 
         for city in indian_cities:
             stadium = Stadium(

@@ -14,6 +14,7 @@ urlpatterns = [
     path('buy/',views.buyAPI.as_view(),name = 'buy'),
     # path('payment/',views.PaymentView.as_view(),name = 'payment'),
     # path('dashboard/', views.dashboard, name='dashboard'),
+    path('search/', views.searchEvents.as_view(), name='search_events'),
     # path('events/', views.EventList.as_view, name='events-list')
     # path('events/', views.getEvents, name='get_events')
 ]
