@@ -69,9 +69,10 @@ export default function Events() {
 
                 <div className='mx-[5%] md:mx-[10%] md:flex '>
                     {/* Filter section */}
-                    <div className='border-0 text-white md:w-[25%] mt-12 text-center md:h-screen bg-orange-700 rounded-md'>
-                        Search and Filter...
+                    <div className='border-0 text-white md:w-[25%] h-full py-[5%] mt-12 text-center bg-orange-700 rounded-md'>
+                        Search and Filter...<br /><br />
 
+                        By price range:<br />
                         <select
                             value={selectedCostRange}
                             onChange={(e) => setSelectedCostRange(e.target.value)}
@@ -87,7 +88,7 @@ export default function Events() {
                     </div>
 
                     {/* Grid */}
-                    <div className='md:ml-6 md:text-base text-xs mt-12 md:w-[70%]'>
+                    <div className='md:ml-6 md:text-base text-xs mt-12 md:w-[70%] h-screen overflow-y-auto mb-[10%]'>
                         <ul className='text-white grid gap-1 grid-cols-3'>
                             {
                                 filteredEvents.map((event) => (
