@@ -39,31 +39,25 @@ export default function CarouselControlsInside() {
           <ul className="whitespace-no-wrap flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
             <li>
               <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-01.jpg"
+                src="/images/carousel/badminton.jpg"
                 className="m-auto max-h-full w-full max-w-full"
               />
             </li>
             <li>
               <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-02.jpg"
+                src="/images/carousel/basketball.jpeg"
+                className="m-auto h-full w-full max-w-full"
+              />
+            </li>
+            <li>
+              <img
+                src="/images/carousel/cricket.jpg"
                 className="m-auto max-h-full w-full max-w-full"
               />
             </li>
             <li>
               <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-03.jpg"
-                className="m-auto max-h-full w-full max-w-full"
-              />
-            </li>
-            <li>
-              <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-04.jpg"
-                className="m-auto max-h-full w-full max-w-full"
-              />
-            </li>
-            <li>
-              <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-05.jpg"
+                src="/images/carousel/football.jpg"
                 className="m-auto max-h-full w-full max-w-full"
               />
             </li>
