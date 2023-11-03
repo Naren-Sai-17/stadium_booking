@@ -98,11 +98,7 @@ export default function BookingPage() {
                 
                 <div className="m-10 text-center">
                     <Link to={`/event/${event_id}/book`}>
-                        <button onClick={()=>{
-                            //checking EventContext function
-                            console.log(contextData.event_data.event_id)
-                            
-                        }} type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        <button type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Book tickets
                         </button>
                     </Link>

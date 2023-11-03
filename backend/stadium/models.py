@@ -96,9 +96,6 @@ class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    booking_time = models.DateTimeField()
-    food_items = models.ManyToManyField(FoodItem, through='FoodCoupon')
-    total_amount = models.BigIntegerField()
 
     def __str__(self):
         return f'Booking #' + str(self.booking_id)
@@ -106,7 +103,13 @@ class Booking(models.Model):
 class Ticket(models.Model):
     ticket_id = models.AutoField(primary_key=True)
     booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='tickets')
-    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
+    sector = models.ForeignKey(SectorPrice, on_delete=models.CASCADE)
+
+    @classmethod    
+    def create_ticket(cls,booking_id,event_id, sector_id): 
+        event_sector_id = SectorPrice.objects.get(event_id = event_id, sector_id = sector_id)
+        instance = cls(booking_id = booking_id, sector = event_sector_id) 
+        instance.save() 
 
     def __str__(self):
         return f'Ticket #' + str(self.ticket_id)
