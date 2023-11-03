@@ -27,8 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stadium',
-    'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework',
     'corsheaders',
 ]
 
@@ -161,3 +161,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+RAZOR_KEY_ID = "rzp_test_iVdpfYzSydqANx"
+RAZOR_SECRET_ID = "TELeW3gJIgALXGlWSHmLjzoT"

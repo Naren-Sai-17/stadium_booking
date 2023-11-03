@@ -14,6 +14,7 @@ import { AuthProvider } from './context/AuthContext'
 import { EventProvider } from './context/EventContext'
 import { Toaster } from 'react-hot-toast'
 import ErrorPage from './pages/ErrorPage';
+import OrderPage from './pages/OrderPage';
 
 export default function App() {
     return (
@@ -52,24 +53,25 @@ export default function App() {
                     }}
                 />
             </div>
-      <Router scrollBehavior="auto">
+    <Router scrollBehavior="auto">
         <EventProvider>
         <AuthProvider>
-          <Routes>
+        <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login/>} />
+            <Route path="/signup" element={<SignupPage/>} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/about" element={<About />} />
             <Route path='/event/:event_id' element={<EventPage />} />
             <Route path='/event/:event_id/book' element={<BookingPage />} />
-            <Route path="/signup" element={<SignupPage/>} />
             <Route path="/events" element={<Events />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/orders" element={<OrderPage />} />
             <Route path="/404" element={<ErrorPage />} />
-          </Routes>
+        </Routes>
         </AuthProvider>
         </EventProvider>
-      </Router>
+    </Router>
     </>
     );
 }
