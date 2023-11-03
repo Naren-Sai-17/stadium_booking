@@ -107,7 +107,7 @@ export default function Dashboard() {
                             <MdArrowBackIos className='h-[10vh] w-[4vw]' />
                         </button>
                     </div>
-                    <div id='football' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth md:mx-[10%] snap-x snap-mandatory Snap'>
+                    <div id='football' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth md:mx-[5%] snap-x snap-mandatory Snap'>
                         {
                             allEvents.filter((event) => {
                                 return event.event_name.split(' ')[0].toLowerCase() === 'football'
@@ -160,7 +160,7 @@ export default function Dashboard() {
                             <MdArrowBackIos className='h-[10vh] w-[4vw]' />
                         </button>
                     </div>
-                    <div id='basketball' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth md:mx-[10%] snap-x snap-mandatory Snap'>
+                    <div id='basketball' className='border-0 overflow-x-auto whitespace-nowrap scroll-smooth md:mx-[5%] snap-x snap-mandatory Snap'>
                         {
                             allEvents.filter((event) => {
                                 return event.event_name.split(' ')[0].toLowerCase() === 'basketball'
