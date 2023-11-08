@@ -17,4 +17,6 @@ urlpatterns = [
     path('search/', views.searchEvents.as_view(), name='search_events'),
     # path('events/', views.EventList.as_view, name='events-list')
     # path('events/', views.getEvents, name='get_events')
+    path('get_ticket/<int:pk>',views.getTicketById.as_view(), name = 'get_ticket_by_id'),
+    path('get_orders/',views.getOrders.as_view(), name='get_orders') 
 ]
