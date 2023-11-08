@@ -39,6 +39,7 @@ class getEventById(APIView):
         event_data['prices'] = SectorPriceSerializer(SectorPrice.objects.filter(event_id = id), many = True).data  
         return Response(event_data)
 
+
 class searchEvents(APIView):
     def get(request, self):
         date = timezone.now()
@@ -80,6 +81,32 @@ class buyAPI(APIView):
             return Response({"status": "success"})
         else: 
             return Response({"seats":"Someone booked the seats before you"}) 
+        
+# class ordersAPI(APIView): 
+#     def post(self,request): 
+#         # data = request.data 
+#         # user_id = data['user_id']
+#         user_id = 3
+#         booking_instances = Booking.objects.filter(user = User.objects.get(user_id = user_id)) 
+        
+class getTicketById(APIView): 
+    def get(self,request,pk): 
+        try: 
+            ticket = TicketSerializer(Ticket.objects.get(ticket_id = pk))
+            return Response(ticket.data)
+        except:
+            raise NotFound("Ticket not found") 
+        
+class getOrders(APIView):
+    def post(self,request): 
+        data = request.data 
+        user_id = data['user_id']
+        user = User.objects.get(id = user_id)
+        booking_instances = Booking.objects.filter(user = user)
+        print(booking_instances.values())
+        data = BookingSerializer(booking_instances,many = True).data 
+        return Response(data) 
+
 # -------------------razorpay integration----------------------------------
 #   razor_key = settings.RAZOR_KEY_ID
 # razor_secret = settings.RAZOR_SECRET_ID
