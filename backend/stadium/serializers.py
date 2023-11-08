@@ -59,12 +59,14 @@ class EventSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
 class TicketSerializer(serializers.ModelSerializer):
+    sector_name = serializers.StringRelatedField(source = 'sector.sector_id.sector_name')
     class Meta: 
         model = Ticket
-        fields = ['ticket_id','sector'] 
+        fields = ['ticket_id','sector_name'] 
 
 class BookingSerializer(serializers.ModelSerializer): 
     tickets = TicketSerializer(many = True)
+    event_name = serializers.StringRelatedField(source = 'event.event_name')
     class Meta: 
         model = Booking
-        fields = ['booking_id', 'event','tickets']
+        fields = ['booking_id', 'event_name','tickets']

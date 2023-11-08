@@ -103,7 +103,6 @@ class getOrders(APIView):
         user_id = data['user_id']
         user = User.objects.get(id = user_id)
         booking_instances = Booking.objects.filter(user = user)
-        print(booking_instances.values())
         data = BookingSerializer(booking_instances,many = True).data 
         return Response(data) 
 
