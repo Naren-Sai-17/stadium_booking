@@ -27,9 +27,27 @@ const OrderPage = () => {
             <div className='w-full bg-gradient-to-r from-slate-950 to-slate-700'>
                 <OffCanvasNavbar />
                 <Navbar />
-                <div>
-                    
-                </div>
+                
+                <ul className='text-white'>
+                    {orders.map((order) => (
+                        <li
+                        key={order.booking_id}>
+                            <div>
+                                order - {order.booking_id}
+                                event - {order.event} 
+                            </div>
+                            <ul>
+                                {order.tickets.map((ticket) => (
+                                    <li> 
+                                        ticket-id : {ticket.ticket_id}
+                                        sector : {ticket.sector}
+
+                                    </li>
+                                ))}
+                            </ul>
+                        </li>
+                    ))}
+                </ul>
                 <footer className="bg-slate-800 text-white text-center py-10">
                     Contact us <br />
                     a | a | a | a
