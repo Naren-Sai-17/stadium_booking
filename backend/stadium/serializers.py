@@ -26,10 +26,16 @@ class SectorPriceSerializer(serializers.ModelSerializer):
         ret.update(ret.pop('sector_id', {}))
         return ret
 
+class FoodItemSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = FoodItem
+        fields = ['food_id','food_name','food_price']
+
 class StadiumSerializer(serializers.ModelSerializer):
+    fooditem_set = FoodItemSerializer(many = True)
     class Meta:
         model = Stadium
-        fields = '__all__'
+        fields = ['stadium_id', 'stadium_name', 'location','fooditem_set']
 
 class SearchStadiumSerializer(serializers.ModelSerializer):
     class Meta:

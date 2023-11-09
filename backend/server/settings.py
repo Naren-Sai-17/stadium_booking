@@ -164,3 +164,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 RAZOR_KEY_ID = "rzp_test_iVdpfYzSydqANx"
 RAZOR_SECRET_ID = "TELeW3gJIgALXGlWSHmLjzoT"
+
+JWT_AUTH = {
+    # Authorization:Token xxx
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}
