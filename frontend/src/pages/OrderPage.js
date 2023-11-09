@@ -10,9 +10,14 @@ import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 const OrderPage = () => {
 const authcontextData = useContext(AuthContext);
 const [orders, setOrders] = useState([]);
+
 useEffect(() => {
-    axios
-    .post(`/api/get_orders/`, { user_id: authcontextData.user.id })
+    console.log(authcontextData)
+    axios.get(`/api/get_orders/`, {
+            headers: {
+                'Authorization': `Bearer ${authcontextData.authTokens.access}`
+            }
+        })
     .then((res) => {
         setOrders(res.data);
         console.log(res.data);
@@ -21,6 +26,7 @@ useEffect(() => {
         toast.success("error fetching details");
     });
 }, []);
+console.log(orders)
 return (
     <>
     <div className="w-full bg-gradient-to-r from-slate-950 to-slate-700">
@@ -28,7 +34,7 @@ return (
         <Navbar />
 
         <ul className="text-white">
-        {orders.map((order) => (
+        {orders?.map((order) => (
             <li
             key={order.booking_id}
             className="my-4 border-b border-gray-500 pb-4"
