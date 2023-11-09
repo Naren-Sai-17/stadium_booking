@@ -10,9 +10,11 @@ from django.utils import timezone
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.conf import settings
-import environ
 
+import environ
 env = environ.Env()
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -92,6 +94,52 @@ class buyAPI(APIView):
             return Response({"status": "success"})
         else: 
             return Response({"seats":"Someone booked the seats before you"}) 
+        
+# class ordersAPI(APIView): 
+#     def post(self,request): 
+#         # data = request.data 
+#         # user_id = data['user_id']
+#         user_id = 3
+#         booking_instances = Booking.objects.filter(user = User.objects.get(user_id = user_id)) 
+class getStadiumById(APIView):
+    def get(self,request,id):
+        # try: 
+        ticket = StadiumSerializer(Stadium.objects.get(stadium_id = id)) 
+        return Response(ticket.data) 
+        # except:
+            # raise NotFound("Stadium not found")
+        
+    
+class getTicketById(APIView): 
+    def get(self,request,pk): 
+        try: 
+            ticket = TicketSerializer(Ticket.objects.get(ticket_id = pk))
+            return Response(ticket.data)
+        except:
+            raise NotFound("Ticket not found") 
+        
+class getOrders(ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = BookingSerializer
+    def get_queryset(self):
+        user = self.request.user
+        booking_instances = Booking.objects.filter(user = user) 
+        return booking_instances 
+
+# class getOrders(APIView):
+#     def post(self,request): 
+#         data = request.data 
+#         user_id = data['user_id']
+#         user = User.objects.get(id = user_id)
+#         booking_instances = Booking.objects.filter(user = user)
+#         data = BookingSerializer(booking_instances,many = True).data 
+#         return Response(data) 
+
+# class getOrders(APIView): 
+    # def get(self,request): 
+# 
+
 # -------------------razorpay integration----------------------------------
 #   razor_key = settings.RAZOR_KEY_ID
 # razor_secret = settings.RAZOR_SECRET_ID

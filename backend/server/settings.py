@@ -211,3 +211,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 RAZOR_KEY_ID = "rzp_test_iVdpfYzSydqANx"
 RAZOR_SECRET_ID = "TELeW3gJIgALXGlWSHmLjzoT"
+
+JWT_AUTH = {
+    # Authorization:Token xxx
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}
