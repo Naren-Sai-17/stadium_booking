@@ -12,6 +12,7 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name = 'token_refresh'),
     path('register/', views.RegisterAPI.as_view(), name = 'register'),
     path('buy/',views.buyAPI.as_view(),name = 'buy'),
+    path('get_username/<int:id>', views.getUsernameById.as_view(), name='get_username'),
     # path('payment/',views.PaymentView.as_view(),name = 'payment'),
     # path('dashboard/', views.dashboard, name='dashboard'),
     path('search/', views.searchEvents.as_view(), name='search_events'),
