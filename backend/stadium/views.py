@@ -10,6 +10,9 @@ from django.utils import timezone
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.conf import settings
+
+import environ
+env = environ.Env()
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
@@ -40,6 +43,15 @@ class getEventById(APIView):
         event_data = EventSerializer(Event.objects.get(event_id = id)).data
         event_data['prices'] = SectorPriceSerializer(SectorPrice.objects.filter(event_id = id), many = True).data  
         return Response(event_data)
+
+class getUsernameById(APIView):
+    def get(self,request,id):
+        username = ''
+        try:
+            username = User.objects.get(id = id).username
+        except:
+            raise NotFound("User not found")
+        return Response({'username': username}) 
 
 class searchEvents(APIView):
     def get(request, self):

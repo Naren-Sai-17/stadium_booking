@@ -24,11 +24,15 @@ export const AuthProvider = ({ children }) => {
 
     const Navigate = useNavigate()
 
+    let setUserData = (x) => {
+        setUser(x)
+    }
+
     let loginUser = async (e) => {
         console.log("loginUser")
         // to prevent default reload
         e.preventDefault()
-        let response = await fetch('http://127.0.0.1:8000/api/token/', {
+        let response = await fetch('/api/token/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,7 +63,7 @@ export const AuthProvider = ({ children }) => {
             alert('Passwords don\'t match')
             return;
         }
-        let response = await fetch('http://127.0.0.1:8000/api/register/', {
+        let response = await fetch('/api/register/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -72,7 +76,7 @@ export const AuthProvider = ({ children }) => {
             // setUser(jwtDecode(data.access))
             // localStorage.setItem('authTokens', JSON.stringify(data))
             
-            let response = await fetch('http://127.0.0.1:8000/api/token/', {
+            let response = await fetch('/api/token/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -112,7 +116,8 @@ export const AuthProvider = ({ children }) => {
         }
         setAuthTokens(null)
         setUser(null)
-        localStorage.removeItem('authTokens')
+        // localStorage.removeItem('authTokens')
+        localStorage.clear()
         // Navigate('/login')
     }
 
@@ -134,7 +139,7 @@ export const AuthProvider = ({ children }) => {
         }
         else {
             // const [a, setA] = useState(authTokens.refresh);
-            let response = await fetch('http://127.0.0.1:8000/api/token/refresh/', {
+            let response = await fetch('/api/token/refresh/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -147,8 +152,9 @@ export const AuthProvider = ({ children }) => {
             if (response.status === 200) {
                 setAuthTokens(data)
                 // authTokens.refresh=a
-
+                
                 setUser(jwtDecode(data.access))
+                console.log(jwtDecode(data.access))
                 localStorage.setItem('authTokens', JSON.stringify(data))
             } else {
                 logoutUser()
@@ -167,6 +173,7 @@ export const AuthProvider = ({ children }) => {
         loginUser: loginUser,
         logoutUser: logoutUser,
         signupUser: signupUser,
+        setUserData: setUserData,
     }
 
 
