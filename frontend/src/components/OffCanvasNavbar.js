@@ -9,6 +9,7 @@ import { MdOutlineSportsCricket } from 'react-icons/md'
 export default function OffCanvasNavbar() {
     let { logoutUser } = useContext(AuthContext)
     const contextData = useContext(AuthContext)
+    console.log(contextData)
 
     function closeMenu() {
         const menu = document.getElementById('menu');
@@ -27,7 +28,7 @@ export default function OffCanvasNavbar() {
 
                 <div className='px-8 py-2 xl:text-xl'>
                     <span className='text-white xl:text-2xl mt-2'>
-                        Hi, { (contextData.user != null) ? `${ contextData.user.username }` : `Guest` }
+                        Hi, { (contextData.user != null) ? `${ localStorage.getItem('username') }` : `Guest` }
                     </span>
 
                     <Link to='/profile' className={ (contextData.user != null) ? `block` : `hidden`}>

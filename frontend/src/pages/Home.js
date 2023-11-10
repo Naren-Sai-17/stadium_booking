@@ -63,7 +63,7 @@ export default function Home() {
                             <button onClick={
                                 () => {
                                     if(s === '/dashboard') {
-                                        toast.success(`Hi, ${user.username}!`)
+                                        toast.success(`Hi, ${localStorage.getItem('username')}!`)
                                     }
                                 }
                             }
