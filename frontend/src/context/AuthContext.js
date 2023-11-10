@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     // a call back func |()=>| is used so that ternary condition is run only once at a reload
     let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
+    let [user_name, setUsername] = useState(() => localStorage.getItem('user_name') ? (localStorage.getItem('user_name')) : null)
     // let [username, setUsername] = useState(null)
     let [loading, setLoading] = useState(true)
 
@@ -25,8 +26,11 @@ export const AuthProvider = ({ children }) => {
     const Navigate = useNavigate()
 
     let setUserData = (x) => {
-        setUser(x)
+        setUsername(x)
     }
+    // let set_username = (x) => {
+    //     setUser(x)
+    // }
 
     let loginUser = async (e) => {
         console.log("loginUser")
@@ -46,9 +50,11 @@ export const AuthProvider = ({ children }) => {
             setAuthTokens(data)
             setUser(user_data)
             localStorage.setItem('authTokens', JSON.stringify(data))
+            console.log(user_data.username)
+            localStorage.setItem('username', user_data.username)
             Navigate('/dashboard')
 
-            toast.success(`Hi, ${user_data.username}!`)
+            toast.success(`Hi, ${localStorage.getItem('username')}!`)
         } else {
             toast.error('Something went wrong!')
         }
@@ -90,9 +96,11 @@ export const AuthProvider = ({ children }) => {
                 setAuthTokens(data)
                 setUser(user_data)
                 localStorage.setItem('authTokens', JSON.stringify(data))
+                // console.log(user_data.username)
+                // localStorage.setItem('username', user_data.username)
                 Navigate('/dashboard')
 
-                toast.success(`Hi, ${user_data.username}!`)
+                toast.success(`Hi, ${localStorage.getItem('username')}!`)
             } else {
                 toast.error('Something went wrong!')
             }
@@ -116,6 +124,7 @@ export const AuthProvider = ({ children }) => {
         }
         setAuthTokens(null)
         setUser(null)
+        setUsername('null')
         // localStorage.removeItem('authTokens')
         localStorage.clear()
         // Navigate('/login')
@@ -153,6 +162,7 @@ export const AuthProvider = ({ children }) => {
                 setAuthTokens(data)
                 // authTokens.refresh=a
                 
+                
                 setUser(jwtDecode(data.access))
                 console.log(jwtDecode(data.access))
                 localStorage.setItem('authTokens', JSON.stringify(data))
@@ -174,6 +184,8 @@ export const AuthProvider = ({ children }) => {
         logoutUser: logoutUser,
         signupUser: signupUser,
         setUserData: setUserData,
+        setUser: setUser,
+        setAuthTokens: setAuthTokens,
     }
 
 

@@ -14,8 +14,8 @@ export default function GoogleButton() {
     
 
     // States for auth tokens and user object.
-	let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
-    let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
+	// let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
+    // let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
     
 	const googleProvider = new GoogleOAuthProvider({
 		clientId: '361916775522-auuc9gvaqojnjg80amli2bqiqpo0cn9n.apps.googleusercontent.com',
@@ -32,13 +32,15 @@ export default function GoogleButton() {
 			const code = res.code;
 			axios.post('http://localhost:8000/dj-rest-auth/google/', { code: code }).then((response) => {
                 const login_data = response.data
-				console.log(response)
+				console.log("ruth",response)
 
 				// Cookies.set('auth', JSON.stringify({ access: response.data.access, refresh: response.data.refresh }), { expires: 365, path: "/" })
 				// Cookies.set('user', JSON.stringify({ username: response.data.user.username, email: response.data.user.email, id: response.data.user.pk }), { expires: 365, path: "/" })
-				setAuthTokens({ access: login_data.access, refresh: login_data.refresh })
-				setUser({ username: login_data.user.username, email: login_data.user.email, id: login_data.user.pk })
+				contextData.setAuthTokens({ access: login_data.access, refresh: login_data.refresh })
+				contextData.setUser({ username: login_data.user.username, email: login_data.user.email, id: login_data.user.pk })
                 setUserData({ username: login_data.user.username, email: login_data.user.email, id: login_data.user.pk })
+				localStorage.setItem('username', login_data.user.username)
+				console.log("google login",localStorage.getItem('username'))
 				toast.success(`Hi, ${login_data.user.username}!`);
                 Navigate('/dashboard')
 
