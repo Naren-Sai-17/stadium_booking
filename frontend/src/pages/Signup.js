@@ -1,12 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react'
 import AuthContext from '../context/AuthContext'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import GoogleButton from '../components/GoogleButton'
 
 const SignupPage = () => {
     let {signupUser}=useContext(AuthContext)
+    const location = useLocation();
 
-    
+    const handleSubmit = (e) => {
+        // To navigate to the page where an action was performed without signing up.
+        signupUser(e, location.state?.next_url);
+    }
+
     useEffect(() => {
         document.title = "Sign Up - Sports League"
         window.scrollTo(0, 0)
@@ -38,7 +43,7 @@ const SignupPage = () => {
                     <div className="bg-black m-auto  text-white rounded-lg md:flex  shadow-2xl">
 
                         <div className=" md:w-[50%]  h-full  bg-gradient-to-r from-slate-950 to-slate-800 rounded-l-lg p-10">
-                        <form onSubmit={signupUser}>
+                        <form onSubmit={ handleSubmit }>
                                 <div className="text-center">
                                     <img
                                         className="mx-auto md:h-32 h-[10%]"
@@ -59,17 +64,18 @@ const SignupPage = () => {
                                         Sign Up
                                     </button>
                                     <Link to="/dashboard">
+                                        { /* Put `continue without login` here. */}
                                     </Link>
 
 
                                     <p className=" text-sm pt-2 pb-2">or</p>
                                     <div className="flex  justify-evenly items-center">
-                                        <GoogleButton />
+                                        <GoogleButton next_url = { location.state ? location.state.next_url : '/dashboard' }/>
                                     </div>
                                     <p className=" text-sm pt-[5%] pb-2"> 
                                         Already have an account? 
                                         <span className='px-[2%] text-blue-500 hover:text-blue-300 hover:underline'>
-                                            <Link to='/login'> 
+                                            <Link to='/login' state={ { 'next_url': location.state?.next_url } }> 
                                                 Login
                                             </Link>
                                         </span>

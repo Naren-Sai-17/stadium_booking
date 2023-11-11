@@ -1,12 +1,15 @@
 import React, { useContext, useEffect } from 'react'
 import AuthContext from '../context/AuthContext'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import GoogleButton from '../components/GoogleButton'
+
 
 const LoginPage = () => {
     let { loginUser } = useContext(AuthContext)
     const contextData  = useContext(AuthContext)
     const Navigate = useNavigate();
+    const location = useLocation();
+
     useEffect(() => {
         if(contextData.user!=null){
             Navigate('/dashboard')
@@ -14,6 +17,11 @@ const LoginPage = () => {
         document.title = "Login - Sports League"
         window.scrollTo(0, 0)
     }, [])
+
+    const handleSubmit = (e) => {
+        // To navigate to the page where an action was performed without logging in.
+        loginUser(e, location.state?.next_url);
+    }
 
     return (
         <>
@@ -23,7 +31,7 @@ const LoginPage = () => {
                     <div className="bg-black m-auto  text-white rounded-lg md:flex  shadow-2xl">
 
                         <div className=" md:w-[50%]  h-full  bg-gradient-to-r from-slate-950 to-slate-800 rounded-l-lg p-10">
-                            <form onSubmit={ loginUser }>
+                            <form onSubmit={ handleSubmit }>
                                 <div className="text-center">
                                     <img
                                         className="mx-auto md:h-32 h-[10%]"
@@ -51,7 +59,7 @@ const LoginPage = () => {
 
                                     <p className=" text-sm pt-2 pb-2">or</p>
                                     <div className="flex  justify-evenly items-center">
-                                        <GoogleButton />
+                                        <GoogleButton next_url = { location.state ? location.state.next_url : '/dashboard' }/>
                                     </div>
 
                                 </div>
@@ -60,7 +68,7 @@ const LoginPage = () => {
 
                             <p className="text-center text-sm my-[2%] pb-2">
                                 <span className='px-[0.5rem] text-blue-500 hover:text-blue-300 hover:underline'>
-                                    <Link to='/signup'>
+                                    <Link to='/signup' state={ { 'next_url': location.state?.next_url } }>
                                         Sign Up
                                     </Link>
                                 </span>
