@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     //     setUser(x)
     // }
 
-    let loginUser = async (e) => {
+    let loginUser = async (e, next_url = '/dashboard') => {
         console.log("loginUser")
         // to prevent default reload
         e.preventDefault()
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
             localStorage.setItem('authTokens', JSON.stringify(data))
             console.log(user_data.username)
             localStorage.setItem('username', user_data.username)
-            Navigate('/dashboard')
+            Navigate(next_url)
 
             toast.success(`Hi, ${localStorage.getItem('username')}!`)
         } else {
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    let signupUser = async (e) => {
+    let signupUser = async (e, next_url = '/dashboard') => {
         console.log("SignupUser")
         // console.log(e.target.password.value)
         // console.log(e.target.confirmpassword.value)
@@ -95,10 +95,11 @@ export const AuthProvider = ({ children }) => {
                 let user_data = jwtDecode(data.access)
                 setAuthTokens(data)
                 setUser(user_data)
+                localStorage.setItem('username', user_data.username)
                 localStorage.setItem('authTokens', JSON.stringify(data))
                 // console.log(user_data.username)
                 // localStorage.setItem('username', user_data.username)
-                Navigate('/dashboard')
+                Navigate(next_url)
 
                 toast.success(`Hi, ${localStorage.getItem('username')}!`)
             } else {
@@ -121,6 +122,7 @@ export const AuthProvider = ({ children }) => {
         console.log("logoutUser")
         if(user !== null) {
             toast.success('Logged out successfully!')
+            Navigate('/dashboard')
         }
         setAuthTokens(null)
         setUser(null)
