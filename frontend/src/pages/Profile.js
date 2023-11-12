@@ -1,8 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar';
 import OffCanvasNavbar from '../components/OffCanvasNavbar';
 
 export default function ProfilePage() {
+    const [p, setP] = useState('');
+    const [c, setC] = useState('');
+    useEffect(()=>{
+    
+        if(p===c){
+            document.querySelector("#diff_passwords").classList.add('opacity-0')
+        }
+        else{
+            document.querySelector("#diff_passwords").classList.remove('opacity-0')
+        }
+    },[p,c])
     useEffect(() => {
         window.scrollTo(0, 0)
         document.title = "Your Profile - Sports League"
@@ -64,6 +75,29 @@ export default function ProfilePage() {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className=" grid grid-cols-2 grid-rows-4 gap-3 md:w-[40%]">
+                <p>Password:</p>
+                <input required className="shadow appearance-none border rounded py-2 px-3 text-gray-700" id="password" placeholder='Old password' type="password"/>
+                <p>New Password:</p>
+                <input required className="shadow appearance-none border rounded py-2 px-3 text-gray-700" id="password" type="password" placeholder="New password" onChange={(e)=>setP(e.target.value)} />
+                <p>Confirm Password:</p>
+                <input required className="shadow appearance-none border  rounded py-2 px-3 text-gray-700 " id="confirmpassword" type="password" placeholder="Confirm Password"  onChange={(e)=>setC(e.target.value)} />
+            </div>
+
+            <div className="flex flex-col items-center gap-2 pt-5 text-white">
+                <div className='flex gap-5 items-center'>
+                    
+                    
+                </div>
+                <div className='flex gap-5 items-center'>
+                    
+                </div>
+                <div className='flex gap-5 items-center'>
+                    
+                </div>
+                <p className="text-red-600 opacity-0" id="diff_passwords">passwords dont match</p>
             </div>
         </div>
         </>
