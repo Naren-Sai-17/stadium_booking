@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { GoogleOAuthProvider } from 'google-oauth-gsi';
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -25,7 +25,7 @@ export default function GoogleButton(props) {
             // Here success implies the grant of auth code by Google.
 			// console.log(res)
 			const code = res.code;
-			axios.post('http://localhost:8000/dj-rest-auth/google/', { code: code }).then((response) => {
+			axios.post('/dj-rest-auth/google/', { code: code }).then((response) => {
                 const login_data = response.data
 				// console.log("ruth",response)
 

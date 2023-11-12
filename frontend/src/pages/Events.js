@@ -20,7 +20,7 @@ export default function Events() {
     const [filteredEvents, setFilteredEvents] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/search`)
+        axios.get(`/api/search/`)
             .then(res => {
                 // console.log(res.data)
                 setAllEvents(res.data)
@@ -81,14 +81,14 @@ export default function Events() {
                             <option value="">All</option>
                             {costRangeOptions.map((range) => (
                                 <option key={range} value={range}> 
-                                    {range - 999} - {range} 
+                                    ₹ {range - 999} - ₹ {range} 
                                 </option>
                             ))}
                         </select>
                     </div>
 
                     {/* Grid */}
-                    <div className='md:ml-6 md:text-base text-xs mt-12 md:w-[70%] h-screen overflow-y-auto mb-[10%]'>
+                    <div className='bg-gray-800 rounded-md grid-view md:ml-6 md:text-base text-xs mt-12 md:w-[70%] h-screen overflow-y-auto mb-[10%]'>
                         <ul className='text-white grid gap-1 grid-cols-3'>
                             {
                                 filteredEvents.map((event) => (
@@ -115,6 +115,24 @@ export default function Events() {
                             outline: none;
                             box-shadow: 0 0 0 5px rgba(251, 146, 60, 0.8);
                             transition: .3s;
+                        }
+
+                        .grid-view::-webkit-scrollbar {
+                            width: 10px; 
+                        }
+                        
+                        .grid-view::-webkit-scrollbar-thumb {
+                            background-color: rgba(1, 166, 255, 0.9);
+                            border-radius: 9999px;
+                        }
+                        
+                        .grid-view::-webkit-scrollbar-thumb:hover {
+                            background-color: rgb(113, 191, 255);
+                            width: 11px;
+                        }
+                        
+                        .grid-view::-webkit-scrollbar-track {
+                            background-color: rgba(30, 41, 59);
                         }
                     `
                 }

@@ -11,7 +11,7 @@ export default function BookingPage() {
     const Navigate = useNavigate()
 
     let { setEventdata } = useContext(EventContext)
-    const contextData  = useContext(EventContext) 
+    let contextData = useContext(EventContext)
 
     const {event_id} = useParams(); 
     const [event, setEvent] = useState({
@@ -32,28 +32,20 @@ export default function BookingPage() {
 
     useEffect(() => {
         window.scrollTo(0, 0)
-        axios.get(`/api/get_event/${event_id}`)  
-        .then((res) => {
-            setEventdata(res.data)
-            setEvent(res.data)
-            console.log(res.data)
-            if(res.data.event_id === -1) {
-                Navigate('/dashboard')
-                toast.error('That event does not exist.')
-            }
-        })
-        .catch((err) => {
-            // Replace this later with toastify (toast) notifications.
-            // console.log("The event name is:", event.event_name, "with id:", event_id)
-            console.error("Error fetching event:", err)
-        })
-        // axios.get(`/api/get_stadium?id=${event_id}`)
-        // .then((res) => {
-        //     setStadium(res.data) 
-        // })
-        // .catch((err) => {
-        //     console.error("Error fetching related stadium:", err)
-        // })
+        if (!(event_id == contextData.event_data.event_id)) {
+            axios
+                .get(`/api/get_event/${event_id}`)
+                .then((res) => {
+                    setEventdata(res.data);
+                    setEvent(res.data);
+                })
+                .catch((err) => {
+                    toast.error("That event does not exist.");
+                    Navigate('/events')
+                });
+        } else {
+            setEvent(contextData.event_data);
+        }
     }, [])  
 
     useEffect(() => {
@@ -88,7 +80,7 @@ export default function BookingPage() {
                         <div className="text-center border-0 flex justify-around text-white">
                             <div>Date: { event.date_time.substring(0, 10) }</div>
                             <div>Time: { event.date_time.substring(11, 16) } IST</div>
-                            <div>Venue: { event.stadium.stadium_name }</div>  
+                            <div>Venue: { event.stadium.stadium_name }</div>
                         </div>
                         <div className="text-center text-lg border-0 text-white">
                             Book your tickets now!
