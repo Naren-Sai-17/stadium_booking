@@ -40,8 +40,8 @@ class User(AbstractBaseUser,PermissionsMixin):
 class Stadium(models.Model):
     stadium_id = models.AutoField(primary_key=True)
     stadium_name = models.CharField(max_length=255, default="User")
-    location = models.CharField(max_length=255)
-    coordinates = models.CharField(max_length=255, blank=True, null=True)
+    #location = models.CharField(max_length=255)
+    place_id = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=255)
 
     def __str__(self):
