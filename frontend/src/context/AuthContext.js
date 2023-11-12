@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     // }
 
     let loginUser = async (e, next_url = '/dashboard') => {
-        console.log("loginUser")
+        //console.log("loginUser")
         // to prevent default reload
         e.preventDefault()
         let response = await fetch('/api/token/', {
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
             setAuthTokens(data)
             setUser(user_data)
             localStorage.setItem('authTokens', JSON.stringify(data))
-            console.log(user_data.username)
+            //console.log(user_data.username)
             localStorage.setItem('username', user_data.username)
             Navigate(next_url)
 
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     let signupUser = async (e, next_url = '/dashboard') => {
-        console.log("SignupUser")
+        //console.log("SignupUser")
         // console.log(e.target.password.value)
         // console.log(e.target.confirmpassword.value)
         e.preventDefault()
@@ -119,7 +119,7 @@ export const AuthProvider = ({ children }) => {
 
 
     let logoutUser = () => {
-        console.log("logoutUser")
+        //console.log("logoutUser")
         if(user !== null) {
             toast.success('Logged out successfully!')
             Navigate('/dashboard')
@@ -136,7 +136,7 @@ export const AuthProvider = ({ children }) => {
 
     let updateToken = async () => {
 
-        console.log("updateToken")
+       // console.log("updateToken")
         //console.log(authTokens?.refresh)
         //console.log(authTokens.refresh)
 
@@ -166,7 +166,7 @@ export const AuthProvider = ({ children }) => {
                 
                 
                 setUser(jwtDecode(data.access))
-                console.log(jwtDecode(data.access))
+                //console.log(jwtDecode(data.access))
                 localStorage.setItem('authTokens', JSON.stringify(data))
             } else {
                 logoutUser()
