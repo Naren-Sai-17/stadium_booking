@@ -13,7 +13,12 @@ const BookingPage = () => {
     const authcontextData = useContext(AuthContext);
     const contextData = useContext(EventContext);
     let { setEventdata } = useContext(EventContext);
-    const navigate = useNavigate();
+    const Navigate = useNavigate();
+
+    const [maxSeats, setMaxSeats] = useState(0)
+    const [genSeats, setGenSeats] = useState(0)
+    const [preSeats, setPreSeats] = useState(0)
+    const [vipSeats, setVipSeats] = useState(0)
 
     const [event, setEvent] = useState({
         event_id: 0,
@@ -42,7 +47,7 @@ const BookingPage = () => {
                 })
                 .catch((err) => {
                     toast.error("That event does not exist.");
-                    navigate('/events')
+                    Navigate('/events')
                 });
         } else {
             setEvent(contextData.event_data);
@@ -50,7 +55,7 @@ const BookingPage = () => {
 
         if (!authcontextData.user) {
             toast('Please login to book tickets.')
-            navigate('/login', { state: { 'next_url': `/event/${event_id}/book` } })
+            Navigate('/login', { state: { 'next_url': `/event/${event_id}/book` } })
         }
     }, []);
 
@@ -77,6 +82,7 @@ const BookingPage = () => {
     ]
 
     useEffect(() => {
+        // ------------------- Process date -------------------
         let human_readable = new Date(event.date_time)
         let minutes = human_readable.getUTCMinutes();
 
@@ -85,11 +91,31 @@ const BookingPage = () => {
         }
 
         setDate(human_readable.getUTCHours() + ":" + minutes + ", " + human_readable.getDate() + ' ' + months[human_readable.getMonth()])
+
+        // ------------------- Process number of available seats -------------------
+        let totalSeats = 0, gen = 0, vip = 0, pre = 0;
+        for (var it = 0; it < event.prices.length; ++it) {
+            const item = event.prices[it];
+            totalSeats += item.remaining_seats;
+            
+            if (item.sector_name === 'General') {
+                gen += item.remaining_seats;
+            } else if (item.sector_name === 'Premium') {
+                pre += item.remaining_seats;
+            } else {
+                vip += item.remaining_seats;
+            }
+        }
+
+        setMaxSeats(totalSeats);
+        setGenSeats(gen);
+        setPreSeats(pre);
+        setVipSeats(vip);
+
+        document.title = event.event_name + " - Sports League";
     }, [event])
 
-    useEffect(() => {
-        document.title = event.event_name + " - Sports League";
-    }, [event.event_name]);
+
     const [quantities, setQuantities] = useState({});
     const [totalPrice, setTotalPrice] = useState(0);
     const handleQuantityChange = (sector_id, quantity) => {
@@ -103,6 +129,14 @@ const BookingPage = () => {
             return updatedQuantities;
         });
     };
+
+    const isAllowed = () => {
+        const gen_selected = parseInt(document.getElementById('General').value, 10);
+        const pre_selected = parseInt(document.getElementById('Premium').value, 10);
+        const vip_selected = parseInt(document.getElementById('VIP').value, 10);
+
+        return (gen_selected + pre_selected + vip_selected < Math.min(10, maxSeats));
+    }
 
     useEffect(() => {
         let totalCost = 0;
@@ -130,7 +164,7 @@ const BookingPage = () => {
                 })
                 .then(function (response) {
                     if (response.data.status === "success") {
-                        navigate("/orders");
+                        Navigate("/orders");
                     } else {
                         toast.error("Not enough seats!");
                     }
@@ -157,9 +191,9 @@ const BookingPage = () => {
                     </Link>
 
                     <span className="text-xs md:mr-0 mr-[3%] md:text-2xl md:pr-[5%] font-semibold flex flex-col justify-center">
-                        {event.event_name}
+                        { event.event_name }
                         <div className="text-xs md:text-sm text-right mr-[5%] text-gray-400">
-                            {event.stadium.stadium_name}
+                            { event.stadium.stadium_name }
                         </div>
                     </span>
                 </div>
@@ -174,9 +208,17 @@ const BookingPage = () => {
                     />
                 </div>
 
-                <strong className="text-white flex justify-center mt-[5%] text-xs mb-[3%] md:text-xl"> 
-                    You can book up to 10 tickets. 
+                <strong className="flex justify-center mt-[5%] md:mt-[3%] md:text-2xl text-orange-300">
+                    🕑{date}
                 </strong>
+
+                <div className="text-white flex justify-center mt-[1%] text-xs mb-[3%] md:text-xl"> 
+                    You can book up to 
+                    <span className="md:px-2 px-1 font-bold text-orange-400">
+                        { Math.min(10, maxSeats) }
+                    </span>
+                    tickets. 
+                </div>
 
                 <ul className="md:w-[40%] text-xs  md:text-md w-[80%] mx-auto text-gray-100">
                     {event.prices.map((sector) => (
@@ -192,30 +234,76 @@ const BookingPage = () => {
                             <div className="custom-number-input border-0 flex flex-col justify-center md:h-12 md:w-32 h-7 w-16">
                                 <div className="flex flex-row h-[80%] w-full rounded-lg relative bg-transparent">
                                     {/* Minus button */}
-                                    <button className="bg-red-300 border border-red-400 text-red-700 hover:bg-red-400 h-full w-20 rounded-l cursor-pointer outline-none disabled:opacity-70">
-                                        <span className="m-auto md:text-2xl text-sm font-thin"> - </span>
+                                    <button 
+                                        className="minus bg-red-300 border border-red-400 text-red-700 hover:bg-red-400 h-full w-20 rounded-l cursor-pointer outline-none disabled:opacity-40"
+                                        onClick={(e) => {
+                                            const inputQuantity = document.getElementById(sector.sector_name);
+                                            if (Number(inputQuantity.value) >= 1) {
+                                                inputQuantity.value = parseInt(inputQuantity.value - 1, 10);
+                                                handleQuantityChange(sector.sector_id, Number(inputQuantity.value));
+
+                                                if (Number(inputQuantity.value) === 0) {
+                                                    e.target.disabled = true;
+                                                }
+                                            } else {
+                                                e.target.disabled = true;
+                                            }
+                                        }}
+                                    >
+                                        <span className="bg-slate-800 m-auto md:text-2xl text-sm font-thin"> - </span>
                                     </button>
 
                                     <input
+                                        id={sector.sector_name}
                                         type="number"
-                                        className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 disabled:opacity-70"
+                                        className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
                                         name="custom-input-number"
-                                        placeholder='0'
-                                        min='0'
-                                        onChange={(e) =>
-                                            handleQuantityChange(
-                                                sector.sector_id,
-                                                e.target.value
-                                                    ? parseInt(e.target.value, 10)
-                                                    : parseInt(0, 10)
-                                            )
-                                        }
+                                        // value='0' 
+                                        // USE REACT HOOKS TO STORE THE VALUE!
+                                        disabled 
+                                        // onChange={(e) =>
+                                        //     handleQuantityChange(
+                                        //         sector.sector_id,
+                                        //         e.target.value
+                                        //             ? parseInt(e.target.value, 10)
+                                        //             : parseInt(0, 10)
+                                        //     )
+                                        // }
                                     >
                                         {/* Nothing to see here... */}
                                     </input>
 
                                     {/* Plus button */}
-                                    <button className="bg-green-400 border border-green-500 text-green-700 hover:bg-green-500 h-full w-20 rounded-r cursor-pointer disabled:opacity-70">
+                                    <button 
+                                        className="plus bg-green-400 border border-green-500 text-green-700 hover:bg-green-500 h-full w-20 rounded-r cursor-pointer disabled:opacity-40"
+                                        onClick={(e) => {
+                                            let inputQuantity = document.getElementById(sector.sector_name);
+                                            // console.log('lol', inputQuantity.value)
+
+                                            if (sector.sector_name === 'General') {
+                                                if (Number(inputQuantity.value) < genSeats && isAllowed()) {
+                                                    inputQuantity.value = Number(inputQuantity.value) + 1;
+                                                    handleQuantityChange(sector.sector_id, Number(inputQuantity.value));
+                                                } else {
+                                                    e.target.disabled = true;
+                                                }
+                                            } else if (sector.sector_name === 'Premium') {
+                                                if (Number(inputQuantity.value) < preSeats && isAllowed()) {
+                                                    inputQuantity.value = Number(inputQuantity.value) + 1;
+                                                    handleQuantityChange(sector.sector_id, Number(inputQuantity.value));
+                                                } else {
+                                                    e.target.disabled = true;
+                                                }
+                                            } else {
+                                                if (Number(inputQuantity.value) < vipSeats && isAllowed()) {
+                                                    inputQuantity.value = Number(inputQuantity.value) + 1;
+                                                    handleQuantityChange(sector.sector_id, Number(inputQuantity.value));
+                                                } else {
+                                                    e.target.disabled = true;
+                                                }
+                                            }
+                                        }}
+                                    >
                                         <span className="m-auto text-sm md:text-2xl font-thin"> + </span>
                                     </button>
                                 </div>
@@ -227,7 +315,7 @@ const BookingPage = () => {
                 <section className="md:flex justify-center">
                     <div className="text-gray-300 flex my-[5%] md:w-[60%] border justify-center">
                         <div className="my-auto pl-[3%] w-[50%] border">
-                            {totalPrice}
+                            { totalPrice }
                         </div>
 
                         <div className="w-[50%] border-0 flex justify-center">
