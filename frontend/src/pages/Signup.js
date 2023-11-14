@@ -2,8 +2,40 @@ import React, {useContext, useEffect, useState} from 'react'
 import AuthContext from '../context/AuthContext'
 import { Link, useLocation } from 'react-router-dom'
 import GoogleButton from '../components/GoogleButton'
+import {Icon} from 'react-icons-kit';
+import {eyeOff} from 'react-icons-kit/feather/eyeOff';
+import {eye} from 'react-icons-kit/feather/eye'
 
 const SignupPage = () => {
+    const [password, setPassword] = useState("");
+    const [type, setType] = useState('password');
+    const [icon, setIcon] = useState(eyeOff);
+    const handleToggle = () => {
+        if (type==='password'&& password!=""){
+           setIcon(eye);
+           setType('text')
+        } else {
+           setIcon(eyeOff)
+           setType('password')
+        }
+     }
+     useEffect(()=>{
+
+            setP(password)
+    
+            if(password===""){
+                document.querySelector("#password_btn").classList.add('opacity-0')
+                setIcon(eyeOff)
+                setType('password')
+                //document.querySelector("#password_btn").removeEventListener('click', handleToggle);
+            }
+            else{
+                document.querySelector("#password_btn").classList.remove('opacity-0')
+                //document.querySelector("#password_btn").addEventListener('click', handleToggle);
+            }
+        },[password])
+
+
     let {signupUser}=useContext(AuthContext)
     const location = useLocation();
 
@@ -51,10 +83,47 @@ const SignupPage = () => {
                                         alt="logo" />
                                     <h2 className="text-xl">Enter your credentials:</h2>
                                     <div className="flex flex-col items-center gap-2 pt-5">
-                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email-id" />
-                                        <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password" onChange={(e)=>setP(e.target.value)} />
-                                        <input required className="w-3/4 shadow appearance-none border  rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="confirmpassword" type="password" placeholder="Confirm Password"  onChange={(e)=>setC(e.target.value)} />
+                                        <div className="flex justify-center w-[100%]">
+                                                <span class="flex opacity-0" >
+                                                    <Icon class="absoulute" icon={icon} size={25}/>
+                                                </span>
+                                                <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
+                                                <span class="flex opacity-0" >
+                                                    <Icon class="absoulute" icon={icon} size={25}/>
+                                                </span>
+                                        </div>
+
+                                        <div className="flex justify-center w-[100%]">
+                                                <span class="flex opacity-0" >
+                                                    <Icon class="absoulute" icon={icon} size={25}/>
+                                                </span>
+                                                <input required className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email-id" />
+                                                <span class="flex opacity-0" >
+                                                    <Icon class="absoulute" icon={icon} size={25}/>
+                                                </span>
+                                        </div>
+
+                                        <div className="flex  justify-center w-[100%]">
+                                        <span class="flex opacity-0" >
+                                                <Icon class="absoulute" icon={icon} size={25}/>
+                                        </span>
+                                        <input className="w-3/4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type={type} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+                                        <span id="password_btn" class="flex" onClick={handleToggle}>
+                                            <Icon class="" icon={icon} size={25}/>
+                                        </span>
+                                        </div>
+
+
+                                        <div className="flex justify-center w-[100%]">
+                                                <span class="flex opacity-0" >
+                                                    <Icon class="absoulute" icon={icon} size={25}/>
+                                                </span>
+                                                <input required className="w-3/4 shadow appearance-none border  rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="confirmpassword" type="password" placeholder="Confirm Password"  onChange={(e)=>setC(e.target.value)} />
+                                                <span class="flex opacity-0" >
+                                                    <Icon class="absoulute" icon={icon} size={25}/>
+                                                </span>
+                                        </div>
+                                        
                                         <p className="text-red-600 opacity-0" id="diff_passwords">passwords dont match</p>
                                     </div>
                                 </div>
