@@ -118,7 +118,7 @@ class buyAPI(APIView):
                     Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
             return Response({"status": "success"})
         else: 
-            return Response({"seats":"Someone booked the seats before you"}) 
+            return Response({"seats": "Someone booked the seats before you did."}) 
         
 # class ordersAPI(APIView): 
 #     def post(self,request): 

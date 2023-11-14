@@ -56,7 +56,7 @@ export default function BookingPage() {
 
     return (
         <>
-            <div className='w-full bg-gradient-to-r from-slate-950 to-slate-700'>
+            <div className="bg-gradient-to-r from-slate-950 to-slate-800">
                 <OffCanvasNavbar />
                 <Navbar />
                 <div className="flex justify-items-start h-80 mx-[10%] my-[5%]">

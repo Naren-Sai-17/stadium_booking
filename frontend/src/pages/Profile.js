@@ -12,7 +12,7 @@ export default function ProfilePage() {
         <OffCanvasNavbar />
         <Navbar />
 
-        <div className="w-full bg-gradient-to-r from-slate-950 to-slate-700">
+        <div className="w-full bg-gradient-to-r from-slate-950 to-slate-800">
             <div className="flex justify-center">
                 <div className=" md:w-1/2 flex flex-col gap-5  justify-items-start m-10 ">
                     <div className=" w-full flex items-center justify-center">

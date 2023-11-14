@@ -25,7 +25,7 @@ export default function Dashboard() {
     }, [])
     return (
         <>
-            <div className='bg-gradient-to-r from-slate-950 to-slate-700'>
+            <div className="bg-gradient-to-r from-slate-950 to-slate-800">
                 <OffCanvasNavbar />
                 <Navbar />
                 <div className='border-0 mt-[20%] md:mt-[5%]'>

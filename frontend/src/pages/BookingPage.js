@@ -15,10 +15,12 @@ const BookingPage = () => {
     let { setEventdata } = useContext(EventContext);
     const Navigate = useNavigate();
 
+    // To hold the maximum number of total available seats for the event.
     const [maxSeats, setMaxSeats] = useState(0)
-    const [genSeats, setGenSeats] = useState(0)
-    const [preSeats, setPreSeats] = useState(0)
-    const [vipSeats, setVipSeats] = useState(0)
+    const [availableSeats, setAvailableSeats] = useState({})
+
+    // ------------- For input fields -----------------
+    const [date, setDate] = useState('')
 
     const [event, setEvent] = useState({
         event_id: 0,
@@ -35,7 +37,27 @@ const BookingPage = () => {
         prices: [],
     });
 
-    const [date, setDate] = useState('')
+    const category = {
+        VIP: "bg-purple-800",
+        Premium: "bg-orange-600",
+        General: "bg-green-800",
+    };
+
+    const months = [
+        'Month',
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+    ];
 
     useEffect(() => {
         if (!(event_id == contextData.event_data.event_id)) {
@@ -59,28 +81,6 @@ const BookingPage = () => {
         }
     }, []);
 
-    const category = {
-        VIP: "bg-purple-800",
-        Premium: "bg-orange-600",
-        General: "bg-green-800",
-    };
-
-    const months = [
-        'Month',
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec',
-    ]
-
     useEffect(() => {
         // ------------------- Process date -------------------
         let human_readable = new Date(event.date_time)
@@ -93,24 +93,17 @@ const BookingPage = () => {
         setDate(human_readable.getUTCHours() + ":" + minutes + ", " + human_readable.getDate() + ' ' + months[human_readable.getMonth()])
 
         // ------------------- Process number of available seats -------------------
-        let totalSeats = 0, gen = 0, vip = 0, pre = 0;
         for (var it = 0; it < event.prices.length; ++it) {
             const item = event.prices[it];
-            totalSeats += item.remaining_seats;
-            
-            if (item.sector_name === 'General') {
-                gen += item.remaining_seats;
-            } else if (item.sector_name === 'Premium') {
-                pre += item.remaining_seats;
-            } else {
-                vip += item.remaining_seats;
-            }
-        }
+            setMaxSeats(item.remaining_seats + maxSeats);
 
-        setMaxSeats(totalSeats);
-        setGenSeats(gen);
-        setPreSeats(pre);
-        setVipSeats(vip);
+            setAvailableSeats((prevSeats) => {
+                const updatedSeats = { ...prevSeats };
+                updatedSeats[item.sector_id] = (updatedSeats[item.sector_id] || 0) + item.remaining_seats;
+
+                return updatedSeats;
+            })
+        }
 
         document.title = event.event_name + " - Sports League";
     }, [event])
@@ -118,25 +111,49 @@ const BookingPage = () => {
 
     const [quantities, setQuantities] = useState({});
     const [totalPrice, setTotalPrice] = useState(0);
-    const handleQuantityChange = (sector_id, quantity) => {
+    const handleQuantityChange = (sector_id, quantity, buttons) => {
+        const minusbtn = document.getElementById(buttons.minus);
+        const plusbtn = document.getElementById(buttons.plus);
+
         setQuantities((prevQuantities) => {
             const updatedQuantities = { ...prevQuantities };
-            if (quantity === 0) {
-                delete updatedQuantities[sector_id];
-            } else {
-                updatedQuantities[sector_id] = quantity;
+            
+            let totalSeats = 0;
+            for (let sector_id in quantities) {
+                totalSeats += quantities[sector_id];
             }
+
+            if (quantity > (quantities[sector_id] ?? 0)) {
+                // For increments.
+                if (totalSeats < Math.min(10, maxSeats) - 1) {
+                    updatedQuantities[sector_id] = quantity;
+                    minusbtn.disabled = false;
+                    plusbtn.disabled = false;
+                } else if (totalSeats === Math.min(10, maxSeats) - 1) {
+                    updatedQuantities[sector_id] = quantity;
+                    plusbtn.disabled = true;
+                    minusbtn.disabled = false;
+                }
+            } else {
+                // There is a decrement.
+                if (quantities[sector_id] > 1) {
+                    updatedQuantities[sector_id] = quantity;
+                    minusbtn.disabled = false;
+                    plusbtn.disabled = false;
+                } else if (quantities[sector_id] === 1) {
+                    updatedQuantities[sector_id] = quantity;
+                    minusbtn.disabled = true;
+                    plusbtn.disabled = false;
+                }
+            }
+
+            if (quantity === 0) {
+                delete updatedQuantities[sector_id]
+            }
+
             return updatedQuantities;
         });
     };
-
-    const isAllowed = () => {
-        const gen_selected = parseInt(document.getElementById('General').value, 10);
-        const pre_selected = parseInt(document.getElementById('Premium').value, 10);
-        const vip_selected = parseInt(document.getElementById('VIP').value, 10);
-
-        return (gen_selected + pre_selected + vip_selected < Math.min(10, maxSeats));
-    }
 
     useEffect(() => {
         let totalCost = 0;
@@ -165,8 +182,9 @@ const BookingPage = () => {
                 .then(function (response) {
                     if (response.data.status === "success") {
                         Navigate("/orders");
+                        toast.success("Order placed successfully.")
                     } else {
-                        toast.error("Not enough seats!");
+                        toast.error("Not enough seats. Please change the number of seats and try again.");
                     }
                 })
                 .catch(function (error) {
@@ -178,7 +196,7 @@ const BookingPage = () => {
 
     return (
         <>
-            <div className="bg-gradient-to-r from-slate-950 to-slate-700">
+            <div className="bg-gradient-to-r from-slate-950 to-slate-800">
                 <OffCanvasNavbar />
                 <Navbar />
 
@@ -209,7 +227,7 @@ const BookingPage = () => {
                 </div>
 
                 <strong className="flex justify-center mt-[5%] md:mt-[3%] md:text-2xl text-orange-300">
-                    🕑{date}
+                    🕑{ date }
                 </strong>
 
                 <div className="text-white flex justify-center mt-[1%] text-xs mb-[3%] md:text-xl"> 
@@ -224,7 +242,7 @@ const BookingPage = () => {
                     {event.prices.map((sector) => (
                         <li
                             key={sector.sector_id}
-                            className={`${category[sector.sector_name]
+                            className={`${category[sector.sector_name] ?? 'bg-blue-800'
                                 } bg-opacity-90 py-[3%] px-[5%] flex mt-[3%] rounded-md justify-between md:text-xl`}
                         >
                             <strong className="border-0 flex flex-col justify-center">
@@ -235,30 +253,29 @@ const BookingPage = () => {
                                 <div className="flex flex-row h-[80%] w-full rounded-lg relative bg-transparent">
                                     {/* Minus button */}
                                     <button 
-                                        className="minus bg-red-300 border border-red-400 text-red-700 hover:bg-red-400 h-full w-20 rounded-l cursor-pointer outline-none disabled:opacity-40"
+                                        id={ `minus-${sector.sector_id}` }
+                                        className="minus bg-red-300 border border-red-400 text-red-700 hover:bg-red-400 h-full w-20 rounded-l cursor-pointer outline-none disabled:opacity-40 disabled:hover:cursor-not-allowed"
                                         onClick={(e) => {
-                                            const inputQuantity = document.getElementById(sector.sector_name);
-                                            if (Number(inputQuantity.value) >= 1) {
-                                                inputQuantity.value = parseInt(inputQuantity.value - 1, 10);
-                                                handleQuantityChange(sector.sector_id, Number(inputQuantity.value));
-
-                                                if (Number(inputQuantity.value) === 0) {
-                                                    e.target.disabled = true;
+                                            // Change the corresponding variable.
+                                            handleQuantityChange(
+                                                sector.sector_id, 
+                                                Math.max(0, Math.min(Number(availableSeats[sector.sector_id]), Number(quantities[sector.sector_id] ?? 0) - 1)), 
+                                                {
+                                                    plus: `plus-${sector.sector_id}`,
+                                                    minus: `minus-${sector.sector_id}`,
                                                 }
-                                            } else {
-                                                e.target.disabled = true;
-                                            }
+                                            );
                                         }}
                                     >
-                                        <span className="bg-slate-800 m-auto md:text-2xl text-sm font-thin"> - </span>
+                                        <span className="m-auto md:text-2xl text-sm font-thin"> - </span>
                                     </button>
 
                                     <input
-                                        id={sector.sector_name}
+                                        id={ sector.sector_id }
                                         type="number"
                                         className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
                                         name="custom-input-number"
-                                        // value='0' 
+                                        value={ quantities[sector.sector_id] ?? 0 }
                                         // USE REACT HOOKS TO STORE THE VALUE!
                                         disabled 
                                         // onChange={(e) =>
@@ -275,33 +292,18 @@ const BookingPage = () => {
 
                                     {/* Plus button */}
                                     <button 
-                                        className="plus bg-green-400 border border-green-500 text-green-700 hover:bg-green-500 h-full w-20 rounded-r cursor-pointer disabled:opacity-40"
+                                        id={ `plus-${sector.sector_id}` }
+                                        className="plus bg-green-400 border border-green-500 text-green-700 hover:bg-green-500 h-full w-20 rounded-r cursor-pointer disabled:opacity-40 disabled:hover:cursor-not-allowed"
                                         onClick={(e) => {
-                                            let inputQuantity = document.getElementById(sector.sector_name);
-                                            // console.log('lol', inputQuantity.value)
-
-                                            if (sector.sector_name === 'General') {
-                                                if (Number(inputQuantity.value) < genSeats && isAllowed()) {
-                                                    inputQuantity.value = Number(inputQuantity.value) + 1;
-                                                    handleQuantityChange(sector.sector_id, Number(inputQuantity.value));
-                                                } else {
-                                                    e.target.disabled = true;
+                                            // Change the corresponding variable.
+                                            handleQuantityChange(
+                                                sector.sector_id, 
+                                                Math.max(0, Math.min(Number(availableSeats[sector.sector_id]), Number(quantities[sector.sector_id] ?? 0) + 1)), 
+                                                {
+                                                    plus: `plus-${sector.sector_id}`,
+                                                    minus: `minus-${sector.sector_id}`,
                                                 }
-                                            } else if (sector.sector_name === 'Premium') {
-                                                if (Number(inputQuantity.value) < preSeats && isAllowed()) {
-                                                    inputQuantity.value = Number(inputQuantity.value) + 1;
-                                                    handleQuantityChange(sector.sector_id, Number(inputQuantity.value));
-                                                } else {
-                                                    e.target.disabled = true;
-                                                }
-                                            } else {
-                                                if (Number(inputQuantity.value) < vipSeats && isAllowed()) {
-                                                    inputQuantity.value = Number(inputQuantity.value) + 1;
-                                                    handleQuantityChange(sector.sector_id, Number(inputQuantity.value));
-                                                } else {
-                                                    e.target.disabled = true;
-                                                }
-                                            }
+                                            );
                                         }}
                                     >
                                         <span className="m-auto text-sm md:text-2xl font-thin"> + </span>
@@ -312,17 +314,17 @@ const BookingPage = () => {
                     ))}
                 </ul>
 
-                <section className="md:flex justify-center">
-                    <div className="text-gray-300 flex my-[5%] md:w-[60%] border justify-center">
-                        <div className="my-auto pl-[3%] w-[50%] border">
-                            { totalPrice }
+                <section className="md:flex mt-[10%] md:mt-0 justify-center">
+                    <div className="text-white flex my-[5%] md:w-[60%] justify-center">
+                        <div className="my-auto text-sm md:text-2xl md:pl-[3%] pl-[8%] w-[50%] font-bold">
+                            Total: <span className="rounded-md p-[3%] bg-slate-700">₹ { totalPrice } </span>
                         </div>
 
-                        <div className="w-[50%] border-0 flex justify-center">
+                        <div className="w-[50%] flex justify-center pr-[5%] md:pr-0">
                             <button
                                 onClick={handleFormSubmit}
                                 type="button"
-                                className="text-white text-xs md:text-xl focus:outline-1 focus:outline-rose-500 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg px-5 py-2.5 text-center mr-2 mb-2"
+                                className="text-white text-xs md:text-xl focus:outline-1 focus:outline-rose-500 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg px-5 py-2.5 text-center"
                             >
                                 Make Payment »
                             </button>
