@@ -36,7 +36,7 @@ class RegisterAPI(CreateAPIView):
         user = serializer.save()
 
         subject = 'Welcome to Sports League!'
-        recipient_list = [user.email]  # Assuming email is a field in your User model
+        recipient_list = [user.email]
 
         html_content = render_to_string('email.html', {'username': user.username, 'frontend_link': env('CALL_BACK_URL')})
         plain_message = strip_tags(html_content)
@@ -44,7 +44,7 @@ class RegisterAPI(CreateAPIView):
         email = EmailMultiAlternatives(
             subject,
             plain_message,
-            'pcumamahesh@gmail.com',  # From email address
+            settings.EMAIL_HOST_USER,  # From email address
             recipient_list,  # To email address(es)
         )
 
