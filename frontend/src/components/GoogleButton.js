@@ -40,6 +40,7 @@ export default function GoogleButton(props) {
 
                 // Setting tokens into local storage
                 localStorage.setItem('authTokens', JSON.stringify({ access: login_data.access, refresh: login_data.refresh }))
+				localStorage.setItem('gAuth',1); 
                 // localStorage.setItem('authTokens', JSON.stringify(login_data.user))
 			}).catch((err) => {
 				// if (err.response.data && err.response.data.non_field_errors[0] === "User is already registered with this e-mail address.") {

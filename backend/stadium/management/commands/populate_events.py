@@ -18,7 +18,6 @@ class Command(BaseCommand):
             obj_eve= Event(
                 stadium=obj,
                 event_name=f"Cricket India vs {c[n%s]}",
-                
                 #  datetime(year, month, day, hour, minute)
                 # date_time = datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), 30*(random.randint(0,1)))
                 date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), 30*(random.randint(0,1))))
