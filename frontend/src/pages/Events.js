@@ -49,7 +49,7 @@ export default function Events() {
 
     return (
         <>
-            <div className='bg-gradient-to-r from-slate-950 to-slate-700 '>
+            <div className="bg-gradient-to-r from-slate-950 to-slate-800">
                 <OffCanvasNavbar />
                 <Navbar />
 

@@ -1,6 +1,7 @@
 # from django.http import HttpResponse, Http404
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from rest_framework.exceptions import NotFound
-from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.response import Response
@@ -10,6 +11,7 @@ from django.utils import timezone
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.conf import settings
+from django.utils.html import strip_tags
 
 import environ
 env = environ.Env()
@@ -29,6 +31,29 @@ class MyTokenObtainPairView(TokenObtainPairView):
 class RegisterAPI(CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        user = serializer.save()
+
+        subject = 'Welcome to Sports League!'
+        recipient_list = [user.email]
+
+        html_content = render_to_string('email.html', {'username': user.username, 'frontend_link': env('CALL_BACK_URL')})
+        plain_message = strip_tags(html_content)
+        
+        email = EmailMultiAlternatives(
+            subject,
+            plain_message,
+            settings.EMAIL_HOST_USER,  # From email address
+            recipient_list,  # To email address(es)
+        )
+
+        email.attach_alternative(html_content, 'text/html')
+
+        # Send the email
+        email.send()
+
+        return Response({'message': 'Email was sent successfully.'})
 
 class showEvents(ListAPIView):
     queryset = Event.objects.all() 
@@ -93,7 +118,7 @@ class buyAPI(APIView):
                     Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
             return Response({"status": "success"})
         else: 
-            return Response({"seats":"Someone booked the seats before you"}) 
+            return Response({"seats": "Someone booked the seats before you did."}) 
         
 # class ordersAPI(APIView): 
 #     def post(self,request): 

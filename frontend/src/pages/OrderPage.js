@@ -36,7 +36,7 @@ const OrderPage = () => {
     console.log(orders)
     return (
         <>
-            <div className="w-full bg-gradient-to-r from-slate-950 to-slate-700">
+            <div className="w-full bg-gradient-to-r from-slate-950 to-slate-800">
                 <OffCanvasNavbar />
                 <Navbar />
 
