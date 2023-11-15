@@ -103,6 +103,7 @@ class buyAPI(APIView):
         user_id = data['user_id'] 
         event_id = data['event_id']
         seats = data['seats'] 
+        food = data['food'] 
         valid = True 
         for (seat,quantity) in seats.items():
 
@@ -116,6 +117,8 @@ class buyAPI(APIView):
             for (seat,quantity) in seats.items(): 
                 for i in range(quantity): 
                     Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
+            for (food_item,quantity) in food.items(): 
+                FoodCoupon.create_food_ticket(booking_id=booking_instance,food_id=food_item, quantity=quantity)
             return Response({"status": "success"})
         else: 
             return Response({"seats": "Someone booked the seats before you did."}) 

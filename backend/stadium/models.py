@@ -121,6 +121,12 @@ class FoodCoupon(models.Model):
     food_item = models.ForeignKey(FoodItem, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
+    @classmethod    
+    def create_food_ticket(cls,booking_id,food_id,quantity):
+        food_item = FoodItem.objects.get(food_id = food_id)
+        instance = cls(booking = booking_id, food_item = food_item, quantity = quantity) 
+        instance.save() 
+
     def __str__(self):
         return self.food_item.food_name + ' coupon #' + str(self.coupon_id)
 

@@ -70,9 +70,16 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ['ticket_id','sector_name'] 
 
+class FoodCouponSerializer(serializers.ModelSerializer):
+    food_name = serializers.StringRelatedField(source = 'food_item.food_name')
+    class Meta: 
+        model = FoodCoupon
+        fields = ['food_name','quantity'] 
+
 class BookingSerializer(serializers.ModelSerializer): 
     tickets = TicketSerializer(many = True)
+    food_coupons = FoodCouponSerializer(many = True) 
     event_name = serializers.StringRelatedField(source = 'event.event_name')
     class Meta: 
         model = Booking
-        fields = ['booking_id', 'event_name','tickets']
+        fields = ['booking_id', 'event_name','tickets','food_coupons']
