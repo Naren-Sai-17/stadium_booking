@@ -281,16 +281,7 @@ const BookingPage = () => {
                                         className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
                                         name="custom-input-number"
                                         value={ quantities[sector.sector_id] ?? 0 }
-                                        // USE REACT HOOKS TO STORE THE VALUE!
                                         disabled 
-                                        // onChange={(e) =>
-                                        //     handleQuantityChange(
-                                        //         sector.sector_id,
-                                        //         e.target.value
-                                        //             ? parseInt(e.target.value, 10)
-                                        //             : parseInt(0, 10)
-                                        //     )
-                                        // }
                                     >
                                         {/* Nothing to see here... */}
                                     </input>

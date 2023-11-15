@@ -35,12 +35,12 @@ class StadiumSerializer(serializers.ModelSerializer):
     fooditem_set = FoodItemSerializer(many = True)
     class Meta:
         model = Stadium
-        fields = ['stadium_id', 'stadium_name', 'location','fooditem_set']
+        fields = ['stadium_id', 'stadium_name' ,'fooditem_set']
 
 class SearchStadiumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stadium
-        fields = ['stadium_name', 'location']
+        fields = ['stadium_name', 'city']
 
 class SearchEventSerializer(serializers.ModelSerializer):
     stadium = SearchStadiumSerializer()
