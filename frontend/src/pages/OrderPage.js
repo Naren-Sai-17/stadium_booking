@@ -13,7 +13,6 @@ const OrderPage = () => {
     const Navigate = useNavigate()
 
     useEffect(() => {
-        console.log(authcontextData)
         if (authcontextData.authTokens) {
             axios.get(`/api/get_orders/`, {
                 headers: {
@@ -80,6 +79,24 @@ const OrderPage = () => {
                                             </span>
                                         </p>
                                         <p className="text-base">{ticket.sector_name}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                            <ul className="flex flex-wrap">
+                                {order.food_coupons.map((food_coupon) => (
+                                    <li
+                                        key={food_coupon.food_name}
+                                        className="m-2 p-4 border border-gray-300 rounded bg-gray-700 flex flex-col justify-between"
+                                        style={{ minWidth: "150px" }} // Ensuring uniform size
+                                    >
+                                        {/* <p className="text-sm text-gray-500 mb-1">
+                                            Item:{" "}
+                                            <span className="font-bold text-xs">
+                                                {food_coupon.food_name}
+                                            </span>
+                                        </p> */}
+                                        <p>{food_coupon.food_name}</p>
+                                        <p className="text-base">{food_coupon.quantity}</p>
                                     </li>
                                 ))}
                             </ul>

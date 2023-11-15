@@ -13,13 +13,13 @@ class UserSerializer(serializers.ModelSerializer):
 class SectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sector
-        fields = ['sector_id','sector_name']
+        fields = ['sector_id', 'sector_name']
     
 class SectorPriceSerializer(serializers.ModelSerializer):
     sector_id = SectorSerializer()
     class Meta:
         model = SectorPrice
-        fields = ['event_price','remaining_seats','sector_id']
+        fields = ['event_price', 'remaining_seats', 'sector_id']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)
@@ -29,13 +29,13 @@ class SectorPriceSerializer(serializers.ModelSerializer):
 class FoodItemSerializer(serializers.ModelSerializer):
     class Meta: 
         model = FoodItem
-        fields = ['food_id','food_name','food_price']
+        fields = ['food_id', 'food_name', 'food_price']
 
 class StadiumSerializer(serializers.ModelSerializer):
     fooditem_set = FoodItemSerializer(many = True)
     class Meta:
         model = Stadium
-        fields = ['stadium_id', 'stadium_name' ,'fooditem_set']
+        fields = ['stadium_id', 'stadium_name', 'fooditem_set']
 
 class SearchStadiumSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,9 +70,16 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ['ticket_id','sector_name'] 
 
+class FoodCouponSerializer(serializers.ModelSerializer):
+    food_name = serializers.StringRelatedField(source = 'food_item.food_name')
+    class Meta: 
+        model = FoodCoupon
+        fields = ['food_name','quantity'] 
+
 class BookingSerializer(serializers.ModelSerializer): 
     tickets = TicketSerializer(many = True)
+    food_coupons = FoodCouponSerializer(many = True) 
     event_name = serializers.StringRelatedField(source = 'event.event_name')
     class Meta: 
         model = Booking
-        fields = ['booking_id', 'event_name','tickets']
+        fields = ['booking_id', 'event_name','tickets','food_coupons']
