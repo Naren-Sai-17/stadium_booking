@@ -39,7 +39,7 @@ const OrderPage = () => {
 
     const category = {
         VIP: "bg-purple-800",
-        Premium: "bg-orange-600",
+        Premium: "bg-orange-700",
         General: "bg-green-800",
     };
 
