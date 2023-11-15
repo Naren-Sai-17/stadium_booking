@@ -245,8 +245,13 @@ const BookingPage = () => {
                             className={`${category[sector.sector_name] ?? 'bg-blue-800'
                                 } bg-opacity-90 py-[3%] px-[5%] flex mt-[3%] rounded-md justify-between md:text-xl`}
                         >
-                            <strong className="border-0 flex flex-col justify-center">
-                                {sector.sector_name} {`(₹ ` + sector.event_price + `)`}
+                            <strong className="flex flex-col justify-center">
+                                <div>
+                                    {sector.sector_name}
+                                    <span className='border-0 bg-black mx-2 bg-opacity-30 px-2 py-1 rounded-lg'>
+                                        {`₹ ` + sector.event_price + ``}
+                                    </span>
+                                </div>
                             </strong>
 
                             <div className="custom-number-input border-0 flex flex-col justify-center md:h-12 md:w-32 h-7 w-16">

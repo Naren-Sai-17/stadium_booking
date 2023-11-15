@@ -32,15 +32,29 @@ const OrderPage = () => {
             toast("Please login to see your orders.");
             Navigate('/login', { state: { 'next_url': '/orders' } })
         }
+
+        document.title = 'Your Orders - Sports League';
     }, []);
     console.log(orders)
+
+    const category = {
+        VIP: "bg-purple-800",
+        Premium: "bg-orange-600",
+        General: "bg-green-800",
+    };
+
     return (
         <>
             <div className="w-full bg-gradient-to-r from-slate-950 to-slate-800">
                 <OffCanvasNavbar />
                 <Navbar />
+                <div className="flex justify-center text-2xl md:text-3xl md:my-[3%] my-[5%]">
+                    <strong className="text-white">
+                        Your Orders
+                    </strong>
+                </div>
 
-                <ul className="text-white">
+                <ul className="text-white px-[8%] py-[2%]">
                     {orders?.map((order) => (
                         <li
                             key={order.booking_id}
@@ -52,14 +66,14 @@ const OrderPage = () => {
                                 </p>
                                 <p className="text-gray-400">Event: {order.event_name}</p>
                             </div>
-                            <ul className="flex flex-wrap">
+                            <ul className="md:flex flex-wrap grid grid-cols-2 md:grid-cols-none">
                                 {order.tickets.map((ticket) => (
                                     <li
                                         key={ticket.ticket_id}
-                                        className="m-2 p-4 border border-gray-300 rounded bg-gray-700 flex flex-col justify-between"
-                                        style={{ minWidth: "150px" }} // Ensuring uniform size
+                                        className={ `m-2 p-2 md:p-4 border-4 border-gray-500 min-w-[75px] md:min-w-[150px] hover:bg-opacity-90 rounded-lg ${category[ticket.sector_name] ?? `bg-blue-800`} flex flex-col justify-between` }
+                                        // style={{ minWidth: "150px" }} // Ensuring uniform size
                                     >
-                                        <p className="text-sm text-gray-500 mb-1">
+                                        <p className="text-sm text-gray-400 mb-1">
                                             Ticket ID:{" "}
                                             <span className="font-bold text-xs">
                                                 {ticket.ticket_id}
