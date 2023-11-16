@@ -3,6 +3,7 @@ import '../index.css';
 import axios from 'axios'
 import Navbar from '../components/Navbar';
 import OffCanvasNavbar from '../components/OffCanvasNavbar';
+import Footer2  from '../components/Footer'
 import Card from '../components/Card';
 import CarouselControlsInside from '../components/Carousel2';
 import { MdArrowForwardIos, MdArrowBackIos } from 'react-icons/md'
@@ -194,6 +195,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
+            <Footer2></Footer2>
 
             <style jsx="true">
                 {

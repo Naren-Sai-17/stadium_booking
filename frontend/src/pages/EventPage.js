@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import EventContext from '../context/EventContext'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import Footer2  from '../components/Footer'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 
 export default function BookingPage() {
@@ -118,10 +119,7 @@ export default function BookingPage() {
                     </div>
                 </div>
 
-                <footer className="bg-slate-800 text-white text-center py-10">
-                    Contact us <br />
-                    a | a | a | a
-                </footer>
+                <Footer2></Footer2>
             </div>
         </>
     )

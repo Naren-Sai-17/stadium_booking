@@ -5,6 +5,7 @@ import axios from "axios";
 import AuthContext from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Footer2  from '../components/Footer'
 
 const OrderPage = () => {
     const authcontextData = useContext(AuthContext);
@@ -35,7 +36,7 @@ const OrderPage = () => {
     console.log(orders)
     return (
         <>
-            <div className="w-full bg-gradient-to-r from-slate-950 to-slate-800">
+            <div className="min-h-screen w-full bg-gradient-to-r from-slate-950 to-slate-800">
                 <OffCanvasNavbar />
                 <Navbar />
 
@@ -90,10 +91,9 @@ const OrderPage = () => {
                     ))}
                 </ul>
 
-                <footer className="bg-slate-800 text-white text-center py-10">
-                    Contact us <br />a | a | a | a
-                </footer>
+            <div className='fixed w-[100%] bottom-0'><Footer2></Footer2></div>  
             </div>
+            
         </>
     );
 };

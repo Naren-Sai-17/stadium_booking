@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import AuthContext from '../context/AuthContext'
 import toast from 'react-hot-toast'
+import Footer2  from '../components/Footer'
 
 
 export default function Home() {
@@ -116,10 +117,7 @@ export default function Home() {
                     </a>
                 </div>
 
-                <div className=" text-gray-500 h-1/4 pt-10 text-center">
-                    Contact us <br />
-                    0 | 0 | 0 | 0
-                </div>
+                <Footer2></Footer2>
 
             </div>
 

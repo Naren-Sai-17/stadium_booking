@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import OffCanvasNavbar from '../components/OffCanvasNavbar'
+import Footer2  from '../components/Footer'
 
 export default function About() {
     useEffect(() => {
@@ -9,11 +10,15 @@ export default function About() {
     }, [])
     return (
         <>
-            <OffCanvasNavbar />
+            <div className="min-h-screen">
+            <OffCanvasNavbar />           
             <Navbar />
-            <div>
                 About text.
+            <div className='fixed w-[100%] bottom-0'><Footer2></Footer2></div>
             </div>
+            
+
+            
         </>
     )
 }
