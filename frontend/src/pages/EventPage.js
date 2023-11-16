@@ -101,14 +101,9 @@ export default function BookingPage() {
                 <div className="m-10 text-center text-lg text-white">
                     Map
                     <div className="flex justify-center pt-5 border-0">
-                        <iframe className="md:w-1/2" width='100%' height="300px" 
-                        src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
-                        // src={ `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${event.stadium.place_id}` }
-                        >
-                            <a href="https://www.maps.ie/population/">
-                                Population mapping
-                            </a>
+                        <iframe className="md:w-1/2" width='100%' height="300px" src={`https://www.google.com/maps/embed?${event.stadium.place_id}`}  allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
+                        {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.579128311188!2d73.85123947400226!3d18.502713682587324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c0123f3498ff%3A0x3d71c02ef70e432e!2sJawaharlal%20Nehru%20Stadium!5e0!3m2!1sen!2sin!4v1700172158629!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
                     </div>
                 </div>
 
