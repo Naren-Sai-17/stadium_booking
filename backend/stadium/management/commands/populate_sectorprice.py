@@ -27,8 +27,8 @@ class Command(BaseCommand):
                     x=random.randint(5,10)*500
                 
                 sector_instance = SectorPrice(
-                        sector = sector,
-                        event = obj,
+                        sector_id = sector,
+                        event_id = obj,
                         event_price=x,
                 )
                 

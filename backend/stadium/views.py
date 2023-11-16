@@ -12,6 +12,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.conf import settings
 from django.utils.html import strip_tags
+from datetime import datetime
 
 import environ
 env = environ.Env()
@@ -111,7 +112,7 @@ class buyAPI(APIView):
                 valid = False; 
         if valid: 
             # create a new booking 
-            booking_instance = Booking(user = User.objects.get(id = user_id), event = Event.objects.get(event_id = event_id)) 
+            booking_instance = Booking(user = User.objects.get(id = user_id), event = Event.objects.get(event_id = event_id), booking_time = datetime.now()) 
             booking_instance.save()
             auto_generated_booking_id = booking_instance.booking_id 
             for (seat,quantity) in seats.items(): 
