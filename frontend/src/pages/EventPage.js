@@ -100,7 +100,10 @@ export default function BookingPage() {
                 <div className="m-10 text-center text-lg text-white">
                     Map
                     <div className="flex justify-center pt-5 border-0">
-                        <iframe className="md:w-1/2" width='100%' height="300px" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">
+                        <iframe className="md:w-1/2" width='100%' height="300px" 
+                        src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=1%20Grafton%20Street,%20Dublin,%20Ireland+(My%20Business%20Name)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                        // src={ `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${event.stadium.place_id}` }
+                        >
                             <a href="https://www.maps.ie/population/">
                                 Population mapping
                             </a>
