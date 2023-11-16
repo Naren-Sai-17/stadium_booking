@@ -16,6 +16,8 @@ const contextData = useContext(EventContext);
 let { setEventdata } = useContext(EventContext);
 const Navigate = useNavigate();
 
+
+//  --------------------- for Dropdown Food-addon ----------------
 const foodClick = () => {
     const foodMenu = document.querySelector("#food-menu");
     const btn = document.querySelector("#food-btn")
