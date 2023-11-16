@@ -22,7 +22,7 @@ export default function BookingPage() {
         stadium: {
             stadium_id : 0,
             stadium_name: '',
-            location: '',
+            place_id: '',
             coordinates: '',
             capacity: 0,
             city: ''

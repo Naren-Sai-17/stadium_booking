@@ -45,7 +45,7 @@ const [event, setEvent] = useState({
     stadium_id: 0,
     stadium_name: "",
     fooditem_set: [],
-    location: "",
+    place_id: "",
     coordinates: "",
     city: "",
     },
