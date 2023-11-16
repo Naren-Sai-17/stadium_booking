@@ -16,6 +16,8 @@ const contextData = useContext(EventContext);
 let { setEventdata } = useContext(EventContext);
 const Navigate = useNavigate();
 
+
+//  --------------------- for Dropdown Food-addon ----------------
 const foodClick = () => {
     const foodMenu = document.querySelector("#food-menu");
     const btn = document.querySelector("#food-btn")
@@ -306,7 +308,7 @@ return (
 
                     {/* Display food items */}
                     <div className="text-white w-[40%] pt-5 mx-auto " onClick={foodClick}><button id="food-btn" className="p-2 rounded-lg bg-slate-800"><strong>Food Add-ons ▼</strong></button></div>
-                    <div className="transition duration-150 ease-in-out origin-top " id="food-menu">
+                    <div className="transition duration-150 ease-in-out origin-top hidden " id="food-menu">
                         <ul className="md:w-[40%] bg-slate-800  text-xs p-2 rounded-r-lg rounded-b-lg  md:text-md w-[80%] mx-auto pt-2  text-gray-100">
                         {event.stadium.fooditem_set.map((food_item) => (
                             <li key = {food_item.food_id} className="rounded-lg mt-2 bg-gradient-to-r from-slate-800 to-slate-950">
