@@ -82,4 +82,4 @@ class BookingSerializer(serializers.ModelSerializer):
     event_name = serializers.StringRelatedField(source = 'event.event_name')
     class Meta: 
         model = Booking
-        fields = ['booking_id', 'event_name','tickets','food_coupons']
+        fields = ['booking_id', 'event_name', 'tickets', 'food_coupons', 'booking_time']

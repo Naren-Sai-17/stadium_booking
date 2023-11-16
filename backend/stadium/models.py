@@ -96,7 +96,8 @@ class Booking(models.Model):
     booking_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    
+    booking_time = models.DateTimeField(null=True)
+
     def __str__(self):
         return f'Booking #' + str(self.booking_id)
 
@@ -106,7 +107,7 @@ class Ticket(models.Model):
     sector = models.ForeignKey(SectorPrice, on_delete=models.CASCADE)
 
     @classmethod    
-    def create_ticket(cls,booking_id,event_id, sector_id): 
+    def create_ticket(cls, booking_id, event_id, sector_id): 
         event_sector_id = SectorPrice.objects.get(event_id = event_id, sector_id = sector_id)
         instance = cls(booking_id = booking_id, sector = event_sector_id) 
         instance.save() 

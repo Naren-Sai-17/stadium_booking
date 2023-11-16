@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import EventContext from "../context/EventContext";
 import { MdArrowBackIos } from "react-icons/md";
 import AuthContext from "../context/AuthContext";
-import { TbUrgent } from "react-icons/tb";
 
 const BookingPage = () => {
     const { event_id } = useParams();
@@ -34,7 +33,7 @@ const BookingPage = () => {
         prices: [],
     });
     const [selectedSeats, setSelectedSeats] = useState(0);
-    const category = {
+        const category = {
         VIP: "bg-purple-800",
         Premium: "bg-orange-600",
         General: "bg-green-800",
@@ -61,7 +60,7 @@ const BookingPage = () => {
             axios
                 .get(`/api/get_event/${event_id}`)
                 .then((res) => {
-                    setEventdata(res.data);
+                    setEventdata(res.data); 
                     setEvent(res.data);
                 })
                 .catch((err) => {
@@ -75,8 +74,8 @@ const BookingPage = () => {
         if (!authcontextData.user) {
             toast("Please login to book tickets.");
             Navigate("/login", { state: { next_url: `/event/${event_id}/book` } });
-        }
-    }, []);
+        } 
+    }, []); 
 
     useEffect(() => {
         // ------------------- Process date -------------------
@@ -94,11 +93,10 @@ const BookingPage = () => {
             " " +
             months[human_readable.getMonth()]
         );
-
         document.title = event.event_name + " - Sports League";
-    }, [event]);
+    }, [event.event_name, event.date_time]);
 
-    // ------------------- Tickets logic -------------------
+    // ------------------- Tickets -------------------
     const [quantities, setQuantities] = useState({});
     const [totalPrice, setTotalPrice] = useState(0);
 
@@ -106,19 +104,24 @@ const BookingPage = () => {
         setQuantities((prevQuantities) => {
             const updatedQuantities = { ...prevQuantities };
             updatedQuantities[sector_id] = quantity;
-            if (quantity == 0) delete updatedQuantities.sector_id
+            if (quantity === 0) {
+                delete updatedQuantities[sector_id];
+            }
+            // console.log(updatedQuantities);
             return updatedQuantities;
         });
     };
 
-    // ------------------- Food logic ---------------------
+    // ------------------- Food ---------------------
     const [foodQuantities, setFoodQuantities] = useState({});
 
     const handleFoodQuantityChange = (food_id, quantity) => {
         setFoodQuantities((prevQuantities) => {
             const updatedQuantities = { ...prevQuantities };
             updatedQuantities[food_id] = quantity;
-            if (quantity == 0) delete updatedQuantities.food_id
+            if (quantity === 0) {
+                delete updatedQuantities.food_id
+            }
             return updatedQuantities;
         });
     };
@@ -149,19 +152,22 @@ const BookingPage = () => {
     // ------------------- Make payment -------------------
     const handleFormSubmit = () => {
         if (Object.keys(quantities).length === 0) {
-            toast.error("You need to select something.");
+            toast.error("No seats selected.");
         } else {
-            axios
+            // console.log(quantities)
+            const promise = axios
                 .post(`/api/buy/`, {
                     user_id: authcontextData.user.id,
-                    event_id: event_id,
+                    event_id: event_id, 
                     seats: quantities,
-                    food: foodQuantities
+                    food: foodQuantities,
+                    // food_price: foodPrice,
+                    // total_price: totalPrice,
                 })
                 .then(function (response) {
                     if (response.data.status === "success") {
                         Navigate("/orders");
-                        toast.success("Order placed successfully.");
+                        // toast.success("Order placed successfully.");
                     } else {
                         toast.error(
                             "Not enough seats. Please change the number of seats and try again."
@@ -170,8 +176,24 @@ const BookingPage = () => {
                 })
                 .catch(function (error) {
                     console.error(error);
-                    toast.error("Error communicating with the database.");
+                    // toast.error("Error communicating with the database.");
                 });
+            
+            toast.promise(
+                promise,
+                {
+                    loading: "Processing request...",
+                    success: () => {
+                        return "Order placed successfully.";
+                    },
+                    error: () => {
+                        return "Error communicating with the database.";
+                    },
+                },
+                {
+                    duration: 5000,
+                },
+            )
         }
     };
 
@@ -217,7 +239,7 @@ const BookingPage = () => {
                     tickets.
                 </div>
 
-                <ul className="md:w-[40%] text-xs  md:text-md w-[80%] mx-auto text-gray-100">
+                <ul className="md:w-[40%] text-xs  md:text-base w-[80%] mx-auto text-gray-100">
                     {event.prices.map((sector) => (
                         <li
                             key={sector.sector_id}
@@ -256,7 +278,7 @@ const BookingPage = () => {
                                     <input
                                         id={sector.sector_id}
                                         type="number"
-                                        className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
+                                        className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-base hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
                                         name="custom-input-number"
                                         value={quantities[sector.sector_id] ?? 0}
                                         disabled
@@ -292,7 +314,7 @@ const BookingPage = () => {
                 </ul>
 
                 {/* Display food items */}
-                <ul className="md:w-[40%] text-xs  md:text-md w-[80%] mx-auto text-gray-100">
+                <ul className="md:w-[40%] text-xs  md:text-base w-[80%] mx-auto text-gray-100">
                     {event.stadium.fooditem_set.map((food_item) => (
                         <li key={food_item.food_id}>
                             {food_item.food_name}
@@ -323,7 +345,7 @@ const BookingPage = () => {
                                     <input
                                         id={food_item.food_id}
                                         type="number"
-                                        className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
+                                        className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-base hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
                                         name="custom-input-number"
                                         value={foodQuantities[food_item.food_id] ?? 0}
                                         disabled

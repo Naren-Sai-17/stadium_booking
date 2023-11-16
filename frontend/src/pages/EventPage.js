@@ -6,16 +6,19 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 
-export default function BookingPage() {
+export default function EventPage() {
 
     const Navigate = useNavigate()
 
-    let { setEventdata } = useContext(EventContext)
-    let contextData = useContext(EventContext)
+    let { setEventdata } = useContext(EventContext);
+    let contextData = useContext(EventContext);
+    const [minCost, setMinCost] = useState(0);
+    const [date, setDate] = useState("");
+    const [time, setTime] = useState("");
 
     const {event_id} = useParams(); 
     const [event, setEvent] = useState({
-        event_id: -1, 
+        event_id: 0, 
         event_name: '', 
         date_time: '', 
         event_description: '',
@@ -29,6 +32,45 @@ export default function BookingPage() {
         },
         prices: []
     }) 
+
+    const months = [
+        "Month",
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+
+    useEffect(() => {
+        // ------------------- Process date -------------------
+        let human_readable = new Date(event.date_time);
+        let minutes = human_readable.getUTCMinutes();
+        if (minutes == "0") {
+            minutes += "0";
+        }
+        setDate(
+            human_readable.getDate() +
+            " " +
+            months[human_readable.getMonth()] + 
+            ", " + 
+            human_readable.getFullYear()
+        );
+
+        setTime(
+            human_readable.getUTCHours() + 
+            ":" + 
+            minutes
+        );
+        document.title = event.event_name + " - Sports League";
+    }, [event.event_name, event.date_time]);
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -46,13 +88,18 @@ export default function BookingPage() {
         } else {
             setEvent(contextData.event_data);
         }
-    }, [])  
+    }, [])
 
     useEffect(() => {
-        document.title = event.event_name + " - Sports League" 
-    }, [event.event_name])
+        let tmp = 1000000;
+        for(var i = 0; i < event.prices.length; ++i) {
+            let obj = event.prices[i]; 
+            tmp = Math.min(tmp, Number(obj.event_price)); 
+        }
 
-    console.log(event)
+        setMinCost(tmp);
+        // console.log(tmp);
+    }, [event.prices])
 
     return (
         <>
@@ -77,10 +124,13 @@ export default function BookingPage() {
                             Description: <br />
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, tempora nam accusamus esse cupiditate nostrum? Commodi sequi tempore iure necessitatibus iste qui? Repellendus voluptatibus asperiores sapiente repudiandae aspernatur? Blanditiis, enim!
                         </div>
-                        <div className="text-center border-0 flex justify-around text-white">
-                            <div>Date: { event.date_time.substring(0, 10) }</div>
-                            <div>Time: { event.date_time.substring(11, 16) } IST</div>
+                        <div className="text-center border-0 text-xl flex justify-around text-white">
+                            <div>📅 { date }</div>
+                            <div>🕑 At { time } </div>
                             <div>Venue: { event.stadium.stadium_name }</div>
+                        </div>
+                        <div className='text-white text-xl'>
+                            Starting at <strong>₹ { minCost }</strong>
                         </div>
                         <div className="text-center text-lg border-0 text-white">
                             Book your tickets now!

@@ -3,10 +3,11 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from rest_framework.exceptions import NotFound
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 from .models import *
 from .serializers import *
+from .bills import *
 from django.utils import timezone
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -38,7 +39,7 @@ class RegisterAPI(CreateAPIView):
         subject = 'Welcome to Sports League!'
         recipient_list = [user.email]
 
-        html_content = render_to_string('email.html', {'username': user.username, 'frontend_link': env('CALL_BACK_URL')})
+        html_content = render_to_string('welcome_email.html', {'username': user.username, 'frontend_link': env('CALL_BACK_URL')})
         plain_message = strip_tags(html_content)
         
         email = EmailMultiAlternatives(
@@ -70,7 +71,7 @@ class getEventById(APIView):
         return Response(event_data)
 
 class getUsernameById(APIView):
-    def get(self,request,id):
+    def get(self, request, id):
         username = ''
         try:
             username = User.objects.get(id = id).username
@@ -99,36 +100,59 @@ class getEvents(APIView):
 
 class buyAPI(APIView):
     def post(self,request): 
-        data = request.data
-        user_id = data['user_id'] 
-        event_id = data['event_id']
-        seats = data['seats'] 
-        food = data['food'] 
-        valid = True 
-        for (seat,quantity) in seats.items():
+        # try:
+            data = request.data
+            # {'user_id': 10, 'event_id': '3', 'seats': {'3': 1}, 'food': {}}
+            user_id = data['user_id'] 
+            event_id = data['event_id']
+            seats = data['seats'] 
+            food = data['food'] 
 
-            if quantity > SectorPrice.objects.get(sector_id = seat, event_id = event_id).remaining_seats:
-                valid = False; 
-        if valid: 
-            # create a new booking 
-            booking_instance = Booking(user = User.objects.get(id = user_id), event = Event.objects.get(event_id = event_id)) 
-            booking_instance.save()
-            auto_generated_booking_id = booking_instance.booking_id 
-            for (seat,quantity) in seats.items(): 
-                for i in range(quantity): 
-                    Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
-            for (food_item,quantity) in food.items(): 
-                FoodCoupon.create_food_ticket(booking_id=booking_instance,food_id=food_item, quantity=quantity)
-            return Response({"status": "success"})
-        else: 
-            return Response({"seats": "Someone booked the seats before you did."}) 
+            if(len(seats) == 0):
+                return Response({"status": "failure", "detail": "No seats selected."})
+            
+            valid = True 
+            for (seat,quantity) in seats.items():
+                if quantity > SectorPrice.objects.get(sector_id = seat, event_id = event_id).remaining_seats:
+                    valid = False
+            
+            if valid: 
+                # create a new booking 
+                user = User.objects.get(id = user_id)
+                event = Event.objects.get(event_id = event_id)
+                booking_time = timezone.now()
+                booking_instance = Booking(
+                    user = user,
+                    event = event,
+                    booking_time = booking_time
+                ) 
+
+                booking_instance.save()
+                auto_generated_booking_id = booking_instance.booking_id 
+                
+                for (seat,quantity) in seats.items(): 
+                    for i in range(quantity): 
+                        Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
+                    
+                for (food_item,quantity) in food.items(): 
+                    FoodCoupon.create_food_ticket(booking_id=booking_instance,food_id=food_item, quantity=quantity)
+                
+                # Upon successful order, email a bill to the related user.
+                email_booking_confirmation(
+                    request = request,
+                    user = user,
+                    booking_id = auto_generated_booking_id
+                )
+                
+                return Response({"status": "success"})
+            
+            else: 
+                return Response({"seats": "Someone booked the seats before you did."}) 
         
-# class ordersAPI(APIView): 
-#     def post(self,request): 
-#         # data = request.data 
-#         # user_id = data['user_id']
-#         user_id = 3
-#         booking_instances = Booking.objects.filter(user = User.objects.get(user_id = user_id)) 
+        # except:
+        #     print("failure")
+        #     return Response({"status": "failure", "user_data": data})
+        
 class getStadiumById(APIView):
     def get(self,request,id):
         # try: 

@@ -63,7 +63,7 @@ export default function Dashboard() {
                                         event_id={event.event_id} 
                                         poster='cricket' 
                                     />
-                                    <span className='text-white text-xs md:text-sm lg:text-md whitespace-break-spaces flex justify-center'>
+                                    <span className='text-white text-xs md:text-sm lg:text-base whitespace-break-spaces flex justify-center'>
                                         { 
                                             event.event_name.split(' ').slice(1).join(' ')
                                         }
@@ -116,7 +116,7 @@ export default function Dashboard() {
                             .map((event, index) => (
                                 <div className='inline-block snap-center w-[25%]' key={index}>
                                     <Card event_id={event.event_id} poster='football' />
-                                    <div className='text-white text-xs md:text-sm lg:text-md whitespace-break-spaces text-center'>
+                                    <div className='text-white text-xs md:text-sm lg:text-base whitespace-break-spaces text-center'>
                                         { 
                                             event.event_name.split(' ').slice(1).join(' ')
                                         }
@@ -169,7 +169,7 @@ export default function Dashboard() {
                             .map((event, index) => (
                                 <div className='inline-block snap-center w-[25%]' key={index}>
                                     <Card event_id={event.event_id} poster='basketball' />
-                                    <div className='text-white text-xs md:text-sm lg:text-md whitespace-break-spaces text-center'>
+                                    <div className='text-white text-xs md:text-sm lg:text-base whitespace-break-spaces text-center'>
                                         { 
                                             event.event_name.split(' ').slice(1).join(' ')
                                         }

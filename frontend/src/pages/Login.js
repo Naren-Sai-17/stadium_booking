@@ -64,7 +64,7 @@ const LoginPage = () => {
             <div className='min-h-screen flex flex-col py-[3%] justify-center bg-slate-600'>
                     <Link to='/dashboard'>
                         <div className='flex justify-end mr-[2%] z-20'>
-                            <button class="py-2 px-4 absolute top-[2%] text-black text-base font-bold rounded-[50px] overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-800 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-[50px] hover:before:left-0">
+                            <button className="py-2 px-4 absolute top-[2%] text-black text-base font-bold rounded-[50px] overflow-hidden bg-white transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-blue-800 before:to-blue-400 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-[50px] hover:before:left-0">
                                 Skip Login »
                             </button>
                         </div>
@@ -86,7 +86,7 @@ const LoginPage = () => {
                                             Login to Sports League
                                         </h4>
 
-                                        <h2 className="text-md md:text-xl">Enter your credentials:</h2>
+                                        <h2 className="text-base md:text-xl">Enter your credentials:</h2>
                                         <div className=" flex flex-col  items-center gap-3 text-sm pt-5">
 
                                             <div className="flex justify-center w-[100%] ">
@@ -105,7 +105,7 @@ const LoginPage = () => {
                                     </div>
                                     <div className="text-center pt-4 pb-5 ">
 
-                                        <button className="rounded h-10 text-sm md:text-md w-[65%] btn1" >
+                                        <button className="rounded h-10 text-sm md:text-base w-[65%] btn1" >
                                             Continue
                                         </button>
 
@@ -131,7 +131,7 @@ const LoginPage = () => {
 
                             <div className=" md:w-[50%] rounded-tr-none rounded-b-lg md:rounded-r-lg flex items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-5">
                                 <div className="my-auto">
-                                    <strong className="text-md text-center md:text-left md:text-2xl pb-[10%] flex justify-center">
+                                    <strong className="text-base text-center md:text-left md:text-2xl pb-[10%] flex justify-center">
                                         <span>Join to secure your spot and score your seat!</span>
                                     </strong>
                                     <div className='svg-container px-[5%]'>
