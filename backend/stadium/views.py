@@ -12,11 +12,13 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.conf import settings
 from django.utils.html import strip_tags
-
+import razorpay
 import environ
-env = environ.Env()
+import json
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+
+env = environ.Env()
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -97,32 +99,7 @@ class getEvents(APIView):
         events_data = EventSerializer(all_events, many=True).data
         return Response(events_data)
 
-class buyAPI(APIView):
-    def post(self,request): 
-        data = request.data
-        user_id = data['user_id'] 
-        event_id = data['event_id']
-        seats = data['seats'] 
-        food = data['food'] 
-        valid = True 
-        for (seat,quantity) in seats.items():
 
-            if quantity > SectorPrice.objects.get(sector_id = seat, event_id = event_id).remaining_seats:
-                valid = False; 
-        if valid: 
-            # create a new booking 
-            booking_instance = Booking(user = User.objects.get(id = user_id), event = Event.objects.get(event_id = event_id)) 
-            booking_instance.save()
-            auto_generated_booking_id = booking_instance.booking_id 
-            for (seat,quantity) in seats.items(): 
-                for i in range(quantity): 
-                    Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
-            for (food_item,quantity) in food.items(): 
-                FoodCoupon.create_food_ticket(booking_id=booking_instance,food_id=food_item, quantity=quantity)
-            return Response({"status": "success"})
-        else: 
-            return Response({"seats": "Someone booked the seats before you did."}) 
-        
 # class ordersAPI(APIView): 
 #     def post(self,request): 
 #         # data = request.data 
@@ -155,6 +132,12 @@ class getOrders(ListAPIView):
         booking_instances = Booking.objects.filter(user = user) 
         return booking_instances 
 
+# class changePassword(APIView): 
+#     authentication_classes = [JWTAuthentication]
+#     permission_classes = [IsAuthenticated] 
+#     def post(self): 
+#         user = self.request.user 
+        
 # class getOrders(APIView):
 #     def post(self,request): 
 #         data = request.data 
@@ -169,29 +152,57 @@ class getOrders(ListAPIView):
 # 
 
 # -------------------razorpay integration----------------------------------
-#   razor_key = settings.RAZOR_KEY_ID
-# razor_secret = settings.RAZOR_SECRET_ID
-# print(razor_key, razor_secret)
-# razorpay_client = razorpay.Client(auth=(razor_key, razor_secret))
 
-# class PaymentView(APIView):
-#     def post(self,request): 
-#         name = "Swapnil Pawar"
-#         amount = 400
-#         razorpay_order = razorpay_client.order.create(
-#             {"amount": int(amount) * 100, "currency": "INR", "payment_capture": "1"}
-#         )
-#         data = {
-#             "name" : name,
-#             "merchantId": "RAZOR_KEY",
-#             "amount": amount,
-#             "currency" : 'INR' ,
-#             "orderId" : razorpay_order["id"],
-#             }
-#         return Response(data)
-        # return Response(data, status=status.HTTP_200_OK)
+class makePaymentAPI(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self,request): 
+        user = request.user 
+        data = request.data
+        event_id = data['event_id']
+        seats = data['seats'] 
+        food = data['food'] 
+        total_cost = 0
+        for (seat,quantity) in seats.items():
+            total_cost = total_cost + quantity * SectorPrice.objects.get(sector_id = seat, event_id = event_id).event_price
+        for (food_item,quantity) in food.items():
+            total_cost = total_cost + quantity*FoodItem.objects.get(food_id = food_item).food_price
+        client = razorpay.Client(auth=("rzp_test_iVdpfYzSydqANx","TELeW3gJIgALXGlWSHmLjzoT"))
+        DATA = {
+            "amount": total_cost*100,
+            "currency": "INR",
+        }
+        payment = client.order.create(data =DATA)
+        return Response(payment) 
+            # client = razorpay.Client(auth=(env('PUBLIC_KEY'), env('SECRET_KEY')))
+            # DATA = {
+            #     "amount": 100 * total_cost,
+            #     "currency": "INR",
+            #     "notes": {
+            #         "booking_id": auto_generated_booking_id
+            #     }
+            # }
+            # payment = client.order.create(data =DATA)
+            # return Response(payment) 
+        
+class paymentSuccessAPI(APIView): 
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self,request): 
+        user = request.user 
+        data = request.data
+        print(data) 
+        event_id = data['event_id']
+        seats = data['seats'] 
+        food = data['food'] 
+        booking_instance = Booking(user = user, event = Event.objects.get(event_id = event_id)) 
+        booking_instance.save()
+        auto_generated_booking_id = booking_instance.booking_id 
+        for (seat,quantity) in seats.items(): 
+            for i in range(quantity): 
+                Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
+        for (food_item,quantity) in food.items(): 
+            FoodCoupon.create_food_ticket(booking_id=booking_instance,food_id=food_item, quantity=quantity)
+        return Response() 
 
-
-
-
-
+    
