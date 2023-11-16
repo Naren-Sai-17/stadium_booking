@@ -4,6 +4,7 @@ import OffCanvasNavbar from '../components/OffCanvasNavbar'
 import Card from '../components/Card'
 import { AiOutlineSearch } from 'react-icons/ai'
 import axios from 'axios'
+import Footer2  from '../components/Footer'
 
 /*
     Available events:
@@ -107,6 +108,7 @@ export default function Events() {
                     </div>
                 </div>
             </div>
+            <Footer2></Footer2>
 
             <style jsx="true">
                 {

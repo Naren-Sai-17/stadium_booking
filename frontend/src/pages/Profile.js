@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar';
 import OffCanvasNavbar from '../components/OffCanvasNavbar';
+import Footer2  from '../components/Footer'
 
 export default function ProfilePage() {
     const [p, setP] = useState('');
@@ -100,6 +101,7 @@ export default function ProfilePage() {
                 <p className="text-red-600 opacity-0" id="diff_passwords">passwords dont match</p>
             </div>
         </div>
+        <Footer2></Footer2>
         </>
     );
 }
