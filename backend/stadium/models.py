@@ -52,7 +52,7 @@ class Event(models.Model):
     stadium = models.ForeignKey(Stadium, on_delete=models.CASCADE)
     event_name = models.CharField(max_length=255)
     date_time = models.DateTimeField()
-    event_description = models.CharField(max_length=255, blank=True, null=True)
+    event_description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.event_name + ', ' + self.stadium.stadium_name
