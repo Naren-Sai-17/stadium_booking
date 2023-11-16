@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fake = Faker()  
-        c = ["Australia", "England", "Indonesia", "United States", "Pakistan"]
+        c = ["Australia", "England", "Indonesia", "United States", "Pakistan", "Brazil", "Spain"]
         s = len(c)
         n=s-1
         for obj in Stadium.objects.all():
@@ -19,8 +19,8 @@ class Command(BaseCommand):
                 stadium=obj,
                 event_name=f"Cricket India vs {c[n%s]}",
                 #  datetime(year, month, day, hour, minute)
-                # date_time = datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), random.randint(0, 59))
-                date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), random.randint(0, 59)))
+                # date_time = datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), 30*(random.randint(0,1)))
+                date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), 30*(random.randint(0,1))))
             )
             obj_eve.save()
             
@@ -28,7 +28,7 @@ class Command(BaseCommand):
                 stadium=obj,
                 event_name=f"Badminton India vs {c[(n+1)%s]}",
                 #  datetime(year, month, day, hour, minute)
-                date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), random.randint(0, 59)))
+                date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), 30*(random.randint(0,1))))
             )
             obj2_eve.save()
             
@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 stadium=obj,
                 event_name=f"Football India vs {c[(n+2)%s]}",
                 #  datetime(year, month, day, hour, minute)
-               date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), random.randint(0, 59)))
+               date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), 30*(random.randint(0,1))))
             )
             obj3_eve.save()
             
@@ -44,7 +44,7 @@ class Command(BaseCommand):
                 stadium=obj,
                 event_name=f"Basketball India vs {c[(n+3)%s]}",
                 #  datetime(year, month, day, hour, minute)
-                date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), random.randint(0, 59)))
+                date_time = timezone.make_aware(timezone.datetime(random.randint(2024, 2024), random.randint(1, 12), random.randint(1, 28), random.randint(0, 23), 30*(random.randint(0,1))))
             )
             obj4_eve.save()
             

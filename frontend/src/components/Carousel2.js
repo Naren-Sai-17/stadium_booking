@@ -39,31 +39,25 @@ export default function CarouselControlsInside() {
           <ul className="whitespace-no-wrap flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
             <li>
               <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-01.jpg"
+                src="/images/carousel/badminton.jpg"
                 className="m-auto max-h-full w-full max-w-full"
               />
             </li>
             <li>
               <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-02.jpg"
+                src="/images/carousel/basketball.jpeg"
+                className="m-auto h-full w-full max-w-full"
+              />
+            </li>
+            <li>
+              <img
+                src="/images/carousel/cricket.jpg"
                 className="m-auto max-h-full w-full max-w-full"
               />
             </li>
             <li>
               <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-03.jpg"
-                className="m-auto max-h-full w-full max-w-full"
-              />
-            </li>
-            <li>
-              <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-04.jpg"
-                className="m-auto max-h-full w-full max-w-full"
-              />
-            </li>
-            <li>
-              <img
-                src="https://Tailwindmix.b-cdn.net/carousel/carousel-image-05.jpg"
+                src="/images/carousel/football.jpg"
                 className="m-auto max-h-full w-full max-w-full"
               />
             </li>
@@ -75,19 +69,19 @@ export default function CarouselControlsInside() {
           data-glide-el="controls"
         >
           <button
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-700 bg-white/20 text-slate-700 transition duration-300 hover:border-slate-900 hover:text-slate-900 focus-visible:outline-none lg:h-12 lg:w-12"
+            className="inline-flex md:h-8 md:w-8 h-6 w-6 items-center justify-center rounded-lg md:rounded-xl border border-slate-700 bg-white/20 text-slate-700 transition duration-300 hover:border-slate-900 hover:text-slate-900 focus-visible:outline-none lg:h-12 lg:w-12"
             data-glide-dir="<"
-            aria-label="prev slide"
+            aria-label="Prev. Slide"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth="1.5"
+              strokeWidth="3.0"
               stroke="currentColor"
               className="h-5 w-5"
             >
-              <title>prev slide</title>
+              <title>Prev. Slide</title>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -96,19 +90,19 @@ export default function CarouselControlsInside() {
             </svg>
           </button>
           <button
-            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-700 bg-white/20 text-slate-700 transition duration-300 hover:border-slate-900 hover:text-slate-900 focus-visible:outline-none lg:h-12 lg:w-12"
+            className="inline-flex md:h-8 md:w-8 h-6 w-6 items-center justify-center rounded-lg md:rounded-xl border border-slate-700 bg-white/20 text-slate-700 transition duration-300 hover:border-slate-900 hover:text-slate-900 focus-visible:outline-none lg:h-12 lg:w-12"
             data-glide-dir=">"
-            aria-label="next slide"
+            aria-label="Next Slide"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth="1.5"
+              strokeWidth="3.0"
               stroke="currentColor"
               className="h-5 w-5"
             >
-              <title>next slide</title>
+              <title>Next Slide</title>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
