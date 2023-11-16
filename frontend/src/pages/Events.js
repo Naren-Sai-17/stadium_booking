@@ -36,7 +36,7 @@ export default function Events() {
     useEffect(() => {
         const regex = new RegExp(searchQuery, 'i');
         const filtered = allEvents.filter((event) => {
-            const nameMatch = regex.test(event.event_name) || regex.test(event.stadium.location) || regex.test(event.stadium.stadium_name);
+            const nameMatch = regex.test(event.event_name) || regex.test(event.stadium.city) || regex.test(event.stadium.stadium_name);
             const priceMatch = (selectedCostRange === '') || (event.minimum_cost <= parseInt(selectedCostRange, 10) && event.minimum_cost >= parseInt(selectedCostRange, 10) - 999)
             // console.log(event.minimum_cost)
             return nameMatch && priceMatch;

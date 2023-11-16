@@ -16,6 +16,24 @@ const contextData = useContext(EventContext);
 let { setEventdata } = useContext(EventContext);
 const Navigate = useNavigate();
 
+
+//  --------------------- for Dropdown Food-addon ----------------
+const foodClick = () => {
+    const foodMenu = document.querySelector("#food-menu");
+    const btn = document.querySelector("#food-btn")
+    if (foodMenu.classList.contains('hidden')) {
+        foodMenu.classList.remove('hidden');
+        btn.classList.remove('rounded-lg')
+        btn.classList.add('rounded-t-lg')
+        
+      } else {
+        foodMenu.classList.add('hidden');
+        btn.classList.remove('rounded-t-lg')
+        btn.classList.add('rounded-lg')
+      }
+  };
+
+
 // ------------- For input fields -----------------
 const [date, setDate] = useState("");
 const [event, setEvent] = useState({
@@ -27,7 +45,7 @@ const [event, setEvent] = useState({
     stadium_id: 0,
     stadium_name: "",
     fooditem_set: [],
-    location: "",
+    place_id: "",
     coordinates: "",
     city: "",
     },
@@ -193,133 +211,146 @@ return (
         {/* Display seats */}
         <ul className="md:w-[40%] text-xs  md:text-md w-[80%] mx-auto text-gray-100">
         {event.prices.map((sector) => (
-            <li
+            <li 
             key={sector.sector_id}
             className={`${
                 category[sector.sector_name] ?? "bg-blue-800"
-            } bg-opacity-90 py-[3%] px-[5%] flex mt-[3%] rounded-md justify-between md:text-xl`}
+            } bg-opacity-90 py-[3%] px-[5%] flex mt-[3%] rounded-md justify-between md:text-xl `}
             >
             <strong className="border-0 flex flex-col justify-center">
                 {sector.sector_name} {`(₹ ` + sector.event_price + `)`}
             </strong>
 
-            <div className="custom-number-input border-0 flex flex-col justify-center md:h-12 md:w-32 h-7 w-16">
-                <div className="flex flex-row h-[80%] w-full rounded-lg relative bg-transparent">
-                {/* Minus button */}
-                <button
-                    id={`minus-${sector.sector_id}`}
-                    className="minus bg-red-300 border border-red-400 text-red-700 hover:bg-red-400 h-full w-20 rounded-l cursor-pointer outline-none disabled:opacity-40 disabled:hover:cursor-not-allowed"
-                    onClick={(e) => {
-                    handleQuantityChange(
-                        sector.sector_id,
-                        Number(quantities[sector.sector_id] ?? 0) - 1
-                    );
-                    setSelectedSeats(selectedSeats - 1);
-                    }}
-                    disabled={(quantities[sector.sector_id] ?? 0) === 0}
-                >
-                    <span className="m-auto md:text-2xl text-sm font-thin">
-                    {" "}
-                    -{" "}
-                    </span>
-                </button>
+                        <div className="custom-number-input border-0 flex flex-col justify-center md:h-12 md:w-32 h-7 w-16">
+                            <div className="flex flex-row h-[80%] w-full rounded-lg relative bg-transparent">
+                            {/* Minus button */}
+                            <button
+                                id={`minus-${sector.sector_id}`}
+                                className="minus bg-red-300 border border-red-400 text-red-700 hover:bg-red-400 h-full w-20 rounded-l cursor-pointer outline-none disabled:opacity-40 disabled:hover:cursor-not-allowed"
+                                onClick={(e) => {
+                                handleQuantityChange(
+                                    sector.sector_id,
+                                    Number(quantities[sector.sector_id] ?? 0) - 1
+                                );
+                                setSelectedSeats(selectedSeats - 1);
+                                }}
+                                disabled={(quantities[sector.sector_id] ?? 0) === 0}
+                            >
+                                <span className="m-auto md:text-2xl text-sm font-thin">
+                                {" "}
+                                -{" "}
+                                </span>
+                            </button>
 
-                <input
-                    id={sector.sector_id}
-                    type="number"
-                    className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
-                    name="custom-input-number"
-                    value={quantities[sector.sector_id] ?? 0}
-                    disabled
-                ></input>
+                            <input
+                                id={sector.sector_id}
+                                type="number"
+                                className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
+                                name="custom-input-number"
+                                value={quantities[sector.sector_id] ?? 0}
+                                disabled
+                            ></input>
 
-                {/* Plus button */}
-                <button
-                    id={`plus-${sector.sector_id}`}
-                    className="plus bg-green-400 border border-green-500 text-green-700 hover:bg-green-500 h-full w-20 rounded-r cursor-pointer disabled:opacity-40 disabled:hover:cursor-not-allowed"
-                    onClick={(e) => {
-                    handleQuantityChange(
-                        sector.sector_id,
-                        1 + Number(quantities[sector.sector_id] ?? 0)
-                    );
-                    setSelectedSeats(selectedSeats + 1);
-                    }}
-                    disabled={
-                    selectedSeats === 10 ||
-                    (quantities[sector.sector_id] ?? 0) ==
-                        sector.remaining_seats
-                    }
-                >
-                    <span className="m-auto text-sm md:text-2xl font-thin">
-                    {" "}
-                    +{" "}
-                    </span>
-                </button>
-                </div>
-            </div>
-            </li>
-        ))}
-        </ul>
+                            {/* Plus button */}
+                            <button
+                                id={`plus-${sector.sector_id}`}
+                                className="plus bg-green-400 border border-green-500 text-green-700 hover:bg-green-500 h-full w-20 rounded-r cursor-pointer disabled:opacity-40 disabled:hover:cursor-not-allowed"
+                                onClick={(e) => {
+                                handleQuantityChange(
+                                    sector.sector_id,
+                                    1 + Number(quantities[sector.sector_id] ?? 0)
+                                );
+                                setSelectedSeats(selectedSeats + 1);
+                                }}
+                                disabled={
+                                selectedSeats === 10 ||
+                                (quantities[sector.sector_id] ?? 0) ==
+                                    sector.remaining_seats
+                                }
+                            >
+                                <span className="m-auto text-sm md:text-2xl font-thin">
+                                {" "}
+                                +{" "}
+                                </span>
+                            </button>
+                            </div>
+                        </div>
+                        </li>
+                    ))}
+                    </ul>
 
-        {/* Display food items */}
-        <ul className="md:w-[40%] text-xs  md:text-md w-[80%] mx-auto text-gray-100">
-        {event.stadium.fooditem_set.map((food_item) => (
-            <li key = {food_item.food_id}>
-                {food_item.food_name} 
-                <strong className="border-0 flex flex-col justify-center">
-                {food_item.food_name} {`(₹ ` + food_item.food_price + `)`}
-            </strong>
+                    {/* Display food items */}
+                    <div className="text-white w-[40%] pt-5 mx-auto " onClick={foodClick}><button id="food-btn" className="p-2 rounded-lg bg-slate-800"><strong>Food Add-ons ▼</strong></button></div>
+                    <div className="transition duration-150 ease-in-out origin-top hidden " id="food-menu">
+                        <ul className="md:w-[40%] bg-slate-800  text-xs p-2 rounded-r-lg rounded-b-lg  md:text-md w-[80%] mx-auto pt-2  text-gray-100">
+                        {event.stadium.fooditem_set.map((food_item) => (
+                            <li key = {food_item.food_id} className="rounded-lg mt-2 bg-gradient-to-r from-slate-800 to-slate-950">
+                                <div className="flex">
+                                <img src="https://cdn.britannica.com/07/183407-050-C35648B5/Chicken.jpg" className="w-24 flex h-24 border rounded-lg"></img>
+                                <div className="pl-2">
+                                    {food_item.food_name} 
+                                    <strong className="border-0 flex flex-col justify-center">
+                                    {food_item.food_name} {`(₹ ` + food_item.food_price + `)`}
+                                    </strong>
+                                    
+                            
+                                    <div className=" align-bottom custom-number-input border-0 flex flex-col justify-center md:h-12 md:w-32 h-7 w-16">
+                                <div className="flex flex-row h-[80%] w-full rounded-lg relative bg-transparent">
+                                {/* Minus button */}
+                                <button
+                                    id={`minus-${food_item.food_id}`}
+                                    className="minus bg-red-300 border border-red-400 text-red-700 hover:bg-red-400 h-full w-20 rounded-l cursor-pointer outline-none disabled:opacity-40 disabled:hover:cursor-not-allowed"
+                                    onClick={(e) => {
+                                    handleFoodQuantityChange(
+                                        food_item.food_id,
+                                        Number(foodQuantities[food_item.food_id] ?? 0) - 1
+                                    );
+                                    }}
+                                    disabled={(foodQuantities[food_item.food_id] ?? 0) === 0}
+                                >
+                                    <span className="m-auto md:text-2xl text-sm font-thin">
+                                    {" "}
+                                    -{" "}
+                                    </span>
+                                </button>
 
-            <div className="custom-number-input border-0 flex flex-col justify-center md:h-12 md:w-32 h-7 w-16">
-                <div className="flex flex-row h-[80%] w-full rounded-lg relative bg-transparent">
-                {/* Minus button */}
-                <button
-                    id={`minus-${food_item.food_id}`}
-                    className="minus bg-red-300 border border-red-400 text-red-700 hover:bg-red-400 h-full w-20 rounded-l cursor-pointer outline-none disabled:opacity-40 disabled:hover:cursor-not-allowed"
-                    onClick={(e) => {
-                    handleFoodQuantityChange(
-                        food_item.food_id,
-                        Number(foodQuantities[food_item.food_id] ?? 0) - 1
-                    );
-                    }}
-                    disabled={(foodQuantities[food_item.food_id] ?? 0) === 0}
-                >
-                    <span className="m-auto md:text-2xl text-sm font-thin">
-                    {" "}
-                    -{" "}
-                    </span>
-                </button>
+                                <input
+                                    id={food_item.food_id}
+                                    type="number"
+                                    className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
+                                    name="custom-input-number"
+                                    value={foodQuantities[food_item.food_id] ?? 0}
+                                    disabled
+                                ></input>
 
-                <input
-                    id={food_item.food_id}
-                    type="number"
-                    className="outline-none focus:outline-none text-center w-[75%] bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700"
-                    name="custom-input-number"
-                    value={foodQuantities[food_item.food_id] ?? 0}
-                    disabled
-                ></input>
+                                {/* Plus button */}
+                                <button
+                                    id={`plus-${food_item.food_id}`}
+                                    className="plus bg-green-400 border border-green-500 text-green-700 hover:bg-green-500 h-full w-20 rounded-r cursor-pointer disabled:opacity-40 disabled:hover:cursor-not-allowed"
+                                    onClick={(e) => {
+                                    handleFoodQuantityChange(
+                                        food_item.food_id,
+                                        1 + Number(foodQuantities[food_item.food_id] ?? 0)
+                                    );
+                                    }}
+                                >
+                                    <span className="m-auto text-sm md:text-2xl font-thin">
+                                    {" "}
+                                    +{" "}
+                                    </span>
+                                </button>
+                                </div>
+                
+                                    </div>
+                        
+                    </div>
+                    </div>
 
-                {/* Plus button */}
-                <button
-                    id={`plus-${food_item.food_id}`}
-                    className="plus bg-green-400 border border-green-500 text-green-700 hover:bg-green-500 h-full w-20 rounded-r cursor-pointer disabled:opacity-40 disabled:hover:cursor-not-allowed"
-                    onClick={(e) => {
-                    handleFoodQuantityChange(
-                        food_item.food_id,
-                        1 + Number(foodQuantities[food_item.food_id] ?? 0)
-                    );
-                    }}
-                >
-                    <span className="m-auto text-sm md:text-2xl font-thin">
-                    {" "}
-                    +{" "}
-                    </span>
-                </button>
-                </div>
-            </div>
-            </li>
-        ))}
-        </ul>
+            
+                </li>
+            ))}
+            </ul>
+        </div>
 
         <section className="md:flex mt-[10%] md:mt-0 justify-center">
         <div className="text-white flex my-[5%] md:w-[60%] justify-center">
