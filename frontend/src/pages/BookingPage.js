@@ -8,7 +8,7 @@ import EventContext from "../context/EventContext";
 import { MdArrowBackIos } from "react-icons/md";
 import AuthContext from "../context/AuthContext";
 import { TbUrgent } from "react-icons/tb";
-
+import RazorpayButton from "../components/RazorpayButton"
 const BookingPage = () => {
 const { event_id } = useParams();
 const authcontextData = useContext(AuthContext);
@@ -124,7 +124,7 @@ const handleQuantityChange = (sector_id, quantity) => {
     setQuantities((prevQuantities) => {
     const updatedQuantities = { ...prevQuantities };
     updatedQuantities[sector_id] = quantity; 
-    if(quantity == 0) delete updatedQuantities.sector_id
+    if(quantity == 0) updatedQuantities.delete(sector_id)
     return updatedQuantities;
     });
 };
@@ -136,7 +136,7 @@ const handleFoodQuantityChange = (food_id, quantity) => {
     setFoodQuantities((prevQuantities) => {
     const updatedQuantities = { ...prevQuantities };
     updatedQuantities[food_id] = quantity; 
-    if(quantity == 0) delete updatedQuantities.food_id
+    if(quantity == 0) updatedQuantities.delete(food_id)
     return updatedQuantities;
     });
 };
@@ -165,33 +165,6 @@ useEffect(() => {
 }, [quantities, foodQuantities]);
 
 // ------------------- Make payment -------------------
-const handleFormSubmit = () => {
-    if (Object.keys(quantities).length === 0) {
-    toast.error("You need to select something.");
-    } else {
-    axios
-        .post(`/api/buy/`, {
-        user_id: authcontextData.user.id,
-        event_id: event_id,
-        seats: quantities,
-        food: foodQuantities
-        })
-        .then(function (response) {
-        if (response.data.status === "success") {
-            Navigate("/orders");
-            toast.success("Order placed successfully.");
-        } else {
-            toast.error(
-            "Not enough seats. Please change the number of seats and try again."
-            );
-        }
-        })
-        .catch(function (error) {
-        console.error(error);
-        toast.error("Error communicating with the database.");
-        });
-    }
-};
 
 return (
     <>
@@ -389,13 +362,14 @@ return (
             </div>
 
             <div className="w-[50%] flex justify-center pr-[5%] md:pr-0">
-            <button
+            {/* <button
                 onClick={handleFormSubmit}
                 type="button"
                 className="text-white text-xs md:text-xl focus:outline-1 focus:outline-rose-500 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg px-5 py-2.5 text-center"
             >
                 Make Payment »
-            </button>
+            </button> */}
+            <RazorpayButton orderData = {{"quantities":quantities, "foodQuantities":foodQuantities, "event_id":event_id}} />
             </div>
         </div>
         </section>

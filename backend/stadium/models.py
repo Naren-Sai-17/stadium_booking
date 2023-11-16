@@ -130,4 +130,3 @@ class FoodCoupon(models.Model):
 
     def __str__(self):
         return self.food_item.food_name + ' coupon #' + str(self.coupon_id)
-
