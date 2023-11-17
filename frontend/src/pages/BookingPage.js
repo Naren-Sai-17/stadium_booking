@@ -25,11 +25,13 @@ const foodClick = () => {
     if (foodMenu.classList.contains('hidden')) {
         foodMenu.classList.remove('hidden');
         btn.classList.remove('rounded-lg')
+        btn.classList.remove('border-2')
         btn.classList.add('rounded-t-lg')
         
       } else {
         foodMenu.classList.add('hidden');
         btn.classList.remove('rounded-t-lg')
+        btn.classList.add('border-2')
         btn.classList.add('rounded-lg')
       }
   };
@@ -125,7 +127,8 @@ const handleQuantityChange = (sector_id, quantity) => {
     setQuantities((prevQuantities) => {
     const updatedQuantities = { ...prevQuantities };
     updatedQuantities[sector_id] = quantity; 
-    if(quantity == 0) updatedQuantities.delete(sector_id)
+    if(quantity == 0) 
+        delete updatedQuantities[sector_id]
     return updatedQuantities;
     });
 };
@@ -137,7 +140,8 @@ const handleFoodQuantityChange = (food_id, quantity) => {
     setFoodQuantities((prevQuantities) => {
     const updatedQuantities = { ...prevQuantities };
     updatedQuantities[food_id] = quantity; 
-    if(quantity == 0) updatedQuantities.delete(food_id)
+    if(quantity == 0) 
+        delete updatedQuantities[food_id]    
     return updatedQuantities;
     });
 };
@@ -279,22 +283,23 @@ return (
                         </li>
                     ))}
                     </ul>
-
+{/* ---------------------------------------------------------------------------------------------------------- */}
                     {/* Display food items */}
-                    <div className="text-white w-[40%] pt-5 mx-auto " onClick={foodClick}><button id="food-btn" className="p-2 rounded-lg bg-slate-800"><strong>Food Add-ons ▼</strong></button></div>
+                    <div className="text-white md:w-[40%] w-[80%] pt-5 mx-auto " onClick={foodClick}><button id="food-btn" className="p-2 rounded-lg bg-slate-700 border-2  md:text-lg text-xs"><strong>Food Add-ons ▼</strong></button></div>
                     <div className="transition duration-150 ease-in-out origin-top hidden " id="food-menu">
-                        <ul className="md:w-[40%] bg-slate-800  text-xs p-2 rounded-r-lg rounded-b-lg  md:text-md w-[80%] mx-auto pt-2  text-gray-100">
+                        <ul className="md:w-[40%] bg-slate-700 md:text-lg text-xs p-2 rounded-r-lg rounded-b-lg  md:text-md w-[80%] mx-auto pt-2  text-gray-100">
                         {event.stadium.fooditem_set.map((food_item) => (
-                            <li key = {food_item.food_id} className="rounded-lg mt-2 bg-gradient-to-r from-slate-800 to-slate-950">
-                                <div className="flex">
-                                <img src="https://cdn.britannica.com/07/183407-050-C35648B5/Chicken.jpg" className="w-24 flex h-24 border rounded-lg"></img>
-                                <div className="pl-2">
-                                    {food_item.food_name} 
-                                    <strong className="border-0 flex flex-col justify-center">
-                                    {food_item.food_name} {`(₹ ` + food_item.food_price + `)`}
-                                    </strong>
+                            <li key = {food_item.food_id} className="rounded-lg mt-2  bg-gradient-to-r from-slate-800 to-slate-950">
+                                <div className="flex grid-cols-2 ">
+                                    <div className="md:w-[60%] w-[40%]">
+                                <img src={`/images/food/${food_item.food_name.replace(/\s/g, '')}.png`} className="md:w-24 md:h-24  h-16 w-16 flex rounded-lg"></img>
+                                </div>
+                                <div className="pl-2 ">
                                     
-                            
+                                     
+                                    <strong className=" flex flex-col justify-center ">
+                                    <div>{food_item.food_name}</div>
+                                    <div>{`₹ ` + food_item.food_price}</div>
                                     <div className=" align-bottom custom-number-input border-0 flex flex-col justify-center md:h-12 md:w-32 h-7 w-16">
                                 <div className="flex flex-row h-[80%] w-full rounded-lg relative bg-transparent">
                                 {/* Minus button */}
@@ -341,10 +346,13 @@ return (
                                     </span>
                                 </button>
                                 </div>
-                
                                     </div>
+                                    </strong>
+                                    
+                            
+                                    
                         
-                    </div>
+                                </div>
                     </div>
 
             
@@ -375,9 +383,9 @@ return (
         </div>
         </section>
 
-        
+    <Footer2></Footer2>  
     </div>
-    <Footer2></Footer2>
+    
 
     <style jsx="true">
         {`

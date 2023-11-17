@@ -107,8 +107,9 @@ export default function Events() {
                         </ul>
                     </div>
                 </div>
-            </div>
             <Footer2></Footer2>
+            </div>
+           
 
             <style jsx="true">
                 {
