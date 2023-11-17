@@ -76,7 +76,8 @@ export default function BookingPage() {
                         </div>
                         <div className="text-base border-0 text-white">
                             Description: <br />
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, tempora nam accusamus esse cupiditate nostrum? Commodi sequi tempore iure necessitatibus iste qui? Repellendus voluptatibus asperiores sapiente repudiandae aspernatur? Blanditiis, enim!
+                            { event.event_description }
+                            {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, tempora nam accusamus esse cupiditate nostrum? Commodi sequi tempore iure necessitatibus iste qui? Repellendus voluptatibus asperiores sapiente repudiandae aspernatur? Blanditiis, enim! */}
                         </div>
                         <div className="text-center border-0 flex justify-around text-white">
                             <div>Date: { event.date_time.substring(0, 10) }</div>
@@ -106,14 +107,6 @@ export default function BookingPage() {
                         {/* <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.579128311188!2d73.85123947400226!3d18.502713682587324!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c0123f3498ff%3A0x3d71c02ef70e432e!2sJawaharlal%20Nehru%20Stadium!5e0!3m2!1sen!2sin!4v1700172158629!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> */}
                     </div>
                 </div>
-
-                <div className="text-center text-lg text-white mx-[10%]">
-                    Other events near you
-                    <div className="h-64 border rounded-sm border-dashed pt-5">
-
-                    </div>
-                </div>
-
                 <Footer2></Footer2>
             </div>
         </>

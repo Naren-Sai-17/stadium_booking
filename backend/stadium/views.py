@@ -18,7 +18,7 @@ import environ
 import json
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+from .bills import *
 env = environ.Env()
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -37,13 +37,13 @@ class RegisterAPI(CreateAPIView):
 
     def perform_create(self, serializer):
         user = serializer.save()
-
+        print("here")
         subject = 'Welcome to Sports League!'
         recipient_list = [user.email]
 
-        html_content = render_to_string('email.html', {'username': user.username, 'frontend_link': env('CALL_BACK_URL')})
+        html_content = render_to_string('welcome_email.html', {'username': user.username, 'frontend_link': env('CALL_BACK_URL')})
         plain_message = strip_tags(html_content)
-        
+        print("here2")
         email = EmailMultiAlternatives(
             subject,
             plain_message,
@@ -196,7 +196,7 @@ class paymentSuccessAPI(APIView):
         event_id = data['event_id']
         seats = data['seats'] 
         food = data['food'] 
-        booking_instance = Booking(user = user, event = Event.objects.get(event_id = event_id)) 
+        booking_instance = Booking(user = user, event = Event.objects.get(event_id = event_id), booking_time = timezone.now()) 
         booking_instance.save()
         auto_generated_booking_id = booking_instance.booking_id 
         for (seat,quantity) in seats.items(): 
@@ -204,6 +204,11 @@ class paymentSuccessAPI(APIView):
                 Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
         for (food_item,quantity) in food.items(): 
             FoodCoupon.create_food_ticket(booking_id=booking_instance,food_id=food_item, quantity=quantity)
+        email_booking_confirmation(
+            request=request,
+            user=user,
+            booking_id=auto_generated_booking_id
+        )
         return Response() 
 
     
