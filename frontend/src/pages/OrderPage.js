@@ -35,7 +35,7 @@ useEffect(() => {
     toast("Please login to see your orders.");
     Navigate("/login", { state: { next_url: "/orders" } });
     }
-}, []);
+}, []); 
 // useEffect(() => {
 
 //         if(orders.length === 0)
