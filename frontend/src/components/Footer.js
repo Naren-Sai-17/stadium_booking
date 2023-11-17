@@ -14,7 +14,7 @@ export default function Footer2() {
             <a href="#">< BsFacebook  className='text-white h-8 w-8'/></a>
             <a href="#">< BsInstagram  className='text-white h-8 w-8'/></a>
             <a href="#">< BsTwitter  className='text-white h-8 w-8'/></a>
-            <a href="#">< BsGithub  className='text-white h-8 w-8'/></a>
+            <a href="https://github.com/Naren-Sai-17/stadium_booking" target='_blank'>< BsGithub  className='text-white h-8 w-8'/></a>
             {/* <Footer.Icon href="#" icon={BsFacebook} />
             <Footer.Icon href="#" icon={BsInstagram} /> 
             <Footer.Icon href="#" icon={BsTwitter} />

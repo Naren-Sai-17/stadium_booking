@@ -30,7 +30,7 @@ export default function ProfilePage() {
                     <div className=" w-full flex items-center justify-center">
                         <img
                             width="50%"
-                            src="https://brandmentions.com/wiki/images/9/9f/Gennady_Korotkevich.jpg"
+                            src="https://static.vecteezy.com/system/resources/previews/013/331/127/original/account-avatar-dark-mode-glyph-ui-icon-personal-page-of-site-user-user-interface-design-white-silhouette-symbol-on-black-space-solid-pictogram-for-web-mobile-isolated-illustration-vector.jpg"
                             className="border-white border rounded-xl"
                         />
                     </div>

@@ -15,7 +15,7 @@ class Command(BaseCommand):
             "Pretzels",
             "Hot Dogs",
             "Nachos",
-            "Soft Pretzel Bites",
+            "Pretzel Bites",
             "Cotton Candy",
             "Churros",
             "French Fries",
