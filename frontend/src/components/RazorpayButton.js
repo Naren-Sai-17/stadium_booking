@@ -73,10 +73,11 @@ const RazorpayButton = (props) => {
     };
     
     return (
-        <button onClick={handleFormSubmit}>
+        
+        <button type="button" className="text-white bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:bg-gradient-to-br shadow-orange-500/50 dark:shadow-lg font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" onClick={handleFormSubmit}>
             Book tickets
         </button>
     )
-}
+}   
 
 export default RazorpayButton

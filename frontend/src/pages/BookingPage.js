@@ -8,6 +8,7 @@ import EventContext from "../context/EventContext";
 import { MdArrowBackIos } from "react-icons/md";
 import AuthContext from "../context/AuthContext";
 import { TbUrgent } from "react-icons/tb";
+import Footer2  from '../components/Footer'
 import RazorpayButton from "../components/RazorpayButton"
 const BookingPage = () => {
 const { event_id } = useParams();
@@ -374,10 +375,9 @@ return (
         </div>
         </section>
 
-        <footer className="bg-slate-800 text-white text-center py-10">
-        Contact us <br />a | a | a | a
-        </footer>
+        
     </div>
+    <Footer2></Footer2>
 
     <style jsx="true">
         {`
