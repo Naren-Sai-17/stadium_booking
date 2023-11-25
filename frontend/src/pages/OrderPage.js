@@ -23,9 +23,13 @@ useEffect(() => {
         })
         .then((res) => {
             setOrders(res.data);
-            // if (res.data.length === 0) {
-            //     toast("You don't have any orders yet.")
-            // }
+
+
+            if (res.data.length === 0) {
+                toast("You don't have any orders yet.")
+            }
+
+
         })
         .catch((err) => {
         console.error(err);
@@ -35,6 +39,8 @@ useEffect(() => {
     toast("Please login to see your orders.");
     Navigate("/login", { state: { next_url: "/orders" } });
     }
+
+    window.scrollTo(0,0);
 }, []); 
 // useEffect(() => {
 
@@ -84,9 +90,12 @@ const category = {
 
 return (
     <>
+    
+    
     <div className="w-full min-h-screen bg-gradient-to-r from-slate-950 to-slate-800">
-        <OffCanvasNavbar />
-        <Navbar />
+    
+    <OffCanvasNavbar />
+    <Navbar /> 
         <div className="flex justify-center text-2xl md:text-3xl md:my-[3%] my-[5%]">
         <strong className="text-white">Your Orders</strong>
         </div>
@@ -159,7 +168,7 @@ return (
                         }}
                     >
                         <div className="text">Download Bill</div>
-                        <span className="icon">
+                        <span className="icn">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             aria-hidden="true"
@@ -254,7 +263,7 @@ return (
 
         .button-wrapper,
         .text,
-        .icon {
+        .icn {
             overflow: hidden;
             position: absolute;
             width: 100%;
@@ -268,11 +277,11 @@ return (
         }
 
         .text,
-        .icon {
+        .icn {
             transition: top 0.5s;
         }
 
-        .icon {
+        .icn {
             color: #fff;
             top: 100%;
             display: flex;
@@ -280,7 +289,7 @@ return (
             justify-content: center;
         }
 
-        .icon svg {
+        .icn svg {
             width: 24px;
             height: 24px;
         }
@@ -294,7 +303,7 @@ return (
             top: -100%;
         }
 
-        .button:hover .icon {
+        .button:hover .icn {
             top: 0;
         }
 

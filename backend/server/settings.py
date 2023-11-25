@@ -211,7 +211,12 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'static_production'
+STATICFILES_DIRS = [
+    BASE_DIR / 'mystaticfiles'
+]
+
+
 
 
 # Default primary key field type

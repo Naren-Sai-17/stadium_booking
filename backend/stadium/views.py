@@ -37,26 +37,26 @@ class RegisterAPI(CreateAPIView):
 
     def perform_create(self, serializer):
         user = serializer.save()
-        print("here")
-        subject = 'Welcome to Sports League!'
-        recipient_list = [user.email]
+        # print("here")
+        # subject = 'Welcome to Sports League!'
+        # recipient_list = [user.email]
 
-        html_content = render_to_string('welcome_email.html', {'username': user.username, 'frontend_link': env('CALL_BACK_URL')})
-        plain_message = strip_tags(html_content)
-        print("here2")
-        email = EmailMultiAlternatives(
-            subject,
-            plain_message,
-            settings.EMAIL_HOST_USER,  # From email address
-            recipient_list,  # To email address(es)
-        )
+        # html_content = render_to_string('welcome_email.html', {'username': user.username, 'frontend_link': env('CALL_BACK_URL')})
+        # plain_message = strip_tags(html_content)
+        # print("here2")
+        # email = EmailMultiAlternatives(
+        #     subject,
+        #     plain_message,
+        #     settings.EMAIL_HOST_USER,  # From email address
+        #     recipient_list,  # To email address(es)
+        # )
 
-        email.attach_alternative(html_content, 'text/html')
+        # email.attach_alternative(html_content, 'text/html')
 
-        # Send the email
-        email.send()
+        # # Send the email
+        # email.send()
 
-        return Response({'message': 'Email was sent successfully.'})
+        # return Response({'message': 'Email was sent successfully.'})
 
 class showEvents(ListAPIView):
     queryset = Event.objects.all() 
@@ -204,11 +204,11 @@ class paymentSuccessAPI(APIView):
                 Ticket.create_ticket(booking_id=auto_generated_booking_id,event_id=event_id,sector_id=seat)  
         for (food_item,quantity) in food.items(): 
             FoodCoupon.create_food_ticket(booking_id=booking_instance,food_id=food_item, quantity=quantity)
-        email_booking_confirmation(
-            request=request,
-            user=user,
-            booking_id=auto_generated_booking_id
-        )
+        # email_booking_confirmation(
+        #     request=request,
+        #     user=user,
+        #     booking_id=auto_generated_booking_id
+        # )
         return Response() 
 
     
