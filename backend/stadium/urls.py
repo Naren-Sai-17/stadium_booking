@@ -1,7 +1,9 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-from . import views
+from . import views,bills
 from .serializers import * 
+from django.conf import settings
+from django.templatetags.static import static
 
 urlpatterns = [
     # ---------------------------- Authentication and tokens ----------------------------
@@ -20,4 +22,10 @@ urlpatterns = [
     path('search/', views.searchEvents.as_view(), name='search_events'),
     path('get_ticket/<int:pk>',views.getTicketById.as_view(), name = 'get_ticket_by_id'),
     path('get_orders/',views.getOrders.as_view(), name='get_orders'),
+    path('get_bill/<int:booking_id>', bills.billAPI.as_view(), name='get_bill'), 
 ]
+
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # urlpatterns += staticfiles_urlpatterns()

@@ -67,7 +67,7 @@ export default function App() {
             <Route path="/events" element={<Events />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/orders" element={<OrderPage />} />
-            <Route path="/404" element={<ErrorPage />} />
+            <Route path="*" element={<ErrorPage />} />
         </Routes>
         </AuthProvider>
         </EventProvider>
