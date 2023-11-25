@@ -34,6 +34,7 @@ You can create new admin users with the same access rights using the following (
 python manage.py createsuperuser
 ```
 You will be prompted to enter your admin user credentials. Upon entering them, the new admin user will be created. You can access the administration page using the links that follow, by logging in with the username and password that were given during the creation of the superuser.
+<br> 
 
 Open the 
 * local website in your browser at [frontend link](http://localhost:3000)
