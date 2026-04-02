@@ -6,6 +6,7 @@ Project under CS 257, Database and Information Systems, IIT Indore.
 * S Ruthvik (220001064)
 * P C Uma Mahesh (220001052)
 * Neerupam (220001050)
+* Jay Solanki(220001033)
 
 ## Localhost
 Clone this repository using: `git clone https://github.com/Naren-Sai-17/stadium_booking.git` <br>
